@@ -1,0 +1,62 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+.DS_Store
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# cinematic captures (large video files)
+cinematic-capture/
+
+# temporary audit files
+audit-*.js
+audit-*.mjs
+legacy-*
+legacy.html
+comparison.json
+inspect-legacy.js
+property_detail.html
+scripts/assign-types.js
+scripts/check-coords.js
+scripts/clean-images.js
+scripts/dry-run-clean-images.js
+scripts/fix-coords.js
+scripts/generate-manifest.js
+scripts/migrate-legacy.js
+scripts/migration_manifest.json
+scripts/normalize-data.js
+scripts/test-images.js
+scripts/test-type.js
+scripts/update-type.js

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "minimax-mcp-js": {
+      "command": "npx",
+      "args": ["-y", "minimax-mcp-js"],
+      "env": {
+        "MINIMAX_API_HOST": "https://api.minimax.io",
+        "MINIMAX_API_KEY": "YOUR_API_KEY_HERE",
+        "MINIMAX_MCP_BASE_PATH": "C:\\Users\\ingju\\Desktop\\minimax-output",
+        "MINIMAX_RESOURCE_MODE": "local"
+      }
+    }
+  }
+}

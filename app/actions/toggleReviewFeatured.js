@@ -1,0 +1,12 @@
+'use server';
+import connectDB from '@/config/database';
+import Review from '@/models/Review';
+import { revalidatePath } from 'next/cache';
+
+export default async function toggleReviewFeatured(formData) {
+  const id = formData.get('reviewId');
+  const current = formData.get('current') === 'true';
+  await connectDB();
+  await Review.findByIdAndUpdate(id, { featured: !current });
+  revalidatePath('/', 'layout');
+}

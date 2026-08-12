@@ -1,0 +1,94 @@
+/* ============================================
+   STATS BAR — Stage 6
+   All tokens from design-system.css
+   ============================================ */
+
+/* ------------------------------------------------
+   Stats Section Container
+   ---------------------------------------------- */
+.stats-section {
+  background: var(--color-surface-soft);
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ------------------------------------------------
+   Stats Grid
+   ---------------------------------------------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 800px;
+  margin: 0 auto;
+  gap: 0;
+}
+
+/* ------------------------------------------------
+   Each Stat Item
+   ---------------------------------------------- */
+.stats-item {
+  text-align: center;
+  padding: 0 var(--space-10);
+  border-right: 1px solid var(--color-border);
+}
+
+.stats-item:last-child {
+  border-right: none;
+}
+
+.stats-number {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--color-brand);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.stats-label {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--color-ink-secondary);
+  margin-top: var(--space-2);
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .stats-number {
+    font-size: 48px;
+  }
+}
+
+/* Mobile — stack vertically */
+@media (max-width: 640px) {
+  .stats-section {
+    padding: var(--space-12) 0;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    max-width: 320px;
+  }
+
+  .stats-item {
+    padding: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stats-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .stats-number {
+    font-size: 36px;
+  }
+}

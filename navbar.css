@@ -1,0 +1,246 @@
+/* ============================================
+   NAVBAR — Stage 3
+   All tokens from design-system.css + components.css
+   ============================================ */
+
+/* ------------------------------------------------
+   Navbar Container
+   ---------------------------------------------- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 100;
+  transition: background var(--transition-base), backdrop-filter var(--transition-base), border-color var(--transition-base);
+  border-bottom: 1px solid transparent;
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    height: 72px;
+  }
+}
+
+/* ------------------------------------------------
+   Transparent State (default — over hero)
+   ---------------------------------------------- */
+.navbar-transparent {
+  background: transparent;
+}
+
+.navbar-transparent .navbar-logo {
+  filter: brightness(0) invert(1);
+}
+
+.navbar-transparent .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar-transparent .nav-link:hover {
+  color: var(--color-brand);
+}
+
+.navbar-transparent .hamburger-line {
+  background: #FFFFFF;
+}
+
+/* ------------------------------------------------
+   Scrolled State (after 80px scroll)
+   ---------------------------------------------- */
+.navbar-scrolled {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-nav);
+}
+
+.navbar-scrolled .navbar-logo {
+  filter: none;
+}
+
+.navbar-scrolled .nav-link {
+  color: var(--color-ink-secondary);
+}
+
+.navbar-scrolled .nav-link:hover {
+  color: var(--color-brand);
+}
+
+.navbar-scrolled .hamburger-line {
+  background: var(--color-ink);
+}
+
+/* ------------------------------------------------
+   Navbar Inner Layout
+   ---------------------------------------------- */
+.navbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 767px) {
+  .navbar-inner {
+    padding: 0 20px;
+  }
+}
+
+/* ------------------------------------------------
+   Logo
+   ---------------------------------------------- */
+.navbar-logo {
+  height: 36px;
+  width: auto;
+  transition: filter var(--transition-base);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------
+   Desktop Navigation
+   ---------------------------------------------- */
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+}
+
+.nav-link {
+  font-family: var(--font-ui);
+  font-size: var(--t-nav-size);
+  font-weight: var(--t-nav-weight);
+  letter-spacing: var(--t-nav-ls);
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--color-brand);
+  transition: width var(--transition-base);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ------------------------------------------------
+   Navbar CTA Button
+   ---------------------------------------------- */
+.navbar-cta {
+  height: 40px;
+  padding: 0 22px;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------
+   Mobile Hamburger
+   ---------------------------------------------- */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  gap: 5px;
+  padding: 0;
+  z-index: 200;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+.hamburger-line {
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast), background var(--transition-fast);
+}
+
+/* Hamburger → X animation */
+.navbar-menu-open .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar-menu-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.navbar-menu-open .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ------------------------------------------------
+   Mobile Overlay Menu
+   ---------------------------------------------- */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--color-surface-dark);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.navbar-menu-open ~ .mobile-menu {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-nav-link {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.mobile-nav-link:hover {
+  color: var(--color-brand);
+}
+
+.mobile-menu-cta {
+  width: calc(100% - 48px);
+  max-width: 320px;
+  text-align: center;
+}

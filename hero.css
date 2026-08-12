@@ -1,0 +1,353 @@
+/* ============================================
+   HERO SECTION — Stage 4
+   All tokens from design-system.css + components.css
+   ============================================ */
+
+/* ------------------------------------------------
+   Hero Container
+   ---------------------------------------------- */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------
+   Background Photo + Gradient Overlay
+   ---------------------------------------------- */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.10) 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  z-index: 1;
+}
+
+/* ------------------------------------------------
+   Content Block (centered)
+   ---------------------------------------------- */
+.hero-content {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  padding: 0 24px;
+  z-index: 2;
+}
+
+/* ------------------------------------------------
+   Eyebrow
+   ---------------------------------------------- */
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-ui);
+  font-size: var(--t-label-size);
+  font-weight: var(--t-label-weight);
+  letter-spacing: var(--t-label-ls);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.70);
+  margin-bottom: var(--space-4);
+  animation: fadeUp 0.6s var(--ease-out) 0.1s both;
+}
+
+.hero-eyebrow-line {
+  width: 28px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------
+   Headline Lines
+   ---------------------------------------------- */
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: 76px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.0;
+  color: #FFFFFF;
+  margin-bottom: 6px;
+  animation: fadeUp 0.7s var(--ease-out) 0.25s both;
+}
+
+.hero-headline-2 {
+  font-family: var(--font-display);
+  font-size: 76px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.0;
+  color: #FFFFFF;
+  margin-bottom: var(--space-10);
+  animation: fadeUp 0.7s var(--ease-out) 0.25s both;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero-headline,
+  .hero-headline-2 {
+    font-size: 52px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .hero-headline,
+  .hero-headline-2 {
+    font-size: 40px;
+  }
+}
+
+/* ------------------------------------------------
+   Search Bar
+   ---------------------------------------------- */
+.hero-search {
+  position: absolute;
+  bottom: var(--space-12);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(880px, calc(100% - 48px));
+  z-index: 2;
+  animation: fadeUp 0.7s var(--ease-out) 0.45s both;
+}
+
+.hero-search-bar {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: var(--radius-xl);
+  padding: 8px 8px 8px 0;
+  display: flex;
+  align-items: center;
+}
+
+/* ------------------------------------------------
+   Filter Group (4-column grid)
+   ---------------------------------------------- */
+.hero-filters {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.hero-filter {
+  height: 52px;
+  padding: 0 var(--space-5);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+  position: relative;
+}
+
+.hero-filter:last-child {
+  border-right: none;
+}
+
+.hero-filter:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero-filter-label {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-filter-value {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-filter-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------
+   Search CTA Button
+   ---------------------------------------------- */
+.hero-search-cta {
+  height: 52px;
+  padding: 0 var(--space-8);
+  border-radius: 18px;
+  flex-shrink: 0;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+
+/* ------------------------------------------------
+   Trust Strip
+   ---------------------------------------------- */
+.hero-trust {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  z-index: 2;
+  animation: fadeIn 0.5s ease 0.70s both;
+}
+
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-trust-sep {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.hero-trust-number {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.hero-trust-label {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1;
+}
+
+/* ------------------------------------------------
+   Animations
+   ---------------------------------------------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------
+   Mobile (< 768px)
+   ---------------------------------------------- */
+@media (max-width: 767px) {
+  .hero {
+    height: 100svh;
+  }
+
+  .hero-content {
+    top: 38%;
+  }
+
+  .hero-search {
+    bottom: var(--space-10);
+    width: min(880px, calc(100% - 40px));
+  }
+
+  .hero-search-bar {
+    background: rgba(0, 0, 0, 0.60);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: var(--radius-lg);
+    flex-direction: column;
+    padding: 12px;
+    gap: 0;
+  }
+
+  .hero-filters {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: 0;
+  }
+
+  .hero-filter {
+    height: 56px;
+    padding: 0 var(--space-4);
+  }
+
+  .hero-filter:nth-child(1),
+  .hero-filter:nth-child(2) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .hero-filter:nth-child(2) {
+    border-right: none;
+  }
+
+  .hero-filter:nth-child(3),
+  .hero-filter:nth-child(4) {
+    border-bottom: none;
+  }
+
+  .hero-search-cta {
+    width: 100%;
+    margin-top: 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-trust {
+    gap: var(--space-8);
+  }
+
+  .hero-trust-item:nth-child(3) {
+    display: none;
+  }
+}

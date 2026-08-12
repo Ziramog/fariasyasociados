@@ -1,0 +1,100 @@
+﻿diff --git a/components/Footer.jsx b/components/Footer.jsx
+index 8d53989..7f1faff 100644
+--- a/components/Footer.jsx
++++ b/components/Footer.jsx
+@@ -27,6 +27,9 @@ const Footer = ({
+   const handleSubscribe = async (e) => {
+     e.preventDefault();
+     if (!whatsappNumber) return;
++    if (typeof window !== 'undefined' && window.gtag) {
++      window.gtag('event', 'form_submit', { component: 'footer', form_type: 'newsletter_whatsapp' });
++    }
+     setIsSubmitting(true);
+     try {
+       const res = await fetch('/api/subscribe', {
+@@ -67,7 +70,7 @@ const Footer = ({
+               </Link>
+                   <ul>
+                     <li className="py-[5px]">
+-                      <a href="https://www.google.com/maps/place/Silvia+Roggero+de+Roma+Negocios+Inmobiliarios/@-31.6520294,-64.4449129,933m/data=!3m2!1e3!4b1!4m6!3m5!1s0x942d50b08d3e4da3:0x197a00f87b2d43a6!8m2!3d-31.652034!4d-64.442338!16s%2Fg%2F11rr_l873" target="_blank" rel="noopener noreferrer" className="flex items-start gap-[5px] text-[13px] text-white/70 font-light hover:text-white transition-colors group">
++                      <a href="https://www.google.com/maps/place/Silvia+Roggero+de+Roma+Negocios+Inmobiliarios/@-31.6520294,-64.4449129,933m/data=!3m2!1e3!4b1!4m6!3m5!1s0x942d50b08d3e4da3:0x197a00f87b2d43a6!8m2!3d-31.652034!4d-64.442338!16s%2Fg%2F11rr_l873" target="_blank" rel="noopener noreferrer" className="flex items-start gap-[5px] text-[13px] text-white/70 font-light hover:text-white transition-colors group" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_maps', { component: 'footer', type: 'office_address' }); } }}>
+                         <MapPin className="w-4 h-4 text-[#F26B2E] mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
+                         <span>
+                           {contactAddress}<br/>
+@@ -83,10 +86,10 @@ const Footer = ({
+               <div className="flex items-start gap-[5px] py-[5px]">
+                 <img src="/senada/images/icons/ico_phone.svg" alt="phone" className="w-[17px] h-[17px] mt-[2px]" style={{ filter: 'brightness(0) invert(1)' }} />
+                 <div className="flex flex-col gap-[2px]">
+-                  <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
++                  <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_whatsapp', { component: 'footer', number: 'contactPhone' }); } }}>
+                     {contactPhone.replace(/(\d{2})(\d{4})$/, '$1-$2')}
+                   </a>
+-                  <a href="https://wa.me/5493547509413" className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
++                  <a href="https://wa.me/5493547509413" className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_whatsapp', { component: 'footer', number: '5493547509413' }); } }}>
+                     +54 9 3547 50-9413
+                   </a>
+                 </div>
+@@ -216,7 +219,7 @@ const Footer = ({
+                 </a>
+               </li>
+               <li>
+-                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp">
++                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_whatsapp', { component: 'footer', context: 'general' }); } }}>
+                   <FaWhatsapp className="text-xl" />
+                 </a>
+               </li>
+@@ -263,7 +266,7 @@ const Footer = ({
+                 className="brightness-0 invert"
+               />
+             </Link>
+-            <a href="https://www.google.com/maps/place/Silvia+Roggero+de+Roma+Negocios+Inmobiliarios/@-31.6520294,-64.4449129,933m/data=!3m2!1e3!4b1!4m6!3m5!1s0x942d50b08d3e4da3:0x197a00f87b2d43a6!8m2!3d-31.652034!4d-64.442338!16s%2Fg%2F11rr_l873" target="_blank" rel="noopener noreferrer" className="flex items-start gap-2 text-[13px] text-white/60 font-light mt-3 hover:text-white transition-colors">
++            <a href="https://www.google.com/maps/place/Silvia+Roggero+de+Roma+Negocios+Inmobiliarios/@-31.6520294,-64.4449129,933m/data=!3m2!1e3!4b1!4m6!3m5!1s0x942d50b08d3e4da3:0x197a00f87b2d43a6!8m2!3d-31.652034!4d-64.442338!16s%2Fg%2F11rr_l873" target="_blank" rel="noopener noreferrer" className="flex items-start gap-2 text-[13px] text-white/60 font-light mt-3 hover:text-white transition-colors" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_maps', { component: 'footer_mobile', type: 'office_address' }); } }}>
+               <MapPin className="w-4 h-4 text-[#F26B2E] mt-0.5 shrink-0" />
+               <span>
+                 {contactAddress}<br/>
+@@ -385,12 +388,12 @@ const Footer = ({
+                 </a>
+               </li>
+               <li>
+-                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp">
++                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_whatsapp', { component: 'footer_mobile', context: 'general' }); } }}>
+                   <FaWhatsapp className="text-xl" />
+                 </a>
+               </li>
+               <li>
+-                <a href="https://www.facebook.com/roggeroyroma" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook">
++                <a href="https://www.facebook.com/roggeroyroma" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_facebook', { component: 'footer_mobile' }); } }}>
+                   <img src="/senada/images/icons/ico_facebook.svg" alt="facebook" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
+                 </a>
+               </li>
+diff --git a/components/Navbar.jsx b/components/Navbar.jsx
+index 7ed5296..398251f 100644
+--- a/components/Navbar.jsx
++++ b/components/Navbar.jsx
+@@ -151,7 +151,7 @@ const Navbar = ({ contactEmail = 'roggeroroma@hotmail.com', contactPhone = '+54
+           {/* Side Nav ΓÇö Senada .sideMenu: Phone | Search | Show More */}
+           <div className="desktop-dropdown flex items-center gap-4 ml-8">
+             {/* Phone ΓåÆ WhatsApp */}
+-            <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" aria-label="WhatsApp">
++            <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" aria-label="WhatsApp" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_whatsapp', { component: 'navbar_desktop' }); } }}>
+               <img src="/senada/images/icons/ico_phone.svg" alt="Tel├⌐fono" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
+             </a>
+             {/* Search */}
+@@ -309,7 +309,7 @@ const Navbar = ({ contactEmail = 'roggeroroma@hotmail.com', contactPhone = '+54
+           <div className={`flex-shrink-0 pt-8 pb-4 ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ animationDelay: '0.7s' }}>
+             <ul className="flex items-center justify-center gap-3 flex-wrap max-w-full mx-auto px-2">
+               <li>
+-                <a href={`tel:${contactPhone.replace(/\D/g, '')}`} className="flex items-center justify-center w-10 h-10 rounded-xl bg-black/50 hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Llamar">
++                <a href={`tel:${contactPhone.replace(/\D/g, '')}`} className="flex items-center justify-center w-10 h-10 rounded-xl bg-black/50 hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Llamar" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_phone', { component: 'navbar_mobile' }); } }}>
+                   <img src="/senada/images/icons/ico_phone.svg" alt="phone" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
+                 </a>
+               </li>
+@@ -319,7 +319,7 @@ const Navbar = ({ contactEmail = 'roggeroroma@hotmail.com', contactPhone = '+54
+                 </a>
+               </li>
+               <li>
+-                <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-black/50 hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="WhatsApp">
++                <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-black/50 hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="WhatsApp" onClick={() => { if (typeof window !== 'undefined' && window.gtag) { window.gtag('event', 'click_whatsapp', { component: 'navbar_mobile' }); } }}>
+                   <FaWhatsapp className="text-white text-xl" />
+                 </a>
+               </li>

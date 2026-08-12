@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dual CTA Demo — Stage 6</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="dual-cta.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-ui); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       DUAL CTA SECTION
+       ============================================ -->
+  <section class="dual-cta-section">
+
+    <div class="dual-cta-grid">
+
+      <!-- LEFT — Vender (Primary) -->
+      <div class="dual-cta-card dual-cta-card--primary">
+        <div class="dual-cta-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <p class="dual-cta-eyebrow">PROPIETARIOS</p>
+        <h2 class="dual-cta-heading">¿Querés vender tu propiedad?</h2>
+        <p class="dual-cta-body">Te ayudamos a valuar tu propiedad con el mercado actual y te acompañamos en cada paso del proceso de venta.</p>
+        <button class="btn-primary">Solicitar tasación gratuita</button>
+      </div>
+
+      <!-- RIGHT — Invertir (Secondary) -->
+      <div class="dual-cta-card dual-cta-card--secondary">
+        <div class="dual-cta-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <p class="dual-cta-eyebrow">INVERSORES</p>
+        <h2 class="dual-cta-heading">¿Buscas invertir?</h2>
+        <p class="dual-cta-body">Encontrá las mejores oportunidades de inversión en propiedades seleccionadas por nuestro equipo de análisis de mercado.</p>
+        <button class="btn-ghost">Buscar inversión</button>
+      </div>
+
+    </div>
+
+  </section>
+
+</body>
+</html>

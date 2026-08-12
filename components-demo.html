@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Components Demo — Stage 2</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <link rel="stylesheet" href="components.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-ui); background: var(--color-surface); color: var(--color-ink); }
+    .page { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+    .section { padding: 80px 0; border-bottom: 1px solid var(--color-border); }
+    .section:last-child { border-bottom: none; }
+    .section-label { font-size: var(--t-label-size); font-weight: var(--t-label-weight); letter-spacing: var(--t-label-ls); text-transform: uppercase; color: var(--color-brand); margin-bottom: 24px; }
+    .section-title { font-size: var(--t-h2-size); font-weight: var(--t-h2-weight); color: var(--color-ink); margin-bottom: 32px; }
+    .demo-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 32px; }
+    .demo-row:last-child { margin-bottom: 0; }
+    .demo-label { font-size: var(--t-small-size); color: var(--color-ink-tertiary); width: 100%; margin-bottom: 8px; }
+    .bg-dark { background: var(--color-surface-dark); padding: 48px; border-radius: var(--radius-lg); }
+    .bg-dark .section-title { color: #FFFFFF; }
+    .bg-surface-soft { background: var(--color-surface-soft); padding: 48px; border-radius: var(--radius-lg); }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============================================
+       2.1 — Primary Button
+       ============================================ -->
+  <div class="section">
+    <p class="section-label">2.1 — Primary Button (Orange)</p>
+    <h2 class="section-title">Primary Button</h2>
+    <div class="demo-row">
+      <p class="demo-label">Default state — hover to see shadow + darker orange + lift</p>
+      <button class="btn-primary">Solicitar tasación gratuita</button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       2.2 — Secondary Button
+       ============================================ -->
+  <div class="section">
+    <p class="section-label">2.2 — Secondary Button (Dark Outlined)</p>
+    <h2 class="section-title">Secondary Button</h2>
+    <div class="demo-row">
+      <p class="demo-label">Default state — hover to see bg fill dark + text white</p>
+      <button class="btn-secondary">Ver propiedad</button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       2.3 — Ghost Button (on dark bg)
+       ============================================ -->
+  <div class="section">
+    <p class="section-label">2.3 — Ghost Button (White, for dark/photo backgrounds)</p>
+    <h2 class="section-title">Ghost Button</h2>
+    <div class="bg-dark">
+      <div class="demo-row">
+        <p class="demo-label" style="color: rgba(255,255,255,0.6);">Default state on dark background — hover to see bg lighten</p>
+        <button class="btn-ghost">Buscar inversión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       2.4 — Badge Variants
+       ============================================ -->
+  <div class="section">
+    <p class="section-label">2.4 — Badge Variants</p>
+    <h2 class="section-title">Badge Variants</h2>
+
+    <div class="demo-row">
+      <p class="demo-label">On white background</p>
+      <span class="badge badge-price">U$S 250.000</span>
+      <span class="badge badge-available">Disponible</span>
+      <span class="badge badge-rented">Arrendado</span>
+      <span class="badge badge-featured">Destacada</span>
+      <span class="badge badge-consult">A consultar</span>
+    </div>
+
+    <div class="bg-dark" style="margin-top: 24px; padding: 32px;">
+      <p class="demo-label" style="color: rgba(255,255,255,0.6); margin-bottom: 16px;">On dark background</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <span class="badge badge-price">U$S 250.000</span>
+        <span class="badge badge-available">Disponible</span>
+        <span class="badge badge-rented">Arrendado</span>
+        <span class="badge badge-featured">Destacada</span>
+        <span class="badge badge-consult">A consultar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       2.5 — Input / Dropdown
+       ============================================ -->
+  <div class="section">
+    <p class="section-label">2.5 — Input / Dropdown</p>
+    <h2 class="section-title">Input / Dropdown</h2>
+
+    <div class="bg-surface-soft" style="padding: 40px; border-radius: 16px; max-width: 480px;">
+      <div class="demo-row">
+        <p class="demo-label">Default input — focus to see brand ring</p>
+        <input type="text" class="input" placeholder="Ej: Alta Gracia, Córdoba" />
+      </div>
+      <div class="demo-row">
+        <p class="demo-label">Default select / dropdown — click to see focus state</p>
+        <select class="select">
+          <option>Casas</option>
+          <option>Departamentos</option>
+          <option>Terrenos</option>
+          <option>Campos</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

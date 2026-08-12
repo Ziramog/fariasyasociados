@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map Section Demo — Stage 7</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="map-section.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-ui); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       MAP SECTION
+       ============================================ -->
+  <section class="map-section">
+
+    <!-- Header -->
+    <div class="map-header">
+      <p class="map-eyebrow">MAPA INTERACTIVO</p>
+      <h2 class="map-title">Explorá en el mapa</h2>
+
+      <!-- Filters -->
+      <div class="map-filters">
+        <button class="map-filter-pill map-filter-pill--active">Casa</button>
+        <button class="map-filter-pill">Departamento</button>
+        <button class="map-filter-pill">Terreno</button>
+        <button class="map-filter-pill">Campo</button>
+        <button class="map-filter-pill">Local</button>
+
+        <div class="map-filter-divider"></div>
+
+        <div class="map-price-group">
+          <button class="map-filter-pill map-filter-pill--active">Todos los precios</button>
+          <button class="map-filter-pill">Hasta U$S 150k</button>
+          <button class="map-filter-pill">U$S 150k–300k</button>
+          <button class="map-filter-pill">+ U$S 300k</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map + Sidebar -->
+    <div class="map-layout">
+
+      <!-- Map -->
+      <div class="map-container">
+        <div class="map-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+            <line x1="8" y1="2" x2="8" y2="18"/>
+            <line x1="16" y1="6" x2="16" y2="22"/>
+          </svg>
+          <span>Mapa interactivo</span>
+        </div>
+        <!-- Pins (for demo) -->
+        <div class="map-pin" style="top: 35%; left: 45%;">U$S 250.000</div>
+        <div class="map-pin" style="top: 50%; left: 55%;">U$S 185.000</div>
+        <div class="map-pin" style="top: 28%; left: 60%;">U$S 320.000</div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="map-sidebar">
+        <div class="map-sidebar-header">
+          <span class="map-sidebar-count">37 propiedades</span>
+          <div class="map-sidebar-sort">
+            Más recientes
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="map-sidebar-list">
+
+          <div class="map-sidebar-card">
+            <img class="map-sidebar-thumb" src="https://placehold.co/120x80/8B7355/FFFFFF?text=Casa" alt="" />
+            <div class="map-sidebar-info">
+              <span class="map-sidebar-price">U$S 250.000</span>
+              <span class="map-sidebar-title">Casa moderna en barrio privado con vista a las sierras</span>
+              <span class="map-sidebar-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Alta Gracia
+              </span>
+              <span class="map-sidebar-meta">3 dorm. · 180 m²</span>
+            </div>
+          </div>
+
+          <div class="map-sidebar-card">
+            <img class="map-sidebar-thumb" src="https://placehold.co/120x80/5C6B4E/FFFFFF?text=Depto" alt="" />
+            <div class="map-sidebar-info">
+              <span class="map-sidebar-price">U$S 185.000</span>
+              <span class="map-sidebar-title">Departamento de lujo en el centro con balcón</span>
+              <span class="map-sidebar-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Centro, Córdoba
+              </span>
+              <span class="map-sidebar-meta">2 dorm. · 85 m²</span>
+            </div>
+          </div>
+
+          <div class="map-sidebar-card">
+            <img class="map-sidebar-thumb" src="https://placehold.co/120x80/4A6741/FFFFFF?text=Terreno" alt="" />
+            <div class="map-sidebar-info">
+              <span class="map-sidebar-price">A consultar</span>
+              <span class="map-sidebar-title">Terreno premium en barrio privado con acceso al lago</span>
+              <span class="map-sidebar-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Villa Allende
+              </span>
+              <span class="map-sidebar-meta">1.200 m²</span>
+            </div>
+          </div>
+
+          <div class="map-sidebar-card">
+            <img class="map-sidebar-thumb" src="https://placehold.co/120x80/8B6F4E/FFFFFF?text=Campo" alt="" />
+            <div class="map-sidebar-info">
+              <span class="map-sidebar-price">U$S 450.000</span>
+              <span class="map-sidebar-title">Campo productivo en Traslasierra con vivienda</span>
+              <span class="map-sidebar-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Mina Clavero
+              </span>
+              <span class="map-sidebar-meta">25 has. · 3 dorm.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

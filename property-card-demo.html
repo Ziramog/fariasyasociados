@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Card Demo — Stage 5</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <link rel="stylesheet" href="components.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-ui); background: var(--color-surface-soft); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       PROPERTY CARDS SECTION
+       ============================================ -->
+  <section class="property-section">
+    <div class="property-section-inner">
+
+      <!-- Section Header -->
+      <div class="property-header">
+        <div class="property-header-left">
+          <span class="property-header-eyebrow">PROPIEDADES DESTACADAS</span>
+          <h2 class="property-header-title">Seleccionadas para vos</h2>
+        </div>
+        <a href="/properties" class="property-header-link">Ver todas →</a>
+      </div>
+
+      <!-- Property Grid -->
+      <div class="property-grid">
+
+        <!-- Card 1 — Available -->
+        <article class="property-card">
+          <div class="property-card-image">
+            <img src="https://placehold.co/480x320/8B7355/FFFFFF?text=Casa+Alta+Gracia" alt="Casa en Alta Gracia" />
+            <span class="property-card-price">U$S 250.000</span>
+            <span class="property-card-status property-card-status--available">Disponible</span>
+            <button class="property-card-favorite" aria-label="Guardar propiedad">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+            <img class="property-card-agent" src="https://placehold.co/28x28/E8D5C4/8B6F4E?text=RR" alt="Agent" />
+          </div>
+          <div class="property-card-body">
+            <h3 class="property-card-title">Casa moderna en barrio privado con vista a las sierras</h3>
+            <p class="property-card-location">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Alta Gracia, Córdoba
+            </p>
+            <div class="property-card-divider"></div>
+            <div class="property-card-meta">
+              <span class="property-card-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                3 Dorm.
+              </span>
+              <span class="property-card-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/>
+                  <line x1="10" x2="8" y1="5" y2="7"/>
+                  <line x1="2" x2="22" y1="12" y2="12"/>
+                  <line x1="7" x2="7" y1="19" y2="21"/>
+                  <line x1="17" x2="17" y1="19" y2="21"/>
+                </svg>
+                2 Baños
+              </span>
+              <span class="property-card-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 3 21 3 21 9"/>
+                  <polyline points="9 21 3 21 3 15"/>
+                  <line x1="21" x2="14" y1="3" y2="10"/>
+                  <line x1="3" x2="10" y1="21" y2="14"/>
+                </svg>
+                180 m²
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 — Featured -->
+        <article class="property-card">
+          <div class="property-card-image">
+            <img src="https://placehold.co/480x320/5C6B4E/FFFFFF?text=Departamento+Centro" alt="Departamento en Centro" />
+            <span class="property-card-price">U$S 185.000</span>
+            <button class="property-card-favorite property-card-favorite--active" aria-label="Guardar propiedad">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+            <img class="property-card-agent" src="https://placehold.co/28x28/E8D5C4/8B6F4E?text=RR" alt="Agent" />
+          </div>
+          <div class="property-card-body">
+            <h3 class="property-card-title">Departamento de lujo en el centro con balcón terrace</h3>
+            <p class="property-card-location">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Centro, Córdoba Capital
+            </p>
+            <div class="property-card-divider"></div>
+            <div class="property-card-meta">
+              <span class="property-card-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                2 Dorm.
+              </span>
+              <span class="property-card-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/>
+                  <line x1="10" x2="8" y1="5" y2="7"/>
+                  <line x1="2" x2="22" y1="12" y2="12"/>
+                  <line x1="7" x2="7" y1="19" y2="21"/>
+                  <line x1="17" x2="17" y1="19" y2="21"/>
+                </svg>
+                1 Baño
+              </span>
+              <span class="property-card-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 3 21 3 21 9"/>
+                  <polyline points="9 21 3 21 3 15"/>
+                  <line x1="21" x2="14" y1="3" y2="10"/>
+                  <line x1="3" x2="10" y1="21" y2="14"/>
+                </svg>
+                85 m²
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 — Consult (no price) -->
+        <article class="property-card">
+          <div class="property-card-image">
+            <img src="https://placehold.co/480x320/4A6741/FFFFFF?text=Terreno+Country" alt="Terreno en Country" />
+            <span class="property-card-status property-card-status--consult">A consultar</span>
+            <button class="property-card-favorite" aria-label="Guardar propiedad">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+            <img class="property-card-agent" src="https://placehold.co/28x28/E8D5C4/8B6F4E?text=RR" alt="Agent" />
+          </div>
+          <div class="property-card-body">
+            <h3 class="property-card-title">Terreno premium en barrio privado con acceso al lago</h3>
+            <p class="property-card-location">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Villa Allende, Córdoba
+            </p>
+            <div class="property-card-divider"></div>
+            <div class="property-card-meta">
+              <span class="property-card-meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 3 21 3 21 9"/>
+                  <polyline points="9 21 3 21 3 15"/>
+                  <line x1="21" x2="14" y1="3" y2="10"/>
+                  <line x1="3" x2="10" y1="21" y2="14"/>
+                </svg>
+                1.200 m²
+              </span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="property-section-cta">
+        <button class="btn-primary">
+          Explorar todas las propiedades
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

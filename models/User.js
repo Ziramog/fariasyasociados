@@ -1,0 +1,40 @@
+import { Schema, model, models } from 'mongoose';
+
+const UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      unique: [true, 'Email already exists'],
+      required: [true, 'Email is required'],
+    },
+    username: {
+      type: String,
+      required: [true, 'Username is required'],
+    },
+    image: {
+      type: String,
+    },
+    bookmarks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Property',
+      },
+    ],
+    role: {
+      type: String,
+      enum: ['admin', 'client'],
+      default: 'client',
+    },
+    agentName: {
+      type: String,
+      default: null,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const User = models.User || model('User', UserSchema);
+
+export default User;

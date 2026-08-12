@@ -1,0 +1,93 @@
+/* ============================================
+   FLOATING ELEMENTS — Stage 8
+   All tokens from design-system.css + components.css
+   ============================================ */
+
+/* ------------------------------------------------
+   WhatsApp Floating Button
+   ---------------------------------------------- */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  width: 52px;
+  height: 52px;
+  background: #25D366;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
+}
+
+.whatsapp-btn svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+/* Tooltip */
+.whatsapp-tooltip {
+  position: absolute;
+  right: 64px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-surface-dark);
+  color: #FFFFFF;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------------------------
+   Sticky Mobile CTA Bar
+   ---------------------------------------------- */
+.mobile-cta-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 190;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--color-border);
+  padding: 12px 20px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 767px) {
+  .mobile-cta-bar {
+    display: flex;
+  }
+
+  .mobile-cta-bar .btn-primary,
+  .mobile-cta-bar .btn-secondary {
+    flex: 1;
+    height: 48px;
+  }
+
+  /* Push WhatsApp button above mobile bar */
+  .whatsapp-btn {
+    bottom: calc(24px + 72px + env(safe-area-inset-bottom));
+  }
+}

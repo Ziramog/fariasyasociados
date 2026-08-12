@@ -1,0 +1,7 @@
+{
+  "enabledMcpjsonServers": [
+    "playwright",
+    "minimax-mcp-js"
+  ],
+  "enableAllProjectMcpServers": true
+}

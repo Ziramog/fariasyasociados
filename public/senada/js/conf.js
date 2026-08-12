@@ -1,0 +1,9 @@
+var DATEPICKER_PATH = TEMPLATEDOMAIN + '/lib/jquery-ui/datepicker/jquery-ui.js';
+var DATEPICKER_LANG_PATH = TEMPLATEDOMAIN + '/senada/js/datepicker/languages.js';
+var DATEPICKER_CSS_PATH = TEMPLATEDOMAIN + '/lib/jquery-ui/datepicker/jquery-ui.css';
+var LANGUAGES_PATH = TEMPLATEDOMAIN + '/senada/js/languages.js';
+var VALIDATE_PATH = TEMPLATEDOMAIN + '/lib/validateNew/jquery.validate.js';
+var SWIPEBOX_PATH = TEMPLATEDOMAIN + '/senada/lib/swipebox.js';
+var SWIPEBOX_CSS_PATH = TEMPLATEDOMAIN + '/senada/lib/swipebox.css';
+var SWIPER_PATH = TEMPLATEDOMAIN + '/lib/swiperNew/swiper-bundle.js';
+var SWIPER_CSS_PATH = TEMPLATEDOMAIN + '/lib/swiperNew/swiper-bundle.css';

@@ -1,0 +1,307 @@
+/* ============================================
+   FOOTER — Stage 7
+   All tokens from design-system.css + components.css
+   ============================================ */
+
+/* ------------------------------------------------
+   Footer Container
+   ---------------------------------------------- */
+.footer {
+  background: var(--color-surface-darker);
+  padding: var(--space-16) 0 0;
+}
+
+/* ------------------------------------------------
+   Footer Grid
+   ---------------------------------------------- */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-12) var(--space-16);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-12) var(--space-16);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    padding: 0 var(--space-5) var(--space-12);
+    gap: var(--space-8);
+  }
+}
+
+/* ------------------------------------------------
+   Column 1 — Brand
+   ---------------------------------------------- */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  margin-bottom: var(--space-4);
+  display: block;
+}
+
+.footer-tagline {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: var(--space-6);
+  line-height: 1.5;
+}
+
+/* Social icons */
+.footer-social {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.footer-social-btn {
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.footer-social-btn:hover {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  box-shadow: 0 4px 16px rgba(242, 107, 46, 0.4);
+  transform: scale(1.1);
+}
+
+.footer-social-btn svg {
+  width: 20px;
+  height: 20px;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color var(--transition-fast);
+}
+
+.footer-social-btn:hover svg {
+  color: #FFFFFF;
+}
+
+/* ------------------------------------------------
+   Link Columns 2–4
+   ---------------------------------------------- */
+.footer-col-heading {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.80);
+  margin-bottom: var(--space-5);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.footer-link {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  line-height: 2.2;
+  transition: all var(--transition-fast);
+  display: block;
+}
+
+.footer-link:hover {
+  color: #FFFFFF;
+  padding-left: 4px;
+}
+
+/* ------------------------------------------------
+   Copyright Strip
+   ---------------------------------------------- */
+.footer-copyright {
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-12);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.footer-copyright-left {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer-copyright-right {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 640px) {
+  .footer-copyright {
+    padding: 0 var(--space-5);
+    height: auto;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5);
+    text-align: center;
+  }
+}
+
+/* ============================================
+   MOBILE FOOTER — max-width: 767px
+   Compact layout: under 280px total height
+   ============================================ */
+@media (max-width: 767px) {
+  /* 1. Overall container */
+  .footer-m-inner {
+    padding: 32px 20px 24px !important;
+  }
+
+  /* 2. Logo + tagline row */
+  .footer-m-brand {
+    margin-bottom: 20px;
+  }
+
+  .footer-m-logo {
+    height: 28px !important;
+    width: auto !important;
+  }
+
+  .footer-m-tagline {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    line-height: 1.4;
+  }
+
+  /* 3. Links grid — 2 columns, flat */
+  .footer-m-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    margin-bottom: 20px;
+  }
+
+  .footer-m-link {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 2.0;
+    text-decoration: none;
+    display: block;
+    transition: color 150ms ease;
+  }
+
+  .footer-m-link:hover {
+    color: #fff;
+  }
+
+  /* 4. Contact row — single horizontal line */
+  .footer-m-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .footer-m-icon-wa {
+    width: 36px;
+    height: 36px;
+    background: #25D366;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: all 200ms ease;
+  }
+
+  .footer-m-icon-wa:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+  }
+
+  .footer-m-icon-wa svg {
+    width: 18px;
+    height: 18px;
+    color: #fff;
+  }
+
+  .footer-m-icon-circle {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: all 200ms ease;
+  }
+
+  .footer-m-icon-circle:hover {
+    background: #F26B2E;
+    box-shadow: 0 4px 16px rgba(242, 107, 46, 0.4);
+  }
+
+  .footer-m-icon-circle svg {
+    width: 16px;
+    height: 16px;
+    color: rgba(255, 255, 255, 0.70);
+  }
+
+  .footer-m-icon-circle:hover svg {
+    color: #fff;
+  }
+
+  .footer-m-phone {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.60);
+    margin-left: 4px;
+  }
+
+  /* 5. Copyright strip */
+  .footer-m-copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 16px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.40);
+    text-align: center;
+    line-height: 1.4;
+  }
+}
