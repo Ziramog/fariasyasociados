@@ -164,9 +164,12 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
     <section className='relative h-[100dvh] min-h-[100dvh]'>
       {/* Background Image / Video Placeholder */}
       <div className='absolute inset-0 z-0'>
-        <img
-          src='/images/hero-sunset.png'
-          alt='Hero background'
+        <video
+          src='/images/House_tour_video_pan_door_202608161821.mp4'
+          autoPlay
+          loop
+          muted
+          playsInline
           className='w-full h-full object-cover block'
         />
         <div

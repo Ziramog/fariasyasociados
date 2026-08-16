@@ -88,6 +88,12 @@ const PropertySchema = new Schema(
     covered_area: {
       type: Number,
     },
+    total_area: {
+      type: Number,
+    },
+    antiquity: {
+      type: Number,
+    },
     garage: {
       type: Number,
     },
