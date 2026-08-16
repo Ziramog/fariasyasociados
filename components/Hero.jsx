@@ -34,6 +34,23 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
   const [mobileValue, setMobileValue] = useState('');
   const [topSearches, setTopSearches] = useState([]);
   
+  // Video sequence states
+  const videos = [
+    '/images/House_tour_video_pan_door_202608161821.mp4',
+    '/images/Video_tour_of_house_rooms_202608161825.mp4'
+  ];
+  const [activeVideo, setActiveVideo] = useState(0);
+  const videoRefs = useRef([]);
+
+  const handleVideoEnded = () => {
+    const nextVideo = (activeVideo + 1) % videos.length;
+    setActiveVideo(nextVideo);
+    if (videoRefs.current[nextVideo]) {
+      videoRefs.current[nextVideo].currentTime = 0;
+      videoRefs.current[nextVideo].play().catch(() => {});
+    }
+  };
+
   // Typewriter effect states
   const [desktopLabelText, setDesktopLabelText] = useState('');
   const [mobileLabelText, setMobileLabelText] = useState('');
@@ -162,16 +179,22 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
 
   return (
     <section className='relative h-[100dvh] min-h-[100dvh]'>
-      {/* Background Image / Video Placeholder */}
-      <div className='absolute inset-0 z-0'>
-        <video
-          src='/images/House_tour_video_pan_door_202608161821.mp4'
-          autoPlay
-          loop
-          muted
-          playsInline
-          className='w-full h-full object-cover block'
-        />
+      {/* Background Video Sequence */}
+      <div className='absolute inset-0 z-0 bg-black'>
+        {videos.map((src, idx) => (
+          <video
+            key={src}
+            ref={el => videoRefs.current[idx] = el}
+            src={src}
+            autoPlay={idx === 0}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+              activeVideo === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          />
+        ))}
         <div
           className='absolute inset-0'
           style={{
