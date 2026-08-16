@@ -12,8 +12,8 @@ export const SITE_CONFIG = {
   contactAddress: 'Dirección pendiente',
   defaultCity: 'Argentina',
   defaultRegion: 'Argentina',
-  logoPath: '/images/logo-farias-placeholder.svg',
-  isoPath: '/images/isotipo-farias-placeholder.svg',
+  logoPath: '/images/farias_logo_no_bk.png',
+  isoPath: '/images/farias_logo_no_bk.png',
   analyticsHosts: [
     'farias-asociados.vercel.app',
     'fariasyasociados.com.ar',

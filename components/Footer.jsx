@@ -59,7 +59,7 @@ const Footer = ({
             <div className="flex flex-col gap-1">
               <Link href="/" className="inline-block mb-10">
                 <Image
-                  src="/images/logo-farias-placeholder.svg"
+                  src="/images/farias_logo_no_bk.png"
                   alt="Farias & Asociados"
                   width={200}
                   height={100}
@@ -257,7 +257,7 @@ const Footer = ({
           <div className="flex flex-col gap-2 mb-8">
             <Link href="/" className="inline-block">
               <Image
-                src="/images/logo-farias-placeholder.svg"
+                src="/images/farias_logo_no_bk.png"
                 alt="Farias & Asociados"
                 width={200}
                 height={100}

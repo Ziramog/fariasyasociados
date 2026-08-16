@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
 import { generateWhatsAppLink, PHONE_NUMBER, PHONE_DISPLAY } from '@/utils/whatsapp';
-import logo from '@/assets/images/logo-white.png';
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 import { trackWhatsappClick, trackPhoneClick } from '@/utils/analytics';
 
@@ -90,7 +89,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
           <Link className="flex items-center flex-shrink-0 group" href="/">
             <Image
               className="brightness-0 invert transition-all duration-300 group-hover:opacity-70"
-              src={!showIso ? '/images/logo-farias-placeholder.svg' : '/images/isotipo-farias-placeholder.svg'}
+              src={!showIso ? '/images/farias_logo_no_bk.png' : '/images/farias_logo_no_bk.png'}
               alt="Farias & Asociados"
               width={!showIso ? 277 : 120}
               height={!showIso ? 92 : 40}
@@ -203,7 +202,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
           <Link className="flex items-center flex-shrink-0" href="/">
             <Image
               className="brightness-0 invert"
-              src="/images/isotipo-farias-placeholder.svg"
+              src="/images/farias_logo_no_bk.png"
               alt="Farias & Asociados"
               width={120}
               height={40}

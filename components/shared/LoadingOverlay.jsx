@@ -13,7 +13,7 @@ const LoadingOverlay = () => {
         {/* Brand Name / Loading Text */}
         <div className="flex flex-col items-center gap-3">
           <Image
-            src="/images/logo-farias-placeholder.svg"
+            src="/images/farias_logo_no_bk.png"
             alt="Farias & Asociados"
             width={200}
             height={80}

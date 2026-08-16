@@ -41,7 +41,7 @@ const FullScreenLoader = ({ isUploading, isSuccess, error, onCloseError }) => {
         {/* Logo in the center */}
         <div className="absolute inset-0 m-auto w-24 h-24 rounded-full flex items-center justify-center p-2 bg-[#111] overflow-hidden shadow-xl">
           <Image 
-            src="/images/isotipo-farias-placeholder.svg" 
+            src="/images/farias_logo_no_bk.png" 
             alt="Farias & Asociados" 
             width={80} 
             height={80} 
