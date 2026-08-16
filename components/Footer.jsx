@@ -64,7 +64,7 @@ const Footer = ({
                   width={200}
                   height={100}
                   style={{ height: '100px', width: 'auto' }}
-                  className="brightness-0 invert"
+                  className=""
                 />
               </Link>
                   <ul>
@@ -262,7 +262,7 @@ const Footer = ({
                 width={200}
                 height={100}
                 style={{ height: '55px', width: 'auto' }}
-                className="brightness-0 invert"
+                className=""
               />
             </Link>
             <a href="https://www.google.com/maps/search/?api=1&query=Bv+Saenz+Pe%C3%B1a+2002%2C+San+Francisco%2C+AR" target="_blank" rel="noopener noreferrer" className="flex items-start gap-2 text-[13px] text-white/60 font-light mt-3 hover:text-white transition-colors" onClick={() => trackMapClick({ cta_location: 'footer_mobile', context: 'office_address' })}>

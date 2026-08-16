@@ -88,7 +88,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
           {/* Logo */}
           <Link className="flex items-center flex-shrink-0 group" href="/">
             <Image
-              className="brightness-0 invert transition-all duration-300 group-hover:opacity-70"
+              className="transition-all duration-300 group-hover:opacity-70"
               src={!showIso ? '/images/farias_logo_no_bk.png' : '/images/farias_logo_no_bk.png'}
               alt="Farias & Asociados"
               width={!showIso ? 277 : 120}
@@ -201,7 +201,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
           {/* Logo — isotipo */}
           <Link className="flex items-center flex-shrink-0" href="/">
             <Image
-              className="brightness-0 invert"
+              className=""
               src="/images/farias_logo_no_bk.png"
               alt="Farias & Asociados"
               width={120}
