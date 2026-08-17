@@ -50,10 +50,10 @@ const StatItem = ({ stat }) => {
           })}
         </div>
       )}
-      <h3 className="text-[40px] md:text-[60px] leading-none text-white font-normal tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+      <h3 className="text-[40px] md:text-[60px] leading-none text-white font-bold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
         {count}<span className="text-[var(--color-brand)]">{stat.suffix}</span>
       </h3>
-      <p className="text-[11px] md:text-[13px] leading-[24px] text-white/60 mt-3 uppercase tracking-[0.2em] font-medium" style={{ fontFamily: 'var(--font-body)' }}>
+      <p className="text-[11px] md:text-[13px] leading-[24px] text-white/60 mt-2 uppercase tracking-[0.2em] font-medium" style={{ fontFamily: 'var(--font-body)' }}>
         {stat.label}
       </p>
     </div>
@@ -74,7 +74,7 @@ const StatsBar = () => {
   ];
 
   return (
-    <section className="bg-gradient-to-b from-black to-[#0a0a0a] py-8 md:py-12 border-b border-white/[0.05]">
+    <section className="bg-black py-6 md:py-8 border-b border-white/[0.05]">
       <div className="max-w-[80vw] md:max-w-[60vw] mx-auto px-4 md:px-[50px]">
         <div className="flex justify-between items-center gap-4 md:gap-8">
           {STATS.map((stat, idx) => (
@@ -82,7 +82,7 @@ const StatsBar = () => {
               <StatItem stat={stat} />
               {/* Divider between items */}
               {idx < STATS.length - 1 && (
-                <div className="hidden md:block absolute right-[-20%] top-1/2 -translate-y-1/2 w-px h-16 bg-white/[0.08]" />
+                <div className="hidden md:block absolute right-[-20%] top-1/2 -translate-y-1/2 w-px h-10 bg-white/[0.08]" />
               )}
             </div>
           ))}
