@@ -222,7 +222,7 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
             >
-              <h1 className='font-display font-normal text-white leading-tight' style={{ fontSize: 'clamp(28px, 2.4vw, 38px)', lineHeight: 1.0 }}>
+              <h1 className='font-display font-normal text-white leading-tight' style={{ fontSize: 'clamp(42px, 3.6vw, 57px)', lineHeight: 1.0 }}>
                 {hasTwoLines ? (
                   <>
                     <span className="block mb-2">{line1},</span>
