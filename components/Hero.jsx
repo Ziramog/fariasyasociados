@@ -216,13 +216,14 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
           />
         )}
         {/* Title Area */}
-        <div className='w-full px-6 text-center flex flex-col items-center mt-auto md:mt-0 mb-[25px] md:mb-[80px] transition-all duration-500 shrink-0 md:translate-y-[15vh] relative z-[30]'>
+        <div className='w-full px-2 md:px-6 text-center flex flex-col items-center mt-auto md:mt-0 mb-[25px] md:mb-[80px] transition-all duration-500 shrink-0 md:translate-y-[15vh] relative z-[30]'>
             <motion.div
               initial={{ opacity: 0, y: -80 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="w-[95%] md:w-auto"
             >
-              <h1 className='font-display font-normal text-white leading-tight' style={{ fontSize: 'clamp(28px, 2.4vw, 38px)', lineHeight: 1.0 }}>
+              <h1 className='font-display font-normal text-white leading-tight' style={{ fontSize: 'clamp(20px, 5.5vw, 38px)', lineHeight: 1.1 }}>
                 {hasTwoLines ? (
                   <>
                     <span className="block mb-2">{line1},</span>

@@ -75,8 +75,8 @@ const StatsBar = () => {
 
   return (
     <section className="bg-black py-3 md:py-4 border-b border-white/[0.05]">
-      <div className="max-w-[80vw] md:max-w-[60vw] mx-auto px-4 md:px-[50px]">
-        <div className="flex justify-between items-center gap-4 md:gap-8">
+      <div className="max-w-[98vw] md:max-w-[60vw] mx-auto px-0 md:px-[50px]">
+        <div className="flex justify-center md:justify-between items-center gap-1 md:gap-8 w-full max-w-[100vw] overflow-hidden">
           {STATS.map((stat, idx) => (
             <div key={stat.label} className="flex-1 text-center relative">
               <StatItem stat={stat} />
