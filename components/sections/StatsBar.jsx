@@ -50,7 +50,7 @@ const StatItem = ({ stat }) => {
           })}
         </div>
       )}
-      <h3 className="text-[40px] md:text-[60px] leading-none text-white font-bold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
+      <h3 className="text-[40px] md:text-[60px] leading-none text-white font-normal tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
         {count}<span className="text-[var(--color-brand)]">{stat.suffix}</span>
       </h3>
       <p className="text-[11px] md:text-[13px] leading-[24px] text-white/60 mt-2 uppercase tracking-[0.2em] font-medium" style={{ fontFamily: 'var(--font-body)' }}>
