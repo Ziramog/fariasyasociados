@@ -36,24 +36,24 @@ const StatItem = ({ stat }) => {
   const isReviews = stat.label === 'Reseñas';
 
   return (
-    <div ref={ref} className="flex-1 text-center px-2">
+    <div ref={ref} className="flex-1 text-center px-2 relative group">
       {isReviews && (
-        <div className="flex justify-center gap-[2px] mb-1">
+        <div className="flex justify-center gap-1 mb-2">
           {[1, 2, 3, 4, 5].map((star) => {
             const fill = star <= 4 ? 'var(--color-brand)' : 'var(--color-brand)';
-            const opacity = star <= 4 ? 1 : 0.8;
+            const opacity = star <= 4 ? 1 : 0.4;
             return (
-              <svg key={star} viewBox="0 0 20 20" className="w-4 h-4 md:w-5 md:h-5" style={{ opacity }}>
+              <svg key={star} viewBox="0 0 20 20" className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:scale-110" style={{ opacity }}>
                 <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.33L10 13.88l-4.77 2.84.91-5.33L2.27 6.62l5.34-.78z" fill={fill} />
               </svg>
             );
           })}
         </div>
       )}
-      <h3 className="text-[40px] md:text-[60px] leading-none text-[var(--color-brand)] font-bold" style={{ fontFamily: 'var(--font-display)' }}>
-        {count}{stat.suffix}
+      <h3 className="text-[40px] md:text-[60px] leading-none text-white font-black tracking-tight" style={{ fontFamily: 'var(--font-body)' }}>
+        {count}<span className="text-[var(--color-brand)]">{stat.suffix}</span>
       </h3>
-      <p className="text-[14px] md:text-[18px] leading-[24px] text-black mt-2 md:mt-3" style={{ fontFamily: 'var(--font-body)' }}>
+      <p className="text-[11px] md:text-[13px] leading-[24px] text-white/60 mt-3 uppercase tracking-[0.2em] font-bold" style={{ fontFamily: 'var(--font-body)' }}>
         {stat.label}
       </p>
     </div>
@@ -74,17 +74,19 @@ const StatsBar = () => {
   ];
 
   return (
-    <section className="pb-[15px] pt-0">
-      <div className="bg-white w-full py-[15px] md:py-[25px]">
-      <div className="max-w-[60vw] mx-auto px-4 md:px-[50px]">
-        <div className="flex justify-center">
-          {STATS.map((stat) => (
-            <div key={stat.label} className="flex-1 text-center px-2">
+    <section className="bg-[#0a0a0a] py-12 md:py-20 border-y border-white/[0.05]">
+      <div className="max-w-[80vw] md:max-w-[60vw] mx-auto px-4 md:px-[50px]">
+        <div className="flex justify-between items-center gap-4 md:gap-8">
+          {STATS.map((stat, idx) => (
+            <div key={stat.label} className="flex-1 text-center relative">
               <StatItem stat={stat} />
+              {/* Divider between items */}
+              {idx < STATS.length - 1 && (
+                <div className="hidden md:block absolute right-[-20%] top-1/2 -translate-y-1/2 w-px h-16 bg-white/[0.08]" />
+              )}
             </div>
           ))}
         </div>
-      </div>
       </div>
     </section>
   );
