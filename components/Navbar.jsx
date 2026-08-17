@@ -94,9 +94,9 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
               className="transition-all duration-300 group-hover:opacity-70"
               src={!showIso ? '/images/logo_no_backgroud.png' : '/images/logo_only.png'}
               alt="Farias & Asociados"
-              width={!showIso ? 518 : 240}
-              height={!showIso ? 176 : 80}
-              style={{ height: !showIso ? '176px' : '80px', width: 'auto' }}
+              width={!showIso ? 259 : 240}
+              height={!showIso ? 88 : 80}
+              style={{ height: !showIso ? '88px' : '80px', width: 'auto' }}
             />
           </Link>
 
@@ -198,18 +198,18 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
         className={`md:hidden fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isGlassMode ? 'bg-black' : 'bg-transparent'
         }`}
-        style={{ height: 'calc(env(safe-area-inset-top, 8px) + 80px)' }}
+        style={{ height: (!isScrolled && !isMobileMenuOpen) ? 'calc(env(safe-area-inset-top, 8px) + 140px)' : 'calc(env(safe-area-inset-top, 8px) + 80px)' }}
       >
         <div className="flex items-center justify-between px-4 h-full">
           {/* Logo — isotipo */}
           <Link className="flex items-center flex-shrink-0" href="/">
             <Image
-              className=""
+              className="transition-all duration-300"
               src="/images/logo_only.png"
               alt="Farias & Asociados"
-              width={70}
-              height={70}
-              style={{ height: '70px', width: 'auto' }}
+              width={(!isScrolled && !isMobileMenuOpen) ? 140 : 70}
+              height={(!isScrolled && !isMobileMenuOpen) ? 140 : 70}
+              style={{ height: (!isScrolled && !isMobileMenuOpen) ? '120px' : '70px', width: 'auto' }}
             />
           </Link>
 
