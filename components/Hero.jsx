@@ -216,7 +216,7 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
           />
         )}
         {/* Title Area */}
-        <div className='w-full px-6 text-center flex flex-col items-center mb-auto md:mb-[80px] mt-auto md:mt-0 transition-all duration-500 shrink-0 md:translate-y-[15vh] relative z-[30]'>
+        <div className='w-full px-6 text-center flex flex-col items-center mt-auto md:mt-0 mb-[25px] md:mb-[80px] transition-all duration-500 shrink-0 md:translate-y-[15vh] relative z-[30]'>
             <motion.div
               initial={{ opacity: 0, y: -80 }}
               animate={{ opacity: 1, y: 0 }}
