@@ -198,18 +198,18 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
         className={`md:hidden fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isGlassMode ? 'bg-black' : 'bg-transparent'
         }`}
-        style={{ height: 'calc(env(safe-area-inset-top, 8px) + 60px)' }}
+        style={{ height: 'calc(env(safe-area-inset-top, 8px) + 80px)' }}
       >
         <div className="flex items-center justify-between px-4 h-full">
           {/* Logo — isotipo */}
           <Link className="flex items-center flex-shrink-0" href="/">
             <Image
               className=""
-              src="/images/farias_logo_no_bk.png"
+              src="/images/logo_only.png"
               alt="Farias & Asociados"
-              width={150}
-              height={50}
-              style={{ height: '50px', width: 'auto' }}
+              width={70}
+              height={70}
+              style={{ height: '70px', width: 'auto' }}
             />
           </Link>
 
@@ -238,8 +238,8 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
         <div
           className="md:hidden fixed inset-x-0 z-[110] bg-black flex flex-col overflow-x-hidden"
           style={{
-            top: 'calc(env(safe-area-inset-top, 8px) + 60px)',
-            height: 'calc(100dvh - env(safe-area-inset-top, 8px) - 60px)',
+            top: 'calc(env(safe-area-inset-top, 8px) + 80px)',
+            height: 'calc(100dvh - env(safe-area-inset-top, 8px) - 80px)',
             padding: '40px 12px calc(20px + env(safe-area-inset-bottom, 0px))',
             overflowY: 'auto',
             transformOrigin: 'top',

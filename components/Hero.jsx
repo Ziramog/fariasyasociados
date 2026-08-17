@@ -205,7 +205,7 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
       </div>
 
       {/* Content structured with Flexbox */}
-      <div className='relative z-10 h-full flex flex-col justify-center items-center px-0'>
+      <div className='relative z-10 h-full flex flex-col justify-end md:justify-center items-center px-0 pb-[80px] md:pb-0'>
         
         {/* Mobile overlay: fixed, covers entire viewport (moved inside z-10 context) */}
         {showMore && (
@@ -216,7 +216,7 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
           />
         )}
         {/* Title Area */}
-        <div className='w-full px-6 text-center flex flex-col items-center mb-[36px] md:mb-[80px] transition-all duration-500 shrink-0 translate-y-[8vh] md:translate-y-[15vh] relative z-[30]'>
+        <div className='w-full px-6 text-center flex flex-col items-center mb-auto md:mb-[80px] mt-auto md:mt-0 transition-all duration-500 shrink-0 md:translate-y-[15vh] relative z-[30]'>
             <motion.div
               initial={{ opacity: 0, y: -80 }}
               animate={{ opacity: 1, y: 0 }}
@@ -243,7 +243,7 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
           </div>
 
           {/* Search Bar */}
-          <div className='relative w-full z-[50] shrink-0 translate-y-[8vh] md:translate-y-[15vh]'>
+          <div className='relative w-full z-[50] shrink-0 md:translate-y-[15vh]'>
             <div
               className='mx-auto max-w-[1040px] w-full px-2 md:px-0'
               style={{ animation: 'fadeUp 0.7s var(--ease-out) 0.45s both' }}
