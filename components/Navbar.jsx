@@ -82,7 +82,10 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
         className={`hidden md:block fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isGlassMode ? 'bg-black shadow-lg shadow-black/20' : 'bg-transparent'
         }`}
-        style={{ paddingTop: 'calc(env(safe-area-inset-top, 8px) + 15px)', paddingBottom: '15px' }}
+        style={{
+          paddingTop: showIso ? 'calc(env(safe-area-inset-top, 8px) + 5px)' : 'calc(env(safe-area-inset-top, 8px) + 15px)',
+          paddingBottom: showIso ? '5px' : '15px'
+        }}
       >
         <div className="flex items-center px-4 md:px-[50px] h-full w-full">
           {/* Logo */}
