@@ -91,9 +91,9 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
               className="transition-all duration-300 group-hover:opacity-70"
               src={!showIso ? '/images/farias_logo_no_bk.png' : '/images/farias_logo_no_bk.png'}
               alt="Farias & Asociados"
-              width={!showIso ? 277 : 120}
-              height={!showIso ? 92 : 40}
-              style={{ height: !showIso ? '92px' : '40px', width: 'auto' }}
+              width={!showIso ? 390 : 120}
+              height={!showIso ? 130 : 40}
+              style={{ height: !showIso ? '130px' : '40px', width: 'auto' }}
             />
           </Link>
 
