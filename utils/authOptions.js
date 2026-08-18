@@ -45,6 +45,8 @@ export const authOptions = {
             const mongoUser = await User.findById(token.id).lean();
             if (!mongoUser) {
               console.error('[auth:jwt] CRITICAL: Token user no longer in DB, id:', token.id);
+            } else {
+              token.role = mongoUser.role;
             }
           } catch (err) {
             console.error('[auth:jwt] Error during refresh validation:', err);
