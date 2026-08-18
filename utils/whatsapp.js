@@ -1,4 +1,4 @@
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5490000000000';
+const WA_NUMBER = '5493564625246';
 
 const MESSAGES = {
   hero: 'Hola! Estoy buscando una propiedad. ¿Me pueden asesorar?',
@@ -39,5 +39,5 @@ ${url}`;
 
 /** Expose the canonical number for tel: links */
 export const WHATSAPP_NUMBER = WA_NUMBER;
-export const PHONE_NUMBER = process.env.NEXT_PUBLIC_CONTACT_PHONE || '+54 9 0000 000000';
-export const PHONE_DISPLAY = process.env.NEXT_PUBLIC_CONTACT_PHONE_DISPLAY || 'Teléfono pendiente';
+export const PHONE_NUMBER = '3564417598';
+export const PHONE_DISPLAY = '3564-417598';

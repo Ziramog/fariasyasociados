@@ -7,9 +7,9 @@ export const SITE_CONFIG = {
     'Farias & Asociados — Portal inmobiliario para compra, venta y alquiler de propiedades.',
   keywords:
     'inmobiliaria, propiedades, casas, departamentos, campos, terrenos, venta, alquiler, Argentina',
-  contactEmail: 'info@fariasyasociados.com.ar',
-  contactPhone: '+54 9 0000 000000',
-  contactAddress: 'Dirección pendiente',
+  contactEmail: 'fariasyasociados.inmobiliaria@gmail.com',
+  contactPhone: '3564625246',
+  contactAddress: 'Bv Saenz Peña 2002',
   defaultCity: 'Argentina',
   defaultRegion: 'Argentina',
   logoPath: '/images/farias_logo_no_bk.png',

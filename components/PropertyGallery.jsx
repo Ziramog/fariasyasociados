@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Gallery, Item } from 'react-photoswipe-gallery';
 import { LayoutGrid, LandPlot } from 'lucide-react';
 import { getAreaDisplay, getPriceDisplay } from '@/utils/propertyDisplay';
+import { generateWhatsAppLink } from '@/utils/whatsapp';
 import { trackWhatsappClick, trackMapClick } from '@/utils/analytics';
 
 const PropertyGallery = ({ images = [], property }) => {
@@ -209,7 +210,7 @@ const PropertyGallery = ({ images = [], property }) => {
                 </h2>
 
                 <a
-                  href={`https://api.whatsapp.com/send?phone=5493547563911&text=${encodeURIComponent(`Hola, me interesa la propiedad: ${property?.name || ''}`)}`}
+                  href={generateWhatsAppLink({ property })}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full text-white text-[15px] font-normal uppercase tracking-wider text-center py-3 px-[24px] rounded-[8px] transition-colors"
