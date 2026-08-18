@@ -4,7 +4,7 @@ import Map, { Marker, Popup, useMap } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { getPropertyImage } from '@/utils/propertyDisplay';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
-import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN } from '@/components/shared/MapConfig';
+import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN, computeMapCenter } from '@/components/shared/MapConfig';
 
 // ── Known city coordinates (geocoding fallback) ──
 const knownCities = {
@@ -141,7 +141,7 @@ const MapView = forwardRef(({ properties = [], onMarkerClick, selectedId }, ref)
     setPopupProperty(property);
   }, [onMarkerClick]);
 
-  const defaultCenter = [-64.4397, -31.6525]; // Alta Gracia [lng, lat]
+  const mapCenter = computeMapCenter(geocodedProps);
 
   if (geocodedProps.length === 0) {
     return (
@@ -183,8 +183,8 @@ const MapView = forwardRef(({ properties = [], onMarkerClick, selectedId }, ref)
     <MapProvider>
       {mapProvider === 'google' ? (
         <GoogleMap
-          defaultZoom={13}
-          defaultCenter={{ lat: defaultCenter[1], lng: defaultCenter[0] }}
+          defaultZoom={12}
+          defaultCenter={{ lat: mapCenter[1], lng: mapCenter[0] }}
           mapId={googleMapId}
           onIdle={(e) => setGoogleMapInstance(e.map)}
           disableDefaultUI={false}
@@ -244,8 +244,8 @@ const MapView = forwardRef(({ properties = [], onMarkerClick, selectedId }, ref)
           mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
           mapLib={import('mapbox-gl')}
           initialViewState={{
-            longitude: defaultCenter[0],
-            latitude: defaultCenter[1],
+            longitude: mapCenter[0],
+            latitude: mapCenter[1],
             zoom: 13,
           }}
           style={{ width: '100%', height: '100%' }}

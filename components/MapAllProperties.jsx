@@ -9,7 +9,7 @@ import PropertiesSearch from '@/components/PropertiesSearch';
 import ScrollReveal from '@/components/shared/ScrollReveal';
 import MapClusterLayer from '@/components/MapClusterLayer';
 import MapPropertySidebar from '@/components/MapPropertySidebar';
-import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN } from '@/components/shared/MapConfig';
+import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN, computeMapCenter } from '@/components/shared/MapConfig';
 import SectionTitle from '@/components/shared/SectionTitle';
 import MapProvider from '@/components/shared/MapProvider';
 import { Map as GoogleMap } from '@vis.gl/react-google-maps';
@@ -182,6 +182,28 @@ export default function MapAllProperties({ initialProperties = [] }) {
     return result;
   }, [allProps, activeFilters]);
 
+  const onMapboxLoad = useCallback((e) => {
+    const map = e.target;
+    if (filteredProps.length > 1) {
+      const bounds = filteredProps.reduce(
+        (acc, p) => {
+          if (!p.coords) return acc;
+          return [
+            [Math.min(acc[0][0], p.coords.lng), Math.min(acc[0][1], p.coords.lat)],
+            [Math.max(acc[1][0], p.coords.lng), Math.max(acc[1][1], p.coords.lat)],
+          ];
+        },
+        [[Infinity, Infinity], [-Infinity, -Infinity]]
+      );
+      if (bounds[0][0] !== Infinity) {
+        map.fitBounds(bounds, { padding: 80, maxZoom: 14, duration: 500 });
+      }
+    } else if (filteredProps.length === 1 && filteredProps[0].coords) {
+      map.flyTo({ center: [filteredProps[0].coords.lng, filteredProps[0].coords.lat], zoom: 14, duration: 500 });
+    }
+    updateVisibleCountMapbox();
+  }, [filteredProps]);
+
   const updateVisibleCountMapbox = useCallback(() => {
     if (!mapRef.current) return;
     const bounds = mapRef.current.getMap().getBounds();
@@ -199,8 +221,26 @@ export default function MapAllProperties({ initialProperties = [] }) {
     setVisibleCount(count);
   }, [filteredProps]);
 
+  const hasFittedBoundsRefGoogle = useRef(false);
+
   const updateVisibleCountGoogle = useCallback((map) => {
     if (!map) return;
+    
+    // Fit bounds once
+    if (!hasFittedBoundsRefGoogle.current && window.google && filteredProps.length > 0) {
+      if (filteredProps.length > 1) {
+        const b = new window.google.maps.LatLngBounds();
+        filteredProps.forEach(p => {
+          if (p.coords) b.extend(new window.google.maps.LatLng(p.coords.lat, p.coords.lng));
+        });
+        map.fitBounds(b);
+      } else if (filteredProps.length === 1 && filteredProps[0].coords) {
+        map.panTo({ lat: filteredProps[0].coords.lat, lng: filteredProps[0].coords.lng });
+        map.setZoom(14);
+      }
+      hasFittedBoundsRefGoogle.current = true;
+    }
+
     const bounds = map.getBounds();
     if (!bounds) return;
 
@@ -260,7 +300,10 @@ export default function MapAllProperties({ initialProperties = [] }) {
                   {mapProvider === 'google' ? (
                     <GoogleMap
                       defaultZoom={11}
-                      defaultCenter={{ lat: -31.6525, lng: -64.4397 }}
+                      defaultCenter={{
+                        lat: computeMapCenter(filteredProps)[1],
+                        lng: computeMapCenter(filteredProps)[0],
+                      }}
                       mapId={googleMapId}
                       onIdle={(e) => updateVisibleCountGoogle(e.map)}
                       disableDefaultUI={false}
@@ -277,13 +320,13 @@ export default function MapAllProperties({ initialProperties = [] }) {
                   ) : (
                     <MapboxMap
                       ref={mapRef}
-                      onLoad={updateVisibleCountMapbox}
+                      onLoad={onMapboxLoad}
                       onMove={updateVisibleCountMapbox}
                       mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
                       mapLib={mapboxgl}
                       initialViewState={{
-                        longitude: -64.4397,
-                        latitude: -31.6525,
+                        longitude: computeMapCenter(filteredProps)[0],
+                        latitude: computeMapCenter(filteredProps)[1],
                         zoom: 11,
                       }}
                       style={{ width: '100%', height: '100%' }}

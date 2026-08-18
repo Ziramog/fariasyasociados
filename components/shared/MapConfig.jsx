@@ -1,7 +1,6 @@
-/**
- * MapConfig
- * Standard map settings for all Mapbox instances across the app.
- * Import this in any component that renders <Map> to ensure consistent
+﻿/**
+ * Central configuration for map components.
+ * Allows easy switching of styles and default properties such as
  * scroll behavior, cooperative gestures, and attribution.
  */
 
@@ -16,3 +15,14 @@ export const MAP_DEFAULT_PROPS = {
   cooperativeGestures: true,
   attributionControl: false,
 };
+
+// Computes the center [lng, lat] from an array of properties with .coords
+export function computeMapCenter(props, defaultLngLat = [-64.4397, -31.6525]) {
+  if (!props || props.length === 0) return defaultLngLat;
+  const validProps = props.filter((p) => p && p.coords && typeof p.coords.lat === 'number' && typeof p.coords.lng === 'number');
+  if (validProps.length === 0) return defaultLngLat;
+  const sumLat = validProps.reduce((acc, p) => acc + p.coords.lat, 0);
+  const sumLng = validProps.reduce((acc, p) => acc + p.coords.lng, 0);
+  return [sumLng / validProps.length, sumLat / validProps.length];
+}
+
