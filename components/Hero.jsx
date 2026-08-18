@@ -10,10 +10,11 @@ const fullDesktopLabel = 'Ciudad, Localidad, Tipo de Inmueble y Palabra Clave';
 const fullMobileLabel = 'Ciudad, Localidad, Tipo de Inmueble y Palabra Clave';
 
 const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = '' }) => {
-  // Parse title if it contains a comma for the two-line effect
-  const [line1, ...rest] = title.split(',');
-  const line2 = rest.join(',').trim();
-  const hasTwoLines = !!line2;
+  // Parse title if it contains a comma or pipe for the two-line effect
+  const separator = title.includes('|') ? '|' : (title.includes(',') ? ',' : null);
+  const [line1, ...rest] = separator ? title.split(separator) : [title];
+  const line2 = separator ? rest.join(separator).trim() : '';
+  const hasTwoLines = !!separator;
 
   const router = useRouter();
   const [filters, setFilters] = useState({
@@ -223,10 +224,10 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
               className="w-[95%] md:w-auto"
             >
-              <h1 className='font-display font-normal text-white leading-tight' style={{ fontSize: 'clamp(20px, 5.5vw, 38px)', lineHeight: 1.1 }}>
+              <h1 className='font-display font-normal text-white leading-tight' style={{ fontSize: 'clamp(28px, 2.4vw, 38px)', lineHeight: 1.0 }}>
                 {hasTwoLines ? (
                   <>
-                    <span className="block mb-2">{line1},</span>
+                    <span className="block mb-2">{line1}{separator === ',' ? ',' : ''}</span>
                     <span className="block">{line2}</span>
                   </>
                 ) : (
