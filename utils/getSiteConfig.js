@@ -3,7 +3,7 @@ import SiteConfig from '@/models/SiteConfig';
 import { SITE_CONFIG } from '@/config/site';
 
 export const DEFAULT_SITE_CONFIG = {
-  heroTitle: 'Propiedades seleccionadas, asesoramiento de confianza',
+  heroTitle: 'Negocios Inmobiliarios Urbanos y Rurales',
   heroSubtitle: 'Farias & Asociados',
   aboutTitle: 'Farias & Asociados',
   aboutSubtitle: 'SERVICIOS INMOBILIARIOS',
