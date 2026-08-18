@@ -38,7 +38,7 @@ export function getPriceDisplay(property) {
       : parseFloat(property.price.replace(/[^0-9.]/g, ''));
     if (!isNaN(num) && num >= 1000) {
       const k = num / 1000;
-      return `U$D ${k % 1 === 0 ? k : k.toFixed(k < 10 ? 2 : 1)}k`;
+      return `U$D ${k % 1 === 0 ? k : k.toFixed(k < 10 ? 2 : 1)} K`;
     }
     if (!isNaN(num)) return `U$D ${num.toLocaleString('es-AR')}`;
   }
