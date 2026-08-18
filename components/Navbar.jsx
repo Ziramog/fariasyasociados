@@ -327,12 +327,12 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/inmobiliariafariasasociados" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Instagram">
+                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Instagram">
                   <img src="/senada/images/icons/ico_instagram.svg" alt="instagram" className="w-5 h-5" />
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/search/top?q=Inmobiliaria%20Farias%20%26%20Asociados" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Facebook">
+                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Facebook">
                   <img src="/senada/images/icons/ico_facebook.svg" alt="facebook" className="w-5 h-5" />
                 </a>
               </li>

@@ -223,12 +223,12 @@ const Footer = ({
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/search/top?q=Inmobiliaria%20Farias%20%26%20Asociados" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook">
+                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook">
                   <img src="/senada/images/icons/ico_facebook.svg" alt="facebook" className="w-[20px] h-[20px]" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/inmobiliariafariasasociados" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
+                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
                   <img src="/senada/images/icons/ico_instagram.svg" alt="instagram" className="w-[20px] h-[20px]" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
@@ -392,12 +392,12 @@ const Footer = ({
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/search/top?q=Inmobiliaria%20Farias%20%26%20Asociados" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook" onClick={() => trackSocialClick({ channel: 'facebook', cta_location: 'footer_mobile', context: 'social' })}>
+                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook" onClick={() => trackSocialClick({ channel: 'facebook', cta_location: 'footer_mobile', context: 'social' })}>
                   <img src="/senada/images/icons/ico_facebook.svg" alt="facebook" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/inmobiliariafariasasociados" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
+                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
                   <img src="/senada/images/icons/ico_instagram.svg" alt="instagram" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
