@@ -43,7 +43,7 @@ const PropertyDetails = ({ property }) => {
     property.operation === 'compra' ? 'Compra' : '';
 
   const rawPrice = property.price;
-  const numericPrice = rawPrice ? parseFloat(String(rawPrice).replace(/[^0-9.-]/g, '')) : null;
+  const numericPrice = rawPrice ? parseFloat(String(rawPrice).replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, '')) : null;
 
   const featureItems = [
     { label: 'Precio', value: numericPrice ? `U$D ${numericPrice.toLocaleString('es-AR')}` : 'Consultar' },

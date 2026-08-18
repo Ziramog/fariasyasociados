@@ -35,7 +35,7 @@ export function getPriceDisplay(property) {
     // Handle both string ('USD 320,000') and number prices
     let num = typeof property.price === 'number'
       ? property.price
-      : parseFloat(property.price.replace(/[^0-9.]/g, ''));
+      : parseFloat(String(property.price).replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, ''));
     if (!isNaN(num) && num >= 1000) {
       const k = num / 1000;
       return `U$D ${k % 1 === 0 ? k : k.toFixed(k < 10 ? 2 : 1)} K`;
