@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import Map, { Marker } from 'react-map-gl';
-import { MAP_DEFAULT_PROPS, MAP_STYLE } from '@/components/shared/MapConfig';
+import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN } from '@/components/shared/MapConfig';
 import Spinner from './Spinner';
 import MapProvider from '@/components/shared/MapProvider';
 import { Map as GoogleMap, AdvancedMarker } from '@vis.gl/react-google-maps';
@@ -159,7 +159,7 @@ const PropertyMap = ({ property }) => {
           <Map
             ref={mapRef}
             onLoad={onMapLoad}
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+            mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapLib={mapboxgl}
             initialViewState={{
               longitude: lng,

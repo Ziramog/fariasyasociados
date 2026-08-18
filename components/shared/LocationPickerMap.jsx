@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 import Map, { Marker, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
-import { MAP_DEFAULT_PROPS, MAP_STYLE } from './MapConfig';
+import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN } from './MapConfig';
 
 import MapProvider from '@/components/shared/MapProvider';
 import { Map as GoogleMap, AdvancedMarker, MapControl, ControlPosition } from '@vis.gl/react-google-maps';
@@ -110,7 +110,7 @@ export default function LocationPickerMap({ initialLat, initialLng, onLocationCh
           </GoogleMap>
         ) : (
           <Map
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+            mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapLib={mapboxgl}
             {...viewState}
             onMove={evt => setViewState(evt.viewState)}

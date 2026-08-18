@@ -5,6 +5,7 @@ import Map, { Marker } from 'react-map-gl';
 import Image from 'next/image';
 import pin from '@/assets/images/pin.svg';
 import Spinner from './Spinner';
+import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN } from '@/components/shared/MapConfig';
 
 const knownCities = {
   'Alta Gracia': [-31.6525, -64.4397],
@@ -146,7 +147,7 @@ const PropertyLocationTabs = ({ property }) => {
               </GoogleMap>
             ) : (
               <Map
-                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
                 mapLib={import('mapbox-gl')}
                 initialViewState={{ longitude: lng, latitude: lat, zoom: 15 }}
                 style={{ width: '100%', height: '100%' }}

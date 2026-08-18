@@ -4,6 +4,7 @@ import Map, { Marker, Popup, useMap } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { getPropertyImage } from '@/utils/propertyDisplay';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
+import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN } from '@/components/shared/MapConfig';
 
 // ── Known city coordinates (geocoding fallback) ──
 const knownCities = {
@@ -240,7 +241,7 @@ const MapView = forwardRef(({ properties = [], onMarkerClick, selectedId }, ref)
       ) : (
         <Map
           ref={mapRef}
-          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+          mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
           mapLib={import('mapbox-gl')}
           initialViewState={{
             longitude: defaultCenter[0],

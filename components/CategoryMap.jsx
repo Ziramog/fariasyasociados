@@ -7,7 +7,7 @@ import Map from 'react-map-gl';
 import { useRouter } from 'next/navigation';
 import MapClusterLayer from '@/components/MapClusterLayer';
 import MapPropertySidebar from '@/components/MapPropertySidebar';
-import { MAP_DEFAULT_PROPS, MAP_STYLE } from '@/components/shared/MapConfig';
+import { MAP_DEFAULT_PROPS, MAP_STYLE, MAPBOX_ACCESS_TOKEN } from '@/components/shared/MapConfig';
 
 
 const knownCities = {
@@ -196,7 +196,7 @@ const CategoryMap = ({ properties = [] }) => {
           <Map
             ref={mapRef}
             onLoad={onMapboxLoad}
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+            mapboxAccessToken={MAPBOX_ACCESS_TOKEN}
             mapLib={mapboxgl}
             initialViewState={initialViewState}
             style={{ width: '100%', height: '100%' }}
