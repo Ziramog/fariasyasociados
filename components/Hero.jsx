@@ -317,16 +317,14 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
               </form>
 
               {/* Popular locations */}
-              <div className='hidden md:flex items-center gap-3 mt-4'>
-                <span className='text-white text-xs font-medium uppercase tracking-wider flex-shrink-0'>Búsquedas Populares:</span>
-                {topSearches.length > 0 ? topSearches.map(s => (
-                  <a key={s.term} href={`/properties?city=${encodeURIComponent(s.term)}`} className='text-white/55 hover:text-white text-xs font-medium transition-colors px-3 py-1.5 border border-white/10 rounded-full hover:border-white/25'>{s.term}</a>
-                )) : (
-                  ['Alta Gracia','Córdoba','Villa Allende','Mina Clavero'].map(loc => (
-                    <a key={loc} href={`/properties?city=${encodeURIComponent(loc)}`} className='text-white/55 hover:text-white text-xs font-medium transition-colors px-3 py-1.5 border border-white/10 rounded-full hover:border-white/25'>{loc}</a>
-                  ))
-                )}
-              </div>
+              {topSearches.length > 0 && (
+                <div className='hidden md:flex items-center gap-3 mt-4'>
+                  <span className='text-white text-xs font-medium uppercase tracking-wider flex-shrink-0'>Búsquedas Populares:</span>
+                  {topSearches.map(s => (
+                    <a key={s.term} href={`/properties?city=${encodeURIComponent(s.term)}`} className='text-white/55 hover:text-white text-xs font-medium transition-colors px-3 py-1.5 border border-white/10 rounded-full hover:border-white/25'>{s.term}</a>
+                  ))}
+                </div>
+              )}
 
               {/* Mobile: input + button + toggle all fixed; filters expand via position absolute below */}
               <div className='md:hidden w-full relative bg-black rounded-xl px-4 pt-5 pb-[4px]'>
