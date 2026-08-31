@@ -10,9 +10,17 @@ import connectDB from '@/config/database';
 import Quotation from '@/models/Quotation';
 import QuotationActions from '@/components/admin/quotations/QuotationActions';
 import StatusSelector from '@/components/admin/quotations/StatusSelector';
+import PDFSettingsModal from '@/components/admin/quotations/PDFSettingsModal';
+import SiteConfig from '@/models/SiteConfig';
+import User from '@/models/User';
+import { getSessionUser } from '@/utils/getSessionUser';
 
 const AdminQuotationsPage = async () => {
   await connectDB();
+  const sessionUser = await getSessionUser();
+  const dbUser = sessionUser?.userId ? await User.findById(sessionUser.userId).lean() : null;
+  const config = await SiteConfig.findOne({}).lean();
+  
   const quotations = await Quotation.find({}).sort({ createdAt: -1 }).lean();
 
   const stats = {
@@ -28,10 +36,16 @@ const AdminQuotationsPage = async () => {
         Propuestas
         <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-[#444] text-[#888] text-[12px] font-bold cursor-help" title="Crea y gestiona presupuestos en PDF o web para tus clientes. Al generar una propuesta, puedes enviar un enlace seguro para que la aprueben.">?</span>
       </h1>
-      <Link href="/admin/quotations/new"
-        className="inline-block bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[12px] md:text-[13px] font-bold uppercase tracking-wider px-5 py-2.5 rounded-sm transition-colors mb-6">
-        + Nueva Propuesta
-      </Link>
+      <div className="flex items-center gap-2 mb-6">
+        <Link href="/admin/quotations/new"
+          className="inline-block bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[12px] md:text-[13px] font-bold uppercase tracking-wider px-5 py-2.5 rounded-sm transition-colors">
+          + Nueva Propuesta
+        </Link>
+        <PDFSettingsModal 
+          initialConfig={config ? JSON.parse(JSON.stringify(config)) : {}} 
+          user={{ agentName: dbUser?.agentName || '' }} 
+        />
+      </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">

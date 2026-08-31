@@ -6,58 +6,15 @@ import AgentNameForm from '@/components/AgentNameForm';
 import { HelpCircle } from 'lucide-react';
 export default function ProfileClient({ user, totalProps, payments, config: initialConfig }) {
   const [config, setConfig] = useState(initialConfig || {});
-  const [uploading, setUploading] = useState(false);
-  const [savingRate, setSavingRate] = useState(false);
-  const [savingSig, setSavingSig] = useState(false);
-  const [savingContact, setSavingContact] = useState(false);
-  const [rateValue, setRateValue] = useState(config?.exchangeRateARS || '');
-  const [contactData, setContactData] = useState({
+        const [savingContact, setSavingContact] = useState(false);
+    const [contactData, setContactData] = useState({
     contactEmail: config?.contactEmail || 'fariasyasociados.inmobiliaria@gmail.com',
     contactPhone: config?.contactPhone || '+54 9 3564 625246',
     contactAddress: config?.contactAddress || 'Bv Saenz Peña 2002, San Francisco, AR'
   });
-  const sigRef = useRef(null);
-
-  const handleLogoUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('logo', file);
-      const res = await fetch('/api/quotations/upload-logo', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (data.logoUrl) {
-        setConfig(prev => ({ ...prev, logoUrl: data.logoUrl }));
-      } else {
-        alert('Error: ' + (data.error || 'No se pudo subir el logo'));
-      }
-    } catch (err) {
-      alert('Error al subir logo: ' + err.message);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const saveExchangeRate = async () => {
-    setSavingRate(true);
-    try {
-      const res = await fetch('/api/site-config', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ exchangeRateARS: parseFloat(rateValue) || null }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setConfig(prev => ({ ...prev, exchangeRateARS: parseFloat(rateValue) || null }));
-      }
-    } catch (err) {
-      alert('Error: ' + err.message);
-    } finally {
-      setSavingRate(false);
-    }
-  };
-
+  
+  
+  
   const saveContactInfo = async () => {
     setSavingContact(true);
     try {
@@ -77,33 +34,8 @@ export default function ProfileClient({ user, totalProps, payments, config: init
     }
   };
 
-  const saveSignature = async () => {
-    setSavingSig(true);
-    try {
-      const dataUrl = sigRef.current?.toDataURL?.('image/png');
-      const isEmpty = !dataUrl || dataUrl === 'data:image/png;base64,';
-      const res = await fetch('/api/site-config', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ signatureBase64: isEmpty ? null : dataUrl }),
-      });
-      if (res.ok) {
-        setConfig(prev => ({ ...prev, signatureBase64: isEmpty ? null : dataUrl }));
-      } else {
-        const errData = await res.json();
-        alert('Error al guardar firma: ' + (errData.error || res.status));
-      }
-    } catch (err) {
-      alert('Error: ' + err.message);
-    } finally {
-      setSavingSig(false);
-    }
-  };
-
-  const clearSignaturePad = () => {
-    if (sigRef.current) sigRef.current.clear();
-  };
-
+  
+  
   const cardCls = 'bg-[#161616]/70 backdrop-blur-md border border-[#222] rounded-sm p-5 shadow-2xl';
   const labelCls = 'text-[11px] font-bold uppercase tracking-wider text-[#888] mb-1 block';
   const inputCls = 'w-full bg-[#0a0a0a] border border-[#333] rounded-sm px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-brand)] transition-colors placeholder:text-[#555]';
@@ -235,140 +167,6 @@ export default function ProfileClient({ user, totalProps, payments, config: init
             </div>
           </div>
         </div>
-
-        {/* ROW 2 */}
-        {/* 4. Configuración de Propuestas (PDF) */}
-        <div className={`${cardCls} md:col-span-2 xl:col-span-4 bg-gradient-to-br from-[#111] to-[#151515] border-[#222]`}>
-          <div className="flex items-center gap-1.5 mb-5 border-b border-[#222] pb-3">
-            <p className="text-[13px] font-bold uppercase tracking-wider text-[var(--color-brand)] mb-0">Configuración de Propuestas (PDF)</p>
-            <div className="relative group cursor-help flex items-center">
-              <HelpCircle className="w-3.5 h-3.5 text-[#888] hover:text-white transition-colors" />
-              <div className="absolute bottom-full left-0 mb-2 w-64 bg-[#0a0a0a] border border-[#333] rounded-sm p-3 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-[120]">
-                <p className="text-[11px] font-bold text-white uppercase tracking-wider mb-1.5 border-b border-[#222] pb-1">Impacto en PDFs</p>
-                <p className="text-[10.5px] text-[#aaa]">
-                  Estos datos construyen y personalizan exclusivamente las propuestas PDF que descargas para enviar a los clientes.
-                </p>
-                <div className="absolute top-full left-2 w-2 h-2 bg-[#0a0a0a] border-r border-b border-[#333] rotate-45"></div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-8">
-            {/* Agent Name */}
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5 mb-3">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-[#888] mb-0">Nombre del Agente</p>
-                <div className="relative group cursor-help flex items-center">
-                  <HelpCircle className="w-3.5 h-3.5 text-[#555] hover:text-[var(--color-brand)] transition-colors" />
-                  <div className="absolute bottom-full left-[-8px] mb-2 w-56 bg-[#0a0a0a] border border-[#333] rounded-sm p-3 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-[120]">
-                    <p className="text-[10px] text-[#aaa] m-0"><strong>Impacto:</strong> Se imprime en el pie de página de los PDF que generes, estableciendo al responsable de la propuesta.</p>
-                    <div className="absolute top-full left-3 w-2 h-2 bg-[#0a0a0a] border-r border-b border-[#333] rotate-45"></div>
-                  </div>
-                </div>
-              </div>
-              <AgentNameForm initialName={user?.agentName} />
-            </div>
-
-            {/* Logo */}
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5 mb-3">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-[#888] mb-0">Logo Inmobiliaria</p>
-                <div className="relative group cursor-help flex items-center">
-                  <HelpCircle className="w-3.5 h-3.5 text-[#555] hover:text-[var(--color-brand)] transition-colors" />
-                  <div className="absolute bottom-full left-[-8px] mb-2 w-56 bg-[#0a0a0a] border border-[#333] rounded-sm p-3 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-[120]">
-                    <p className="text-[10px] text-[#aaa] m-0"><strong>Impacto:</strong> Reemplaza el logotipo por defecto en la cabecera de todas las propuestas PDF, reforzando tu marca.</p>
-                    <div className="absolute top-full left-3 w-2 h-2 bg-[#0a0a0a] border-r border-b border-[#333] rotate-45"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-sm border border-[#333] flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
-                  {config.logoUrl ? (
-                    <img src={config.logoUrl} alt="Logo" className="object-contain w-full h-full" />
-                  ) : (
-                    <span className="text-[#555] text-[10px] text-center px-1">Sin logo</span>
-                  )}
-                </div>
-                <div>
-                  <label className={`${btnPrimary} cursor-pointer inline-block`}>
-                    {uploading ? 'Subiendo...' : 'Seleccionar'}
-                    <input type="file" accept="image/png,image/jpeg" className="hidden" onChange={handleLogoUpload} disabled={uploading} />
-                  </label>
-                  <p className="text-[10px] text-[#555] mt-1">PNG o JPG ideal</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Tipo de Cambio */}
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5 mb-3">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-[#888] mb-0">Tipo de Cambio</p>
-                <div className="relative group cursor-help flex items-center">
-                  <HelpCircle className="w-3.5 h-3.5 text-[#555] hover:text-[var(--color-brand)] transition-colors" />
-                  <div className="absolute bottom-full left-[-8px] mb-2 w-56 bg-[#0a0a0a] border border-[#333] rounded-sm p-3 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-[120]">
-                    <p className="text-[10px] text-[#aaa] m-0"><strong>Impacto:</strong> Convierte automáticamente todos los precios en dólares (USD) a pesos argentinos (ARS) dentro del PDF.</p>
-                    <div className="absolute top-full left-3 w-2 h-2 bg-[#0a0a0a] border-r border-b border-[#333] rotate-45"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="relative">
-                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[12px] text-[#666]">$</span>
-                  <input type="number" value={rateValue} onChange={(e) => setRateValue(e.target.value)}
-                    className={`${inputCls} w-28 pl-5`} placeholder="1200" min="0" step="1" />
-                </div>
-                <span className="text-[12px] text-[#666]">ARS/USD</span>
-                <button onClick={saveExchangeRate} disabled={savingRate} className={btnPrimary}>
-                  {savingRate ? '...' : 'Guardar'}
-                </button>
-              </div>
-              {config.exchangeRateARS && (
-                <p className="text-[11px] text-[#555] mt-2">Actual: $ {parseFloat(config.exchangeRateARS).toLocaleString('es-AR')}</p>
-              )}
-            </div>
-
-            {/* Signature */}
-            <div className="flex flex-col">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-1.5">
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#888] mb-0">Firma Digital</p>
-                  <div className="relative group cursor-help flex items-center">
-                    <HelpCircle className="w-3.5 h-3.5 text-[#555] hover:text-[var(--color-brand)] transition-colors" />
-                    <div className="absolute bottom-full left-[-8px] mb-2 w-56 bg-[#0a0a0a] border border-[#333] rounded-sm p-3 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-[120]">
-                      <p className="text-[10px] text-[#aaa] m-0"><strong>Impacto:</strong> Esta firma se adjuntará visualmente al final de las propuestas PDF como sello de autenticidad.</p>
-                      <div className="absolute top-full left-3 w-2 h-2 bg-[#0a0a0a] border-r border-b border-[#333] rotate-45"></div>
-                    </div>
-                  </div>
-                </div>
-                {config.signatureBase64 && (
-                  <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Guardada</span>
-                )}
-              </div>
-              <div className="border border-[#333] rounded-sm overflow-hidden mb-2 bg-white" style={{ filter: 'invert(1) hue-rotate(180deg)' }}>
-                <SignatureCanvas
-                  ref={sigRef}
-                  penColor="#1a1a1a"
-                  canvasProps={{ className: 'w-full', style: { width: '100%', height: 75 } }}
-                />
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex gap-2">
-                  <button onClick={clearSignaturePad} className={btnSecondary}>Limpiar</button>
-                  <button onClick={saveSignature} disabled={savingSig} className={btnPrimary}>
-                    {savingSig ? 'Guardando...' : 'Guardar'}
-                  </button>
-                </div>
-                {config.signatureBase64 && (
-                  <div className="w-16 p-1 bg-[#0a0a0a] border border-[#222] rounded-sm flex items-center justify-center flex-shrink-0">
-                    <img src={config.signatureBase64} alt="Firma" className="h-6 object-contain" />
-                  </div>
-                )}
-              </div>
-            </div>
-
-          </div>
-        </div>
-
       </div>
     </div>
   );
