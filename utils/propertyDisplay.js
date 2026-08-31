@@ -8,20 +8,27 @@
  * Houses/apartments → covered area.  Land/campo → total area (with hectare conversion).
  */
 export function getAreaDisplay(property) {
-  const isBuilding = ['Casa', 'Departamento', 'Inmueble Comercial'].includes(property.type);
+  const isLand = ['Campo', 'Lote', 'Terreno', 'Loteo'].includes(property.type);
+  const total = property.total_area ?? property.square_feet;
 
-  // Prefer covered_area for buildings
-  if (isBuilding && property.covered_area) {
+  if (isLand && total != null) {
+    if (total >= 10000) {
+      const has = total / 10000;
+      return has >= 1 ? `${has.toFixed(has % 1 === 0 ? 0 : 1)} has` : `${total.toLocaleString()} m²`;
+    }
+    return `${total.toLocaleString()} m²`;
+  }
+
+  if (property.covered_area) {
     return `${property.covered_area.toLocaleString()} m²`;
   }
 
-  // Fallback to square_feet (which is really total/lot area)
-  if (property.square_feet != null) {
-    if (property.square_feet >= 10000) {
-      const has = property.square_feet / 10000;
-      return has >= 1 ? `${has.toFixed(has % 1 === 0 ? 0 : 1)} has` : `${property.square_feet.toLocaleString()} m²`;
+  if (total != null) {
+    if (total >= 10000) {
+      const has = total / 10000;
+      return has >= 1 ? `${has.toFixed(has % 1 === 0 ? 0 : 1)} has` : `${total.toLocaleString()} m²`;
     }
-    return `${property.square_feet.toLocaleString()} m²`;
+    return `${total.toLocaleString()} m²`;
   }
 
   return null;

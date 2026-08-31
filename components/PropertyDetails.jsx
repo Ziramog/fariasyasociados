@@ -48,8 +48,8 @@ const PropertyDetails = ({ property }) => {
   const featureItems = [
     { label: 'Precio', value: numericPrice ? `U$D ${numericPrice.toLocaleString('es-AR')}` : 'Consultar' },
     { label: 'Superficie', value: getAreaDisplay(property) },
-    { label: 'Dormitorios', value: property.beds },
-    { label: 'Baños', value: property.baths },
+    { label: 'Dormitorios', value: property.beds || null },
+    { label: 'Baños', value: property.baths || null },
     { label: 'Cochera', value: property.garage != null ? property.garage : null },
     { label: 'Tipo', value: property.type },
     { label: 'Operación', value: operationLabel || null },
