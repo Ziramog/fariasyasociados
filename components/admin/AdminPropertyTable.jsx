@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import deleteProperty from '@/app/actions/deleteProperty';
 import { toast } from 'react-toastify';
 import { isGranInversion } from '@/utils/filterProperties';
+import SocialStoryGenerator from '@/components/admin/SocialStoryGenerator';
 
 const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = '', defaultGranInversion = false, defaultFeatured = '', defaultPublished = '' }) => {
   const router = useRouter();
@@ -252,6 +253,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                 </td>
                 <td className="px-3 md:px-6 py-3 text-right">
                   <div className="flex items-center justify-end gap-1 md:gap-2">
+                    <SocialStoryGenerator property={prop} />
                     <Link href={`/admin/properties/${prop._id}/edit`}
                       className="inline-flex items-center justify-center md:gap-1.5 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[13px] font-semibold w-8 h-8 md:w-auto md:px-4 md:py-2 rounded-sm transition-colors"
                       title="Editar">
@@ -344,6 +346,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                 </button>
               </div>
               <div className="flex items-center gap-2">
+                <SocialStoryGenerator property={prop} />
                 <Link href={`/admin/properties/${prop._id}/edit`}
                   className="inline-flex items-center justify-center w-8 h-8 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white rounded-sm transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
