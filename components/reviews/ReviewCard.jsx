@@ -34,7 +34,7 @@ export default function ReviewCard({ review, variant = 'default' }) {
     return (
       <Wrapper 
         {...wrapperProps}
-        className="relative flex flex-col h-full bg-[#F8F9FA] rounded-2xl p-6 md:p-8 transition-colors duration-300 block cursor-pointer" 
+        className="relative flex flex-col h-full bg-[#EAEAEA] rounded-2xl p-6 md:p-8 transition-colors duration-300 block cursor-pointer" 
         aria-label={`Reseña de ${review.authorName}`}
       >
         <p className="text-[15px] md:text-[16px] text-[#555] leading-[1.7] mb-5 md:mb-6 flex-1 italic line-clamp-4" style={{ fontFamily: 'var(--font-body)' }}>
@@ -57,7 +57,7 @@ export default function ReviewCard({ review, variant = 'default' }) {
   }
 
   return (
-    <article className="relative flex flex-col h-full bg-[#F8F9FA] rounded-2xl p-5 pb-6 transition-colors duration-300" aria-label={`Reseña de ${review.authorName}`}>
+    <article className="relative flex flex-col h-full bg-[#EAEAEA] rounded-2xl p-5 pb-6 transition-colors duration-300" aria-label={`Reseña de ${review.authorName}`}>
       <div className="flex items-center gap-3 mb-3">
         <AuthorAvatar name={review.authorName} photo={review.authorPhoto} />
         <div className="min-w-0 flex-1">
