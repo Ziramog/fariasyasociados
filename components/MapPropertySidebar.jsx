@@ -69,12 +69,12 @@ export default function MapPropertySidebar({ property, onClose }) {
   // Feature grid data
   const features = [
     { value: property.price || 'Consultar', label: 'Precio' },
-    { value: area || '-', label: 'Superficie' },
-    { value: property.type ? property.type.charAt(0).toUpperCase() + property.type.slice(1) : '-', label: 'Tipo' },
-    { value: property.beds != null ? property.beds : '-', label: 'Dormitorios' },
-    { value: property.baths != null ? property.baths : '-', label: 'Baños' },
-    { value: property.operation ? property.operation.charAt(0).toUpperCase() + property.operation.slice(1) : '-', label: 'Operación' },
-  ];
+    { value: area || null, label: 'Superficie' },
+    { value: property.type ? property.type.charAt(0).toUpperCase() + property.type.slice(1) : null, label: 'Tipo' },
+    { value: property.beds > 0 ? property.beds : null, label: 'Dormitorios' },
+    { value: property.baths > 0 ? property.baths : null, label: 'Baños' },
+    { value: property.operation ? property.operation.charAt(0).toUpperCase() + property.operation.slice(1) : null, label: 'Operación' },
+  ].filter(f => f.value !== null);
 
   return (
     <>

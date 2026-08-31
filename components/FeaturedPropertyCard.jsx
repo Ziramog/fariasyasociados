@@ -75,13 +75,13 @@ const FeaturedPropertyCard = ({ property }) => {
           {/* Features overlay — bottom */}
           <div className="absolute bottom-0 left-0 right-0 z-10 flex items-end gap-3 px-4 pb-4">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
-              {property.beds != null && (
+              {property.beds > 0 && (
                 <span className="flex items-center gap-1 text-white text-[14px] font-normal" style={{ fontFamily: 'var(--font-heading)' }}>
                   <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-5 h-5" />
                   {property.beds}
                 </span>
               )}
-              {property.baths != null && (
+              {property.baths > 0 && (
                 <span className="flex items-center gap-1 text-white text-[14px] font-normal" style={{ fontFamily: 'var(--font-heading)' }}>
                   <img src="/senada/images/icons/ico_bath.svg" alt="" className="w-5 h-5" />
                   {property.baths}

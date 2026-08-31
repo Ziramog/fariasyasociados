@@ -96,13 +96,13 @@ const PropertyDetail = ({ property, onClose }) => {
         </div>
 
         <div className="flex items-center gap-4 text-[13px] font-medium text-[var(--color-ink)] border-t-2 border-b-2 border-[var(--color-border-strong)] py-2.5">
-          {property.beds != null && (
+          {property.beds > 0 && (
             <span className="flex items-center gap-1.5">
               <FaBed className="w-4 h-4 text-[var(--color-ink-tertiary)]" />
               {property.beds} Dorm.
             </span>
           )}
-          {property.baths != null && (
+          {property.baths > 0 && (
             <span className="flex items-center gap-1.5">
               <FaBath className="w-4 h-4 text-[var(--color-ink-tertiary)]" />
               {property.baths} Baños
