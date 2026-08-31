@@ -33,18 +33,17 @@ const StatItem = ({ stat }) => {
     requestAnimationFrame(tick);
   }, [active, stat.value, stat.decimals]);
 
-  const isReviews = stat.label === 'Reseñas';
+  const isReviews = stat.label === 'Reseñas' || stat.label === 'Reseñas';
 
   return (
     <div ref={ref} className="flex-1 text-center px-2 relative group">
       {isReviews && (
         <div className="flex justify-center gap-1 mb-2">
           {[1, 2, 3, 4, 5].map((star) => {
-            const fill = star <= 4 ? 'var(--color-brand)' : 'var(--color-brand)';
-            const opacity = star <= 4 ? 1 : 0.4;
+            const opacity = star <= Math.round(stat.value) ? 1 : 0.4;
             return (
               <svg key={star} viewBox="0 0 20 20" className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:scale-110" style={{ opacity }}>
-                <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.33L10 13.88l-4.77 2.84.91-5.33L2.27 6.62l5.34-.78z" fill={fill} />
+                <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.33L10 13.88l-4.77 2.84.91-5.33L2.27 6.62l5.34-.78z" fill="var(--color-brand)" />
               </svg>
             );
           })}
