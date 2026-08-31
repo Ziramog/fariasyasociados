@@ -24,9 +24,9 @@ function AuthorAvatar({ name, photo }) {
 export default function ReviewCard({ review, variant = 'default' }) {
   if (variant === 'minimal') {
     const isManual = review.googlePlaceId === 'manual';
-    const Wrapper = isManual ? 'article' : 'a';
-    const wrapperProps = isManual ? {} : {
-      href: `https://search.google.com/local/reviews?placeid=${review.googlePlaceId}`,
+    const Wrapper = 'a';
+    const wrapperProps = {
+      href: isManual ? 'https://share.google/8SZWwrdcpABXibaZE' : `https://search.google.com/local/reviews?placeid=${review.googlePlaceId}`,
       target: '_blank',
       rel: 'noopener noreferrer'
     };
