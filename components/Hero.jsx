@@ -38,7 +38,8 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
   // Video sequence states
   const videos = [
     '/images/House_tour_video_pan_door_202608161821.mp4',
-    '/images/Video_tour_of_house_rooms_202608161825.mp4'
+    '/images/Video_tour_of_house_rooms_202608161825.mp4',
+    '/images/campo.mp4'
   ];
   const [activeVideo, setActiveVideo] = useState(0);
   const videoRefs = useRef([]);
