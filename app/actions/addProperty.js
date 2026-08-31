@@ -39,6 +39,11 @@ async function addProperty(prevState, formData) {
       }
     }
 
+    let sqft = formData.get('square_feet') || undefined;
+    if (sqft && formData.get('area_unit') === 'has') {
+      sqft = parseFloat(sqft) * 10000;
+    }
+
     // Create the propertyData object with embedded seller_info
     const propertyData = {
       type: formData.get('type'),
@@ -57,7 +62,8 @@ async function addProperty(prevState, formData) {
       } : undefined,
       beds: formData.get('beds') || undefined,
       baths: formData.get('baths') || undefined,
-      square_feet: formData.get('square_feet') || undefined,
+      square_feet: sqft,
+      total_area: sqft,
       covered_area: formData.get('covered_area') || undefined,
       amenities,
       owner: userId,

@@ -103,6 +103,11 @@ async function updateProperty(prevState, formData) {
       }
     }
 
+    let sqft = formData.get('square_feet') || undefined;
+    if (sqft && formData.get('area_unit') === 'has') {
+      sqft = parseFloat(sqft) * 10000;
+    }
+
     prop.set({
       type: formData.get('type'),
       name: formData.get('name'),
@@ -120,7 +125,8 @@ async function updateProperty(prevState, formData) {
       } : undefined,
       beds: formData.get('beds') || undefined,
       baths: formData.get('baths') || undefined,
-      square_feet: formData.get('square_feet') || undefined,
+      square_feet: sqft,
+      total_area: sqft,
       covered_area: formData.get('covered_area') || undefined,
       amenities,
       owner: userId,
