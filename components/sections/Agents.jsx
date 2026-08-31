@@ -21,17 +21,17 @@ const Agents = ({
   }, []);
 
   return (
-    <section className="pt-[12px] pb-[12px]" id="equipo" ref={ref}>
-      <SectionBox className="px-4 md:px-[50px] py-16 md:py-24">
+    <section className="bg-black py-16 md:py-24" id="equipo" ref={ref}>
+      <div className="max-w-[1820px] mx-auto px-4 md:px-[50px]">
         {/* Section Header — same pattern as Featured Properties */}
         <div className="text-center mb-10 md:mb-14 flex flex-col items-center">
           <ScrollReveal variant="fadeLeft">
-            <h2 className="text-[28px] md:text-[40px] font-normal text-[#0F172A] leading-tight mb-1" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h2 className="text-[28px] md:text-[40px] font-normal text-white leading-tight mb-1" style={{ fontFamily: 'var(--font-heading)' }}>
               {title}
             </h2>
           </ScrollReveal>
           {subtitle && (
-            <p className="text-[12px] md:text-[14px] text-[#475569] tracking-[0.2em] uppercase font-light mb-6">
+            <p className="text-[12px] md:text-[14px] text-white/60 tracking-[0.2em] uppercase font-light mb-6">
               {subtitle}
             </p>
           )}
@@ -48,11 +48,11 @@ const Agents = ({
         <div className={`max-w-2xl mx-auto text-justify transition-all duration-500 ${
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`} style={{ transitionDelay: '100ms' }}>
-          <p className="text-[16px] md:text-[18px] font-light text-[#475569] leading-[1.8]" style={{ fontFamily: 'var(--font-body)' }}>
+          <p className="text-[16px] md:text-[18px] font-light text-white/80 leading-[1.8]" style={{ fontFamily: 'var(--font-body)' }}>
             {text}
           </p>
         </div>
-      </SectionBox>
+      </div>
     </section>
   );
 };
