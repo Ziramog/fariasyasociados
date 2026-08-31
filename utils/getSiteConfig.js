@@ -8,7 +8,7 @@ export const DEFAULT_SITE_CONFIG = {
   aboutTitle: 'Farias & Asociados',
   aboutSubtitle: 'SERVICIOS INMOBILIARIOS',
   aboutText:
-    'En Farías y Asociados somos especialistas en el mercado inmobiliario urbano y rural. Ofrecemos un servicio integral que incluye administración de alquileres, venta de propiedades y campos, y tasaciones residenciales e industriales. Contamos con un equipo de tasadores profesionales listo para asesorarte en cada etapa, ya sea que quieras vender, alquilar o valuar tu propiedad.',
+    'En Farías y Asociados somos una inmobiliaria con 16 años de trayectoria, especialistas en el mercado urbano y rural principalmente en la ciudad de San Francisco y zona de influencia dentro de la provincia de Córdoba. Ofrecemos un servicio integral que abarca la administración de alquileres, venta de propiedades y campos, y tasaciones residenciales e industriales. Contamos con un equipo de tasadores profesionales listos para asesorarte en cada etapa, ya sea que quieras vender, alquilar o valuar tu propiedad.',
   footerDescription: 'En Farias & Asociados te acompañamos en cada paso de tu operación inmobiliaria.',
   contactEmail: SITE_CONFIG.contactEmail,
   contactPhone: SITE_CONFIG.contactPhone,
