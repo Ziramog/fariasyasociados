@@ -13,8 +13,7 @@ export default async function ReviewsSection() {
     [reviews, businessInfo] = await Promise.all([
       Review.find({
         featured: true,
-        hidden: false,
-        authorPhoto: { $ne: null, $ne: "" }
+        hidden: false
       })
         .sort({ priority: -1, publishTime: -1 })
         .limit(8)
