@@ -4,7 +4,6 @@ import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { Image as ImageIcon, Download, X } from 'lucide-react';
 import Image from 'next/image';
-import logo from '@/assets/images/logo.png';
 
 export default function SocialStoryGenerator({ property }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -128,8 +127,8 @@ export default function SocialStoryGenerator({ property }) {
                 <div className="relative z-10 flex flex-col h-full p-[80px]">
                   {/* Top: Logo & Label */}
                   <div className="flex justify-between items-start">
-                    <div className="w-[250px] bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                      <Image src={logo} alt="Logo" width={400} height={400} className="w-full h-auto object-contain brightness-0 invert" />
+                    <div className="w-[250px] p-6">
+                      <Image src="/images/logo_only.png" alt="Logo" width={400} height={400} className="w-full h-auto object-contain" />
                     </div>
                     <div className="bg-[var(--color-brand)] text-white text-[42px] font-black uppercase tracking-[0.2em] px-10 py-5 rounded-sm">
                       {op}
