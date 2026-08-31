@@ -69,12 +69,12 @@ export default function ReviewsCarousel({ reviews, googleRating, totalRatings })
 
   return (
     <section className="pt-[12px] pb-[12px]">
-      <div className="bg-white w-full pt-[30px] pb-[30px] md:pt-[60px] md:pb-[70px]">
+      <div className="bg-[#0A0F1C] w-full pt-[30px] pb-[30px] md:pt-[60px] md:pb-[70px]">
         <div className="max-w-[1820px] mx-auto px-4 md:px-[50px]">
 
           <div className="text-center mb-10 md:mb-14">
             <ScrollReveal variant="fadeLeft">
-              <h2 className="text-[28px] md:text-[40px] font-normal text-[#0F172A] leading-tight mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+              <h2 className="text-[28px] md:text-[40px] font-normal text-white leading-tight mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
                 Lo que dicen nuestros clientes
               </h2>
             </ScrollReveal>
@@ -87,10 +87,10 @@ export default function ReviewsCarousel({ reviews, googleRating, totalRatings })
             </div>
             {googleRating && (
               <div className="mt-4">
-                <span className="text-[14px] text-zinc-500">
-                  <span className="font-semibold text-zinc-900">{googleRating.toFixed(1)}</span>
+                <span className="text-[14px] text-white/60">
+                  <span className="font-semibold text-white">{googleRating.toFixed(1)}</span>
                   {totalRatings && (
-                    <span className="text-zinc-400"> — {totalRatings} reseñas en Google</span>
+                    <span className="text-white/40"> — {totalRatings} reseñas en Google</span>
                   )}
                 </span>
               </div>
@@ -125,7 +125,7 @@ export default function ReviewsCarousel({ reviews, googleRating, totalRatings })
                   className={`h-2 rounded-full transition-all duration-300 ${
                     i === activeIndex
                       ? 'bg-[var(--color-brand)] w-7'
-                      : 'bg-zinc-200 w-2 hover:bg-zinc-300'
+                      : 'bg-white/20 w-2 hover:bg-white/40'
                   }`}
                   aria-label={`Ir a reseña ${i + 1}`}
                 />
