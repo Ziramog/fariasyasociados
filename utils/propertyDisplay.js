@@ -11,6 +11,17 @@ export function getAreaDisplay(property) {
   const isLand = ['Campo', 'Lote', 'Terreno', 'Loteo'].includes(property.type);
   const total = property.total_area ?? property.square_feet;
 
+  if (property.type === 'Campo' && total != null) {
+    // Si es campo y el valor es "chico", asumimos que ya está en hectáreas.
+    // Si supera los 10000, asumimos que lo cargaron en m2 (ej: 110000 m2 = 11 has)
+    // a menos que realmente vendan un campo de más de 10.000 hectáreas.
+    if (total > 10000) {
+      const has = total / 10000;
+      return `${has.toFixed(has % 1 === 0 ? 0 : 1)} has`;
+    }
+    return `${total.toLocaleString()} has`;
+  }
+
   if (isLand && total != null) {
     if (total >= 10000) {
       const has = total / 10000;
