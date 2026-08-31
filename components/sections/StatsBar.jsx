@@ -62,15 +62,19 @@ const StatItem = ({ stat }) => {
 
 const StatsBar = () => {
   const [propertyCount, setPropertyCount] = useState(500);
+  const [reviewStats, setReviewStats] = useState({ count: 20, average: 4.8 });
 
   useEffect(() => {
     getPropertyCount().then(setPropertyCount);
+    import('@/app/actions/getReviewStats').then(module => {
+      module.default().then(setReviewStats);
+    });
   }, []);
 
   const STATS = [
     { value: propertyCount, suffix: '+', label: 'Propiedades' },
     { value: 20, suffix: '+', label: 'Años de experiencia' },
-    { value: 4.8, suffix: '', label: 'Reseñas', decimals: 1 },
+    { value: reviewStats.average, suffix: '', label: 'Reseñas', decimals: 1 },
   ];
 
   return (
