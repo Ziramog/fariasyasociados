@@ -157,13 +157,13 @@ const PropertyGallery = ({ images = [], property }) => {
 
               {/* Features row */}
               <div className="flex gap-[20px] md:gap-[40px] flex-wrap items-center">
-                {beds != null && (
+                {beds > 0 && (
                   <span className="flex items-center gap-[6px] md:gap-[10px] text-white font-normal text-[16px] md:text-[22px]">
                     <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-5 h-5 md:w-[30px] md:h-[25px]" />
                     {beds}
                   </span>
                 )}
-                {baths != null && (
+                {baths > 0 && (
                   <span className="flex items-center gap-[6px] md:gap-[10px] text-white font-normal text-[16px] md:text-[22px]">
                     <img src="/senada/images/icons/ico_bath.svg" alt="" className="w-5 h-5 md:w-[30px] md:h-[25px]" />
                     {baths}
