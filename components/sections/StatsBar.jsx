@@ -72,7 +72,7 @@ const StatsBar = () => {
 
   const STATS = [
     { value: propertyCount, suffix: '+', label: 'Propiedades' },
-    { value: 20, suffix: '+', label: 'Años de experiencia' },
+    { value: 16, suffix: '+', label: 'Años de experiencia' },
     { value: reviewStats.average, suffix: '', label: 'Reseñas', decimals: 1 },
   ];
 
