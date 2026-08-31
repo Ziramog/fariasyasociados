@@ -8,7 +8,7 @@ export const DEFAULT_SITE_CONFIG = {
   aboutTitle: 'Farias & Asociados',
   aboutSubtitle: 'SERVICIOS INMOBILIARIOS',
   aboutText:
-    'Acompañamos operaciones inmobiliarias con atención personalizada, información clara y una selección de propiedades para compra, venta y alquiler.',
+    'En Farías y Asociados somos especialistas en el mercado inmobiliario urbano y rural. Ofrecemos un servicio integral que incluye administración de alquileres, venta de propiedades y campos, y tasaciones residenciales e industriales. Contamos con un equipo de tasadores profesionales listo para asesorarte en cada etapa, ya sea que quieras vender, alquilar o valuar tu propiedad.',
   footerDescription: 'En Farias & Asociados te acompañamos en cada paso de tu operación inmobiliaria.',
   contactEmail: SITE_CONFIG.contactEmail,
   contactPhone: SITE_CONFIG.contactPhone,
