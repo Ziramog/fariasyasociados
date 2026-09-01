@@ -2,8 +2,9 @@
 
 import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
-import { Image as ImageIcon, Download, X } from 'lucide-react';
+import { Image as ImageIcon, Download, X, LandPlot } from 'lucide-react';
 import Image from 'next/image';
+import { getAreaDisplay } from '@/utils/propertyDisplay';
 
 export default function SocialStoryGenerator({ property }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,17 +17,24 @@ export default function SocialStoryGenerator({ property }) {
   const city = property?.location?.city || '';
   const title = property?.name || '';
   
-  // Format for specs
-  const specs = [];
-  if (property.beds) specs.push(`${property.beds} Dorm`);
-  if (property.baths) specs.push(`${property.baths} Baños`);
-  if (property.square_feet) {
-    if (property.square_feet >= 10000 && property.type === 'Campo') {
-      specs.push(`${property.square_feet / 10000} Has`);
-    } else {
-      specs.push(`${property.square_feet} m²`);
-    }
-  }
+  const displayArea = getAreaDisplay(property);
+  const isLand = ['Terreno', 'Campo', 'Gran Inversión'].includes(property?.type);
+  
+  const operationLabel =
+    property?.operation === 'venta' ? 'Venta' :
+    property?.operation === 'alquiler' ? 'Alquiler' :
+    property?.operation === 'compra' ? 'Compra' : '';
+
+  const statusMap = {
+    'PRECIO MEJORADO': 'Precio Mejorado',
+    'ULTIMA UNIDAD': 'Última Unidad',
+    'UNICO EN SU TIPO': 'Única en su Tipo',
+    'MEJOR PRECIO': 'Mejor Precio del Mercado',
+    'NUEVA': 'Nueva',
+    'EXCELENTE PRECIO': 'Excelente Precio',
+    'AMOBLADA': 'Amoblada',
+  };
+  const statusLabel = statusMap[property?.status];
 
   const handleDownload = async () => {
     if (!printRef.current) return;
@@ -84,7 +92,7 @@ export default function SocialStoryGenerator({ property }) {
             <p><span className="text-[#888]">Operación:</span> <strong className="text-white">{op}</strong></p>
             <p><span className="text-[#888]">Precio:</span> <strong className="text-white">{price}</strong></p>
             <p><span className="text-[#888]">Ubicación:</span> <strong className="text-white">{city}</strong></p>
-            <p><span className="text-[#888]">Detalles:</span> <strong className="text-white">{specs.join(' | ')}</strong></p>
+            <p><span className="text-[#888]">Detalles:</span> <strong className="text-white">{property.beds ? `${property.beds} Dorm | ` : ''}{property.baths ? `${property.baths} Baños | ` : ''}{displayArea}</strong></p>
           </div>
           
           <button 
@@ -124,9 +132,9 @@ export default function SocialStoryGenerator({ property }) {
                 </div>
                 
                 {/* Content */}
-                <div className="relative z-10 flex flex-col h-full p-[80px]">
+                <div className="relative z-10 flex flex-col h-full">
                   {/* Top: Logo & Label */}
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start p-[80px]">
                     <div className="w-[250px] p-6">
                       <Image src="/images/logo_only.png" alt="Logo" width={400} height={400} className="w-full h-auto object-contain" />
                     </div>
@@ -135,28 +143,56 @@ export default function SocialStoryGenerator({ property }) {
                     </div>
                   </div>
 
-                  {/* Bottom: Info Grid */}
-                  <div className="mt-auto w-full bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-12 rounded-[40px] shadow-2xl flex flex-col gap-8 mb-4">
-                    <div>
-                      <p className="text-[var(--color-brand)] text-[36px] font-bold uppercase tracking-widest mb-2">{city}</p>
-                      <h1 className="text-white text-[70px] font-black leading-[1.1]">{title}</h1>
+                  {/* Bottom: Signature Info Section */}
+                  <div className="mt-auto w-full bg-[#000]/95 backdrop-blur-xl px-[60px] py-[60px] flex flex-col gap-8 text-white">
+                    <h1 className="text-[55px] leading-[1.1] font-normal" style={{ fontFamily: 'var(--font-heading)' }}>{title}</h1>
+                    
+                    <div className="flex items-center gap-3 text-[#b8b8b8] text-[28px]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                      </svg>
+                      <span>
+                        {property?.location?.street}{property?.location?.street && city ? ', ' : ''}
+                        {city}{city && property?.location?.state ? ', ' : ''}
+                        {property?.location?.state}
+                      </span>
                     </div>
-                    
-                    <div className="h-[1px] w-full bg-white/10" />
-                    
-                    <div className="flex flex-col gap-6">
-                      <div className="flex flex-wrap gap-4">
-                        {specs.map((s, i) => (
-                          <div key={i} className="bg-[#1a1a1a] border border-[#333] px-6 py-4 rounded-xl flex items-center gap-3">
-                            <div className="w-3 h-3 rounded-full bg-[var(--color-brand)]" />
-                            <span className="text-white/90 text-[35px] font-medium">{s}</span>
-                          </div>
-                        ))}
+
+                    <div className="flex justify-between items-end mt-4">
+                      <div className="flex gap-[40px] items-center">
+                        {property.beds > 0 && (
+                          <span className="flex items-center gap-[15px] font-normal text-[38px]" style={{ fontFamily: 'var(--font-heading)' }}>
+                            <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-[40px] h-[40px]" />
+                            {property.beds}
+                          </span>
+                        )}
+                        {property.baths > 0 && (
+                          <span className="flex items-center gap-[15px] font-normal text-[38px]" style={{ fontFamily: 'var(--font-heading)' }}>
+                            <img src="/senada/images/icons/ico_bath.svg" alt="" className="w-[40px] h-[40px]" />
+                            {property.baths}
+                          </span>
+                        )}
+                        {displayArea && (
+                          <span className="flex items-center gap-[15px] font-normal text-[38px]" style={{ fontFamily: 'var(--font-heading)' }}>
+                            {isLand ? (
+                               <LandPlot className="w-[40px] h-[40px] text-white" strokeWidth={1.5} />
+                            ) : (
+                               <img src="/senada/images/icons/ico_sqfoot.svg" alt="" className="w-[40px] h-[40px]" />
+                            )}
+                            {displayArea}
+                          </span>
+                        )}
                       </div>
-                      
-                      <div className="mt-4 bg-white text-black self-start px-10 py-6 rounded-2xl flex flex-col">
-                        <span className="text-[24px] font-bold uppercase tracking-widest text-[#666]">Precio</span>
-                        <span className="text-[75px] font-black leading-none">{price}</span>
+
+                      <div className="text-right">
+                         <span className="text-[75px] font-bold leading-none" style={{ fontFamily: 'var(--font-heading)' }}>{price}</span>
+                         {(operationLabel || statusLabel) && (
+                           <div className="mt-2 text-[#b8b8b8] text-[24px] flex flex-col items-end">
+                              {operationLabel && <span>Operación <span className="text-white">{operationLabel}</span></span>}
+                              {statusLabel && <span>Estado <span className="text-white">{statusLabel}</span></span>}
+                           </div>
+                         )}
                       </div>
                     </div>
                   </div>
