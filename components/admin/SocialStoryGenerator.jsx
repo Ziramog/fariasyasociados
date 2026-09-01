@@ -123,22 +123,20 @@ export default function SocialStoryGenerator({ property }) {
                 {/* Main Background Image */}
                 <div className="absolute inset-0">
                   {mainImage ? (
-                    <img src={mainImage} alt="" className="w-full h-full object-cover opacity-80" crossOrigin="anonymous" />
+                    <img src={mainImage} alt="" className="w-full h-full object-cover" crossOrigin="anonymous" />
                   ) : (
                     <div className="w-full h-full bg-[#222]" />
                   )}
-                  {/* Gradient Overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black" />
                 </div>
                 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Top: Logo & Label */}
                   <div className="flex justify-between items-start p-[80px]">
-                    <div className="w-[250px] p-6">
-                      <Image src="/images/logo_only.png" alt="Logo" width={400} height={400} className="w-full h-auto object-contain" />
+                    <div className="w-[380px]">
+                      <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    <div className="bg-[var(--color-brand)] text-white text-[42px] font-black uppercase tracking-[0.2em] px-10 py-5 rounded-sm">
+                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase tracking-[0.25em] px-12 py-6 rounded-[30px] shadow-[0_15px_30px_rgba(0,0,0,0.4)] border-2 border-white/40">
                       {op}
                     </div>
                   </div>
