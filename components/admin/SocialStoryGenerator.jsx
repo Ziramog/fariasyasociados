@@ -135,27 +135,29 @@ export default function SocialStoryGenerator({ property }) {
                     </div>
                   </div>
 
-                  {/* Bottom: Info */}
-                  <div className="mt-auto flex flex-col gap-8 pb-10">
+                  {/* Bottom: Info Grid */}
+                  <div className="mt-auto w-full bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 p-12 rounded-[40px] shadow-2xl flex flex-col gap-8 mb-4">
                     <div>
-                      <p className="text-[var(--color-brand)] text-[40px] font-bold uppercase tracking-widest mb-2 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">{city}</p>
-                      <h1 className="text-white text-[80px] font-black leading-[1.1] max-w-[900px] shadow-black drop-shadow-2xl">{title}</h1>
+                      <p className="text-[var(--color-brand)] text-[36px] font-bold uppercase tracking-widest mb-2">{city}</p>
+                      <h1 className="text-white text-[70px] font-black leading-[1.1]">{title}</h1>
                     </div>
                     
-                    <div className="h-[2px] w-[200px] bg-[var(--color-brand)]" />
+                    <div className="h-[1px] w-full bg-white/10" />
                     
-                    <div className="flex items-center gap-6 text-[45px] font-semibold text-white/90">
-                      {specs.map((s, i) => (
-                        <div key={i} className="flex items-center gap-6">
-                          <span>{s}</span>
-                          {i < specs.length - 1 && <div className="w-3 h-3 rounded-full bg-[var(--color-brand)]" />}
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <div className="mt-8 bg-white text-black self-start px-12 py-6 rounded-sm flex flex-col">
-                      <span className="text-[30px] font-bold uppercase tracking-widest text-[#666]">Precio</span>
-                      <span className="text-[85px] font-black leading-none">{price}</span>
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-wrap gap-4">
+                        {specs.map((s, i) => (
+                          <div key={i} className="bg-[#1a1a1a] border border-[#333] px-6 py-4 rounded-xl flex items-center gap-3">
+                            <div className="w-3 h-3 rounded-full bg-[var(--color-brand)]" />
+                            <span className="text-white/90 text-[35px] font-medium">{s}</span>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="mt-4 bg-white text-black self-start px-10 py-6 rounded-2xl flex flex-col">
+                        <span className="text-[24px] font-bold uppercase tracking-widest text-[#666]">Precio</span>
+                        <span className="text-[75px] font-black leading-none">{price}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
