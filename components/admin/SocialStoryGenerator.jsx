@@ -120,7 +120,7 @@ export default function SocialStoryGenerator({ property }) {
                     <div className="w-full h-full bg-[#222]" />
                   )}
                   {/* Gradient Overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black" />
                 </div>
                 
                 {/* Content */}
@@ -138,7 +138,7 @@ export default function SocialStoryGenerator({ property }) {
                   {/* Bottom: Info */}
                   <div className="mt-auto flex flex-col gap-8 pb-10">
                     <div>
-                      <p className="text-[var(--color-brand)] text-[40px] font-bold uppercase tracking-widest mb-2">{city}</p>
+                      <p className="text-[var(--color-brand)] text-[40px] font-bold uppercase tracking-widest mb-2 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">{city}</p>
                       <h1 className="text-white text-[80px] font-black leading-[1.1] max-w-[900px] shadow-black drop-shadow-2xl">{title}</h1>
                     </div>
                     
