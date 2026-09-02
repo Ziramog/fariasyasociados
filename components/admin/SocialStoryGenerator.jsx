@@ -189,32 +189,32 @@ export default function SocialStoryGenerator({ property }) {
                 {/* Content */}
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Top: Logo & Label */}
-                  <div className="flex justify-between items-start p-[80px]">
+                  <div className="flex justify-between items-center p-[80px]">
                     <div className="w-[380px]">
                       <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase tracking-[0.25em] px-12 py-6 rounded-[30px] shadow-[0_15px_30px_rgba(0,0,0,0.4)] border-2 border-white/40">
+                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase px-12 h-[100px] flex items-center justify-center rounded-[30px] border-4 border-white/20" style={{ letterSpacing: '8px' }}>
                       {op}
                     </div>
                   </div>
                   {/* Bottom: Signature Info Section */}
                   <div className="mt-auto w-full bg-black/95 px-[60px] py-[60px] flex flex-col text-white">
-                    <h1 className="text-[55px] leading-[1.2] font-normal text-white mb-8" style={{ fontFamily: 'Georgia, serif', letterSpacing: 'normal' }}>{title}</h1>
+                    <h1 className="text-[55px] leading-[1.2] font-normal text-white mb-8" style={{ fontFamily: 'Georgia, serif', letterSpacing: 'normal', textAlign: 'right' }}>{title}</h1>
                     
-                    <div className="flex items-center text-[#b8b8b8] text-[28px] mb-8" style={{ fontFamily: 'Arial, sans-serif', letterSpacing: 'normal' }}>
+                    <div className="flex items-center justify-end text-[#b8b8b8] text-[28px] mb-12" style={{ fontFamily: 'Arial, sans-serif', letterSpacing: 'normal' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" className="mr-4 flex-shrink-0">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                       </svg>
-                      <div>
+                      <div className="text-right">
                         {property?.location?.street}{property?.location?.street && city ? ', ' : ''}
                         {city}{city && property?.location?.state ? ', ' : ''}
                         {property?.location?.state}
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-end mt-4">
-                      <div className="flex items-center">
+                    <div className="flex justify-between items-end">
+                      <div className="flex items-center mt-auto">
                         {property.beds > 0 && (
                           <div className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
                             <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
@@ -239,8 +239,8 @@ export default function SocialStoryGenerator({ property }) {
                         )}
                       </div>
 
-                      <div className="text-right">
-                         <div className="text-[75px] font-bold leading-[1.1] mb-2" style={{ fontFamily: 'Georgia, serif' }}>{price}</div>
+                      <div className="text-right flex flex-col items-end justify-end">
+                         <div className="text-[75px] font-bold leading-[1] mb-3" style={{ fontFamily: 'Georgia, serif' }}>{price}</div>
                          {(operationLabel || statusLabel) && (
                            <div className="text-[#b8b8b8] text-[24px] flex flex-col items-end" style={{ fontFamily: 'Arial, sans-serif' }}>
                               {operationLabel && <div>Operación <span className="text-white">{operationLabel}</span></div>}
