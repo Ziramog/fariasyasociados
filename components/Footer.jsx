@@ -142,15 +142,15 @@ const Footer = ({
                       ))}
                     </ul>
                   </li>
-                  {/* DESTACADAS */}
+                  {/* OPORTUNIDADES */}
                   <li>
                     <span className="block text-[15px] text-white uppercase font-bold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
-                      DESTACADAS
+                      OPORTUNIDADES
                     </span>
                     <ul>
                       <li>
                         <Link href="/#propiedades-destacadas" className="block text-[13px] text-white/70 font-light py-[5px] pr-[10px] hover:text-white transition-colors">
-                          Nuestra Selección
+                          Elegidas especiales
                         </Link>
                       </li>
                     </ul>
@@ -323,11 +323,11 @@ const Footer = ({
                 ))}
               </div>
             </div>
-            {/* DESTACADAS */}
+            {/* OPORTUNIDADES */}
             <div>
-              <span className="block text-[15px] text-white uppercase font-bold mb-3" style={{ fontFamily: 'var(--font-heading)' }}>DESTACADAS</span>
+              <span className="block text-[15px] text-white uppercase font-bold mb-3" style={{ fontFamily: 'var(--font-heading)' }}>OPORTUNIDADES</span>
               <Link href="/#propiedades-destacadas" className="text-[13px] text-white/60 font-light py-[3px] hover:text-white transition-colors">
-                Nuestra Selección
+                Elegidas especiales
               </Link>
             </div>
             {/* Newsletter */}

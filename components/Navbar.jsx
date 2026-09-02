@@ -103,7 +103,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
           {/* Main Nav — Senada .mainMenu */}
           <nav className="desktop-dropdown flex items-center gap-8 lg:gap-10 ml-auto">
             <Link href="/#propiedades-destacadas" className="text-white hover:text-[var(--color-brand)] transition-colors text-[15px] font-normal tracking-[0.02em] uppercase">
-              DESTACADAS
+              OPORTUNIDADES
             </Link>
 
               <div className="relative" onMouseEnter={() => openDropdown('props')} onMouseLeave={closeDropdown}>
@@ -250,9 +250,9 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
           }}
         >
           <nav className="flex-1 flex flex-col px-0">
-            {/* Destacadas */}
+            {/* Oportunidades */}
             <Link href="/properties" className={`block text-white text-[22px] py-[15px] border-b border-white/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.4s' }} onClick={() => setIsMobileMenuOpen(false)}>
-              Destacadas
+              Oportunidades
             </Link>
 
             {/* Propiedades — expandable */}

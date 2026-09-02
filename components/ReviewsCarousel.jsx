@@ -75,13 +75,13 @@ export default function ReviewsCarousel({ reviews, googleRating, totalRatings })
           <div className="text-center mb-10 md:mb-14">
             <ScrollReveal variant="fadeLeft">
               <h2 className="text-[28px] md:text-[40px] font-normal text-[#0F172A] leading-tight mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
-                Lo que dicen nuestros clientes
+                Historias reales de quienes ya nos eligieron.
               </h2>
             </ScrollReveal>
             <div className="flex items-center justify-center gap-3">
               <span className="w-7 h-px bg-[var(--color-brand)] flex-shrink-0" />
               <p className="text-[13px] md:text-[15px] font-medium text-[var(--color-brand)] uppercase tracking-[0.15em]">
-                Experiencias reales
+                Confianza que se Traduce en Resultados
               </p>
               <span className="w-7 h-px bg-[var(--color-brand)] flex-shrink-0" />
             </div>
@@ -110,7 +110,7 @@ export default function ReviewsCarousel({ reviews, googleRating, totalRatings })
               {reviews.map((review) => (
                 <div
                   key={review.id}
-                  className="flex-shrink-0 w-[85vw] md:w-[calc(33.333%-14px)] snap-start"
+                  className="flex-shrink-0 w-[85vw] md:w-[calc(25%-15px)] snap-start"
                 >
                   <ReviewCard review={review} variant="minimal" />
                 </div>
