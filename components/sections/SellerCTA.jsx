@@ -16,10 +16,10 @@ const SellerCTA = () => {
               {/* Background image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85')" }}
+                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=85')" }}
               />
               {/* Dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1C1C1A]/90 via-[#1C1C1A]/80 to-[#2A2A27]/85" />
+              <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/75 to-zinc-900/90" />
               {/* Glass layer */}
               <div className="absolute inset-0 backdrop-blur-[2px]" />
 
@@ -67,10 +67,10 @@ const SellerCTA = () => {
               {/* Background image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=85')" }}
+                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1503174971373-b1f69850bded?w=1200&q=85')" }}
               />
               {/* Dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1C1C1A]/90 via-[#1C1C1A]/80 to-[#2A2A27]/85" />
+              <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/75 to-zinc-900/90" />
               {/* Glass layer */}
               <div className="absolute inset-0 backdrop-blur-[2px]" />
 
@@ -117,10 +117,10 @@ const SellerCTA = () => {
               {/* Background image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=85')" }}
+                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=85')" }}
               />
               {/* Dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1C1C1A]/90 via-[#1C1C1A]/80 to-[#2A2A27]/85" />
+              <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/75 to-zinc-900/90" />
               {/* Glass layer */}
               <div className="absolute inset-0 backdrop-blur-[2px]" />
 
