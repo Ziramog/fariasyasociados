@@ -58,8 +58,11 @@ export default function SocialStoryGenerator({ property }) {
       top: '0',
       width: '1080px',
       height: '1920px',
+      minWidth: '1080px',
+      maxWidth: '1080px',
       transform: 'none',
       zIndex: '-1',
+      overflow: 'hidden',
     });
 
     document.body.appendChild(clone);
@@ -86,6 +89,8 @@ export default function SocialStoryGenerator({ property }) {
         scale: 1,
         width: 1080,
         height: 1920,
+        windowWidth: 1080,
+        windowHeight: 1920,
         allowTaint: true,
         backgroundColor: '#000000',
       });
