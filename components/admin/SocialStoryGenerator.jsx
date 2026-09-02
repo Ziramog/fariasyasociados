@@ -143,7 +143,7 @@ export default function SocialStoryGenerator({ property }) {
 
                   {/* Bottom: Signature Info Section */}
                   <div className="mt-auto w-full bg-[#000]/95 backdrop-blur-xl px-[60px] py-[60px] flex flex-col gap-8 text-white">
-                    <h1 className="text-[55px] leading-[1.1] font-normal" style={{ fontFamily: 'var(--font-heading)' }}>{title}</h1>
+                    <h1 className="text-[55px] leading-[1.1] font-normal text-white" style={{ fontFamily: 'var(--font-heading)' }}>{title}</h1>
                     
                     <div className="flex items-center gap-3 text-[#b8b8b8] text-[28px]">
                       <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5">
