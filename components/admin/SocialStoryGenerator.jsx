@@ -193,9 +193,6 @@ export default function SocialStoryGenerator({ property }) {
                     <div className="w-[380px]">
                       <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase px-12 h-[100px] flex items-center justify-center rounded-[30px] border-4 border-white/20" style={{ letterSpacing: '8px' }}>
-                      {op}
-                    </div>
                   </div>
                   {/* Bottom: Signature Info Section */}
                   <div className="mt-auto w-full bg-black/95 px-[60px] py-[60px] flex flex-col text-white">
