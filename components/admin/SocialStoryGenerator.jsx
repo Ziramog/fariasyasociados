@@ -247,8 +247,11 @@ export default function SocialStoryGenerator({ property }) {
                       letterSpacing: 6,
                       paddingLeft: 40,
                       paddingRight: 40,
-                      paddingTop: 16,
-                      paddingBottom: 16,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: 85,
+                      lineHeight: 1,
                       borderRadius: 24,
                       border: '3px solid rgba(255,255,255,0.3)',
                     }}>
