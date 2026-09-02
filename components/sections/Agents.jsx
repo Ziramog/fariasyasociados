@@ -38,7 +38,7 @@ const Agents = ({
           <div className="flex items-center justify-center gap-3">
             <span className="w-7 h-px bg-[var(--color-brand)] flex-shrink-0" />
             <p className="text-[13px] md:text-[15px] font-medium text-[var(--color-brand)] uppercase tracking-[0.15em]">
-              Nuestra Historia
+              Quienes Somos
             </p>
             <span className="w-7 h-px bg-[var(--color-brand)] flex-shrink-0" />
           </div>

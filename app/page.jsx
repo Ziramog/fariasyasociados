@@ -137,7 +137,7 @@ const HomePage = async () => {
         <Agents 
           title={siteConfig.aboutTitle} 
           subtitle={siteConfig.aboutSubtitle} 
-          text={siteConfig.aboutText} 
+          text="Somos una inmobiliaria con 16 años de trayectoria, especialistas en el mercado urbano y rural principalmente en la ciudad de San Francisco y zona de influencia dentro de la provincia de Córdoba. Ofrecemos un servicio integral que abarca la administración de alquileres, venta de propiedades y campos, y tasaciones residenciales e industriales. Contamos con un equipo de tasadores profesionales listos para asesorarte en cada etapa, ya sea que quieras vender, alquilar o valuar tu propiedad." 
         />
       </div>
 
