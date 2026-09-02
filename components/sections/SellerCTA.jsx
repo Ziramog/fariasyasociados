@@ -53,7 +53,7 @@ const SellerCTA = () => {
                   href={generateWhatsAppLink({ context: 'seller' })}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-full h-[52px] bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-[6px] text-sm font-bold uppercase tracking-[0.06em] transition-[background-color,transform] duration-200 hover:-translate-y-px"
+                  className="inline-flex items-center justify-center w-full h-[52px] bg-white/10 hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] backdrop-blur-sm border border-white/20 text-white rounded-[6px] text-sm font-bold uppercase tracking-[0.06em] transition-all duration-300 hover:-translate-y-px"
                 >
                   Solicitar tasación gratuita
                 </a>
@@ -103,7 +103,7 @@ const SellerCTA = () => {
                 {/* Ghost Button */}
                 <a
                   href="/properties"
-                  className="inline-flex items-center justify-center w-full h-[52px] bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-[6px] text-sm font-bold uppercase tracking-[0.06em] transition-[background-color,transform] duration-200 hover:-translate-y-px"
+                  className="inline-flex items-center justify-center w-full h-[52px] bg-white/10 hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] backdrop-blur-sm border border-white/20 text-white rounded-[6px] text-sm font-bold uppercase tracking-[0.06em] transition-all duration-300 hover:-translate-y-px"
                 >
                   Buscar inversión
                 </a>
@@ -151,7 +151,7 @@ const SellerCTA = () => {
                   href="https://wa.me/5493547596631?text=Hola%2C%20estoy%20buscando%20alquilar%20una%20propiedad.%20¿Podrían%20ayudarme%3F"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-full h-[52px] bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-[6px] text-sm font-bold uppercase tracking-[0.06em] transition-[background-color,transform] duration-200 hover:-translate-y-px"
+                  className="inline-flex items-center justify-center w-full h-[52px] bg-white/10 hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] backdrop-blur-sm border border-white/20 text-white rounded-[6px] text-sm font-bold uppercase tracking-[0.06em] transition-all duration-300 hover:-translate-y-px"
                 >
                   Dejar mi info acá
                 </a>
