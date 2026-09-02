@@ -39,7 +39,17 @@ export default function SocialStoryGenerator({ property }) {
   const handleDownload = async () => {
     if (!printRef.current) return;
     setLoading(true);
+    
+    // WORKAROUND for html2canvas text overlapping bug with transform: scale()
+    // We temporarily remove the scale from the parent before taking the screenshot.
+    const parent = printRef.current.parentElement;
+    const originalTransform = parent.style.transform;
+    parent.style.transform = 'none';
+    
     try {
+      // Wait for layout to recalculate
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       const canvas = await html2canvas(printRef.current, {
         useCORS: true,
         scale: 1, // 1080x1920 is already big enough
@@ -55,6 +65,8 @@ export default function SocialStoryGenerator({ property }) {
       console.error(err);
       alert('Error al generar la imagen');
     } finally {
+      // Restore the scale
+      parent.style.transform = originalTransform;
       setLoading(false);
     }
   };
