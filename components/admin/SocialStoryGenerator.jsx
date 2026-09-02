@@ -133,11 +133,16 @@ export default function SocialStoryGenerator({ property }) {
               {/* The Actual Canvas Content */}
               <div ref={printRef} className="w-[1080px] h-[1920px] bg-black relative flex flex-col overflow-hidden">
                 {/* Main Background Image */}
-                <div className="absolute inset-0">
-                  {mainImage ? (
-                    <img src={mainImage} alt="" className="w-full h-full object-cover" crossOrigin="anonymous" />
-                  ) : (
-                    <div className="w-full h-full bg-[#222]" />
+                <div className="absolute inset-0 bg-[#222]">
+                  {mainImage && (
+                    <div 
+                      className="w-full h-full"
+                      style={{
+                        backgroundImage: `url(${mainImage})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    />
                   )}
                 </div>
                 
@@ -148,7 +153,7 @@ export default function SocialStoryGenerator({ property }) {
                     <div className="w-[380px]">
                       <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase px-12 py-6 rounded-[30px] shadow-[0_15px_30px_rgba(0,0,0,0.4)] border-2 border-white/40" style={{ letterSpacing: '8px' }}>
+                    <div className="text-white text-[45px] font-black uppercase px-12 py-6 rounded-[20px] border-[3px] border-white/60" style={{ letterSpacing: '8px', backgroundColor: '#F26B2E' }}>
                       {op}
                     </div>
                   </div>
