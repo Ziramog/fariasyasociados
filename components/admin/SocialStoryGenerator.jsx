@@ -36,23 +36,62 @@ export default function SocialStoryGenerator({ property }) {
   };
   const statusLabel = statusMap[property?.status];
 
+  /* ────────────────────────────────────────────
+   * CAPTURE FIX:
+   * The preview uses CSS transform:scale() to fit 1080×1920 on screen.
+   * html2canvas can't handle that — it distorts the output.
+   *
+   * Solution: clone the canvas node, append it to <body> at full size
+   * but off-screen (left:-9999px), capture the clone, then remove it.
+   * This guarantees a pixel-perfect 1080×1920 capture every time.
+   * ──────────────────────────────────────────── */
   const getCanvas = async () => {
     if (!printRef.current) return null;
-    const parent = printRef.current.parentElement;
-    const originalTransform = parent.style.transform;
-    parent.style.transform = 'none';
-    
+
+    // Clone the entire canvas DOM
+    const clone = printRef.current.cloneNode(true);
+
+    // Position off-screen at full 1080×1920
+    Object.assign(clone.style, {
+      position: 'fixed',
+      left: '-9999px',
+      top: '0',
+      width: '1080px',
+      height: '1920px',
+      transform: 'none',
+      zIndex: '-1',
+    });
+
+    document.body.appendChild(clone);
+
+    // Wait for images inside the clone to load
+    const images = clone.querySelectorAll('img');
+    await Promise.all(
+      Array.from(images).map(
+        (img) =>
+          new Promise((resolve) => {
+            if (img.complete) return resolve();
+            img.onload = resolve;
+            img.onerror = resolve;
+          })
+      )
+    );
+
+    // Small extra delay for layout
+    await new Promise((r) => setTimeout(r, 200));
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      const canvas = await html2canvas(printRef.current, {
+      const canvas = await html2canvas(clone, {
         useCORS: true,
-        scale: 1, 
+        scale: 1,
+        width: 1080,
+        height: 1920,
         allowTaint: true,
         backgroundColor: '#000000',
       });
       return canvas;
     } finally {
-      parent.style.transform = originalTransform;
+      document.body.removeChild(clone);
     }
   };
 
@@ -164,86 +203,146 @@ export default function SocialStoryGenerator({ property }) {
 
         {/* Right Side: Preview */}
         <div className="w-full md:w-2/3 bg-[#0a0a0a] flex items-center justify-center p-4 relative overflow-hidden">
-          {/* We use CSS transform to scale down the 1080x1920 div so it fits the screen while keeping real pixels for html2canvas */}
           <div className="relative" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div 
               style={{
                 width: 1080,
                 height: 1920,
-                transform: 'scale(min(0.35, 1))', /* visually scale down */
+                transform: 'scale(min(0.35, 1))',
                 transformOrigin: 'center center',
               }}
               className="absolute shadow-2xl"
             >
-              {/* The Actual Canvas Content */}
-              <div ref={printRef} className="w-[1080px] h-[1920px] bg-black relative flex flex-col overflow-hidden">
+              {/* The Actual Canvas Content — ref={printRef} */}
+              <div ref={printRef} style={{ width: 1080, height: 1920, position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#000' }}>
                 {/* Main Background Image */}
-                <div className="absolute inset-0">
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
                   {mainImage ? (
-                    <img src={mainImage} alt="" className="w-full h-full object-cover" crossOrigin="anonymous" />
+                    <img src={mainImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} crossOrigin="anonymous" />
                   ) : (
-                    <div className="w-full h-full bg-[#222]" />
+                    <div style={{ width: '100%', height: '100%', backgroundColor: '#222' }} />
                   )}
                 </div>
                 
-                {/* Content */}
-                <div className="relative z-10 flex flex-col h-full">
-                  {/* Top: Logo & Label */}
-                  <div className="flex justify-between items-center p-[80px]">
-                    <div className="w-[380px]">
-                      <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
+                {/* Content overlay */}
+                <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  {/* Top: Logo & Operation Label */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: 80 }}>
+                    <div style={{ width: 380 }}>
+                      <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
+                    </div>
+                    {/* Operation badge — simple solid styles only, no CSS shadows */}
+                    <div style={{
+                      backgroundColor: 'var(--color-brand)',
+                      color: '#fff',
+                      fontSize: 42,
+                      fontWeight: 900,
+                      fontFamily: 'Arial, sans-serif',
+                      textTransform: 'uppercase',
+                      letterSpacing: 6,
+                      paddingLeft: 40,
+                      paddingRight: 40,
+                      paddingTop: 16,
+                      paddingBottom: 16,
+                      borderRadius: 24,
+                      border: '3px solid rgba(255,255,255,0.3)',
+                    }}>
+                      {op}
                     </div>
                   </div>
-                  {/* Bottom: Signature Info Section */}
-                  <div className="mt-auto w-full bg-black/95 px-[60px] py-[60px] flex flex-col text-white">
-                    <h1 className="text-[55px] leading-[1.2] font-normal text-white mb-8" style={{ fontFamily: 'Georgia, serif', letterSpacing: 'normal', textAlign: 'right' }}>{title}</h1>
+
+                  {/* Bottom: Info Section */}
+                  <div style={{
+                    marginTop: 'auto',
+                    width: '100%',
+                    backgroundColor: 'rgba(0,0,0,0.92)',
+                    paddingLeft: 60,
+                    paddingRight: 60,
+                    paddingTop: 55,
+                    paddingBottom: 55,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    color: '#fff',
+                  }}>
+                    {/* Title */}
+                    <div style={{
+                      fontSize: 52,
+                      lineHeight: 1.15,
+                      fontWeight: 400,
+                      fontFamily: 'Georgia, serif',
+                      color: '#fff',
+                      textAlign: 'center',
+                      marginBottom: 20,
+                    }}>
+                      {title}
+                    </div>
                     
-                    <div className="flex items-center justify-end text-[#b8b8b8] text-[28px] mb-12" style={{ fontFamily: 'Arial, sans-serif', letterSpacing: 'normal' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" className="mr-4 flex-shrink-0">
+                    {/* Location */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#b8b8b8',
+                      fontSize: 26,
+                      fontFamily: 'Arial, sans-serif',
+                      marginBottom: 40,
+                    }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" style={{ marginRight: 10, flexShrink: 0 }}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                       </svg>
-                      <div className="text-right">
+                      <span>
                         {property?.location?.street}{property?.location?.street && city ? ', ' : ''}
                         {city}{city && property?.location?.state ? ', ' : ''}
                         {property?.location?.state}
+                      </span>
+                    </div>
+
+                    {/* Price row */}
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 16 }}>
+                      <div style={{ fontSize: 80, fontWeight: 700, lineHeight: 1, fontFamily: 'Georgia, serif', color: '#fff', textAlign: 'center' }}>
+                        {price}
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-end">
-                      <div className="flex items-center mt-auto">
+                    {/* Bottom row: amenities left, operation/status right */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
                         {property.beds > 0 && (
-                          <div className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
-                            <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
+                          <div style={{ display: 'flex', alignItems: 'center', fontSize: 36, fontFamily: 'Georgia, serif', marginRight: 35 }}>
+                            <img src="/senada/images/icons/ico_bed.svg" alt="" style={{ width: 38, height: 38, marginRight: 12 }} />
                             <span>{property.beds}</span>
                           </div>
                         )}
                         {property.baths > 0 && (
-                          <div className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
-                            <img src="/senada/images/icons/ico_bath.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
+                          <div style={{ display: 'flex', alignItems: 'center', fontSize: 36, fontFamily: 'Georgia, serif', marginRight: 35 }}>
+                            <img src="/senada/images/icons/ico_bath.svg" alt="" style={{ width: 38, height: 38, marginRight: 12 }} />
                             <span>{property.baths}</span>
                           </div>
                         )}
                         {displayArea && (
-                          <div className="flex items-center font-normal text-[38px]" style={{ fontFamily: 'Georgia, serif' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', fontSize: 36, fontFamily: 'Georgia, serif' }}>
                             {isLand ? (
-                               <LandPlot className="w-[40px] h-[40px] text-white mr-[15px]" strokeWidth={1.5} />
+                               <LandPlot style={{ width: 38, height: 38, color: '#fff', marginRight: 12 }} strokeWidth={1.5} />
                             ) : (
-                               <img src="/senada/images/icons/ico_sqfoot.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
+                               <img src="/senada/images/icons/ico_sqfoot.svg" alt="" style={{ width: 38, height: 38, marginRight: 12 }} />
                             )}
                             <span>{displayArea}</span>
                           </div>
                         )}
                       </div>
 
-                      <div className="text-right flex flex-col items-end justify-end">
-                         <div className="text-[75px] font-bold leading-[1] mb-3" style={{ fontFamily: 'Georgia, serif' }}>{price}</div>
-                         {(operationLabel || statusLabel) && (
-                           <div className="text-[#b8b8b8] text-[24px] flex flex-col items-end" style={{ fontFamily: 'Arial, sans-serif' }}>
-                              {operationLabel && <div>Operación <span className="text-white">{operationLabel}</span></div>}
-                              {statusLabel && <div>Estado <span className="text-white">{statusLabel}</span></div>}
-                           </div>
-                         )}
+                      <div style={{ textAlign: 'right', fontFamily: 'Arial, sans-serif' }}>
+                        {operationLabel && (
+                          <div style={{ color: '#b8b8b8', fontSize: 22 }}>
+                            Operación <span style={{ color: '#fff', fontWeight: 700 }}>{operationLabel}</span>
+                          </div>
+                        )}
+                        {statusLabel && (
+                          <div style={{ color: '#b8b8b8', fontSize: 22 }}>
+                            Estado <span style={{ color: '#fff', fontWeight: 700 }}>{statusLabel}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
