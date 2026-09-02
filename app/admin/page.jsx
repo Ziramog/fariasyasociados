@@ -47,7 +47,7 @@ const AdminPage = async () => {
   const granInversionCount = allPropsForGI.filter((p) => isGranInversion(p)).length;
 
   const CATEGORIES = [
-    { type: 'Casa', Icon: Home, color: '#F26B2E' },
+    { type: 'Casa', Icon: Home, color: '#fe8b01' },
     { type: 'Departamento', Icon: Building2, color: '#652660' },
     { type: 'Campo', Icon: Sprout, color: '#25D366' },
     { type: 'Terreno', Icon: Map, color: '#60A5FA' },
@@ -72,7 +72,7 @@ const AdminPage = async () => {
       <div className="mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { value: total, label: 'Total Propiedades', color: '#F26B2E', href: '/admin/properties', Icon: Layers },
+            { value: total, label: 'Total Propiedades', color: '#fe8b01', href: '/admin/properties', Icon: Layers },
             { value: activas, label: 'Activas', color: '#25D366', href: '/admin/properties?status=active', Icon: CheckCircle },
             { value: featured, label: 'Destacadas', color: '#652660', href: '/admin/properties?is_featured=true', Icon: Star },
           ].map((stat, index) => (

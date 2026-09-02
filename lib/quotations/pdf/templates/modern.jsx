@@ -4,7 +4,7 @@ import { fontsLoaded } from '../fonts';
 const BODY = fontsLoaded ? 'Lato' : 'Helvetica';
 const HEADING = fontsLoaded ? 'PT Serif' : 'Helvetica';
 
-const BRAND = '#f26b2e';
+const BRAND = '#fe8b01';
 const INK = '#1a1a18';
 const INK2 = '#4b4b48';
 const INK3 = '#8c8c88';

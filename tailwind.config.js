@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: { DEFAULT: '#EC6D13', hover: '#D4600F', light: '#FFF3E8' },
-        accent: { DEFAULT: '#EC6D13', hover: '#D4600F' },
+        primary: { DEFAULT: '#fe8b01', hover: '#E47D00', light: '#FFF3E8' },
+        accent: { DEFAULT: '#fe8b01', hover: '#E47D00' },
         navy: { DEFAULT: '#0F172A', light: '#1E293B', 50: '#F8FAFC' },
         whatsapp: { DEFAULT: '#25D366', hover: '#20BD5A' },
         gold: '#C5A880',

@@ -79,7 +79,7 @@ export default function ProfileClient({ user, totalProps, payments, config: init
                 <div className="absolute bottom-full right-[-8px] mb-2 w-72 bg-[#0a0a0a] border border-[#333] rounded-sm p-3 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-[120]">
                   <p className="text-[11px] font-bold text-white uppercase tracking-wider mb-1.5 border-b border-[#222] pb-1">⚠️ Impacto Crítico Global</p>
                   <ul className="space-y-1.5 text-[10.5px] text-[#aaa] list-disc list-inside">
-                    <li><strong className="text-white">Email:</strong> Cambia la dirección de correo y los links <code className="text-[#F26B2E]">mailto:</code> del menú y el pie de página de todo el sitio.</li>
+                    <li><strong className="text-white">Email:</strong> Cambia la dirección de correo y los links <code className="text-[#fe8b01]">mailto:</code> del menú y el pie de página de todo el sitio.</li>
                     <li><strong className="text-white">WhatsApp:</strong> Modifica la redirección y número de chat directo en la cabecera, pie de página y menú móvil de todo el sitio.</li>
                     <li><strong className="text-white">Dirección:</strong> Cambia la dirección expuesta en el pie de página y la búsqueda del local en Google Maps.</li>
                     <li><strong className="text-white">SEO Local:</strong> Actualiza automáticamente los metadatos de Google (Schema.org) de la empresa.</li>

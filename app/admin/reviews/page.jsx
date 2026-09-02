@@ -110,7 +110,7 @@ const AdminReviewsPage = async ({ searchParams }) => {
           <div className="grid grid-cols-4 gap-3 mb-6">
             {[
               { value: stats.total, label: 'Total', color: '#fff' },
-              { value: stats.featured, label: 'Destacadas', color: '#F26B2E' },
+              { value: stats.featured, label: 'Destacadas', color: '#fe8b01' },
               { value: stats.hidden, label: 'Ocultas', color: '#888' },
               { value: stats.avgRating, label: `★ Google${stats.totalUserRatings ? ` (${stats.totalUserRatings})` : ''}`, color: '#F59E0B' },
             ].map(stat => (
