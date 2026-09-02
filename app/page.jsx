@@ -119,7 +119,7 @@ const HomePage = async () => {
     <div>
       <JsonLd data={jsonLd} />
       {/* 1. Hero — emotional hook + search + trust strip */}
-      <Hero title={siteConfig.heroTitle} subtitle={siteConfig.heroSubtitle} />
+      <Hero title="Negocios Inmobiliarios Urbanos y Rurales" subtitle={siteConfig.heroSubtitle} />
 
       {/* 2. Stats Bar — social proof metrics (flush with hero) */}
       <StatsBar />
