@@ -133,16 +133,11 @@ export default function SocialStoryGenerator({ property }) {
               {/* The Actual Canvas Content */}
               <div ref={printRef} className="w-[1080px] h-[1920px] bg-black relative flex flex-col overflow-hidden">
                 {/* Main Background Image */}
-                <div className="absolute inset-0 bg-[#222]">
-                  {mainImage && (
-                    <div 
-                      className="w-full h-full"
-                      style={{
-                        backgroundImage: `url(${mainImage})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center'
-                      }}
-                    />
+                <div className="absolute inset-0">
+                  {mainImage ? (
+                    <img src={mainImage} alt="" className="w-full h-full object-cover" crossOrigin="anonymous" />
+                  ) : (
+                    <div className="w-full h-full bg-[#222]" />
                   )}
                 </div>
                 
@@ -153,7 +148,7 @@ export default function SocialStoryGenerator({ property }) {
                     <div className="w-[380px]">
                       <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    <div className="text-white text-[45px] font-black uppercase px-12 py-6 rounded-[20px] border-[3px] border-white/60" style={{ letterSpacing: '8px', backgroundColor: '#F26B2E' }}>
+                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase px-12 h-[100px] flex items-center justify-center rounded-[30px] shadow-[0_15px_30px_rgba(0,0,0,0.4)] border-2 border-white/40" style={{ letterSpacing: '8px' }}>
                       {op}
                     </div>
                   </div>
@@ -162,49 +157,49 @@ export default function SocialStoryGenerator({ property }) {
                     <h1 className="text-[55px] leading-[1.2] font-normal text-white mb-8" style={{ fontFamily: 'Georgia, serif', letterSpacing: 'normal' }}>{title}</h1>
                     
                     <div className="flex items-center text-[#b8b8b8] text-[28px] mb-8" style={{ fontFamily: 'Arial, sans-serif', letterSpacing: 'normal' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" className="mr-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" className="mr-4 flex-shrink-0">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                       </svg>
-                      <span>
+                      <div>
                         {property?.location?.street}{property?.location?.street && city ? ', ' : ''}
                         {city}{city && property?.location?.state ? ', ' : ''}
                         {property?.location?.state}
-                      </span>
+                      </div>
                     </div>
 
                     <div className="flex justify-between items-end mt-4">
                       <div className="flex items-center">
                         {property.beds > 0 && (
-                          <span className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
+                          <div className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
                             <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
-                            {property.beds}
-                          </span>
+                            <span>{property.beds}</span>
+                          </div>
                         )}
                         {property.baths > 0 && (
-                          <span className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
+                          <div className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
                             <img src="/senada/images/icons/ico_bath.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
-                            {property.baths}
-                          </span>
+                            <span>{property.baths}</span>
+                          </div>
                         )}
                         {displayArea && (
-                          <span className="flex items-center font-normal text-[38px]" style={{ fontFamily: 'Georgia, serif' }}>
+                          <div className="flex items-center font-normal text-[38px]" style={{ fontFamily: 'Georgia, serif' }}>
                             {isLand ? (
                                <LandPlot className="w-[40px] h-[40px] text-white mr-[15px]" strokeWidth={1.5} />
                             ) : (
                                <img src="/senada/images/icons/ico_sqfoot.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
                             )}
-                            {displayArea}
-                          </span>
+                            <span>{displayArea}</span>
+                          </div>
                         )}
                       </div>
 
                       <div className="text-right">
-                         <span className="text-[75px] font-bold leading-none" style={{ fontFamily: 'Georgia, serif' }}>{price}</span>
+                         <div className="text-[75px] font-bold leading-[1.1] mb-2" style={{ fontFamily: 'Georgia, serif' }}>{price}</div>
                          {(operationLabel || statusLabel) && (
-                           <div className="mt-2 text-[#b8b8b8] text-[24px] flex flex-col items-end" style={{ fontFamily: 'Arial, sans-serif' }}>
-                              {operationLabel && <span>Operación <span className="text-white">{operationLabel}</span></span>}
-                              {statusLabel && <span>Estado <span className="text-white">{statusLabel}</span></span>}
+                           <div className="text-[#b8b8b8] text-[24px] flex flex-col items-end" style={{ fontFamily: 'Arial, sans-serif' }}>
+                              {operationLabel && <div>Operación <span className="text-white">{operationLabel}</span></div>}
+                              {statusLabel && <div>Estado <span className="text-white">{statusLabel}</span></div>}
                            </div>
                          )}
                       </div>
