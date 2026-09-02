@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
-import { Image as ImageIcon, Download, X, LandPlot } from 'lucide-react';
+import { Image as ImageIcon, Download, X, LandPlot, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { getAreaDisplay } from '@/utils/propertyDisplay';
 
@@ -36,26 +36,31 @@ export default function SocialStoryGenerator({ property }) {
   };
   const statusLabel = statusMap[property?.status];
 
-  const handleDownload = async () => {
-    if (!printRef.current) return;
-    setLoading(true);
-    
-    // WORKAROUND for html2canvas text overlapping bug with transform: scale()
-    // We temporarily remove the scale from the parent before taking the screenshot.
+  const getCanvas = async () => {
+    if (!printRef.current) return null;
     const parent = printRef.current.parentElement;
     const originalTransform = parent.style.transform;
     parent.style.transform = 'none';
     
     try {
-      // Wait for layout to recalculate
       await new Promise(resolve => setTimeout(resolve, 100));
-      
       const canvas = await html2canvas(printRef.current, {
         useCORS: true,
-        scale: 1, // 1080x1920 is already big enough
+        scale: 1, 
         allowTaint: true,
         backgroundColor: '#000000',
       });
+      return canvas;
+    } finally {
+      parent.style.transform = originalTransform;
+    }
+  };
+
+  const handleDownload = async () => {
+    setLoading(true);
+    try {
+      const canvas = await getCanvas();
+      if (!canvas) return;
       const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.download = `historia-${property._id}.png`;
@@ -65,8 +70,38 @@ export default function SocialStoryGenerator({ property }) {
       console.error(err);
       alert('Error al generar la imagen');
     } finally {
-      // Restore the scale
-      parent.style.transform = originalTransform;
+      setLoading(false);
+    }
+  };
+
+  const handleShare = async () => {
+    setLoading(true);
+    try {
+      const canvas = await getCanvas();
+      if (!canvas) return;
+      
+      canvas.toBlob(async (blob) => {
+        if (!blob) throw new Error('Blob nulo');
+        const file = new File([blob], `historia-${property._id}.png`, { type: 'image/png' });
+        
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: title,
+              text: '¡Mirá esta propiedad!',
+            });
+          } catch (err) {
+            console.error('Share cancelled or failed:', err);
+          }
+        } else {
+          alert('Tu navegador no soporta compartir imágenes directamente. Usa el botón de descargar.');
+        }
+      }, 'image/png');
+    } catch (err) {
+      console.error(err);
+      alert('Error al compartir la imagen');
+    } finally {
       setLoading(false);
     }
   };
@@ -107,14 +142,24 @@ export default function SocialStoryGenerator({ property }) {
             <p><span className="text-[#888]">Detalles:</span> <strong className="text-white">{property.beds ? `${property.beds} Dorm | ` : ''}{property.baths ? `${property.baths} Baños | ` : ''}{displayArea}</strong></p>
           </div>
           
-          <button 
-            onClick={handleDownload} 
-            disabled={loading}
-            className="mt-auto bg-gradient-to-r from-pink-600 to-orange-500 hover:from-pink-500 hover:to-orange-400 text-white font-bold py-4 px-6 rounded-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-          >
-            {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Download className="w-5 h-5" />}
-            {loading ? 'Generando...' : 'Descargar Historia'}
-          </button>
+          <div className="mt-auto flex flex-col gap-3">
+            <button 
+              onClick={handleShare} 
+              disabled={loading}
+              className="bg-gradient-to-r from-pink-600 to-orange-500 hover:from-pink-500 hover:to-orange-400 text-white font-bold py-4 px-6 rounded-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+            >
+              {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Share2 className="w-5 h-5" />}
+              {loading ? 'Generando...' : 'Compartir (Mobile)'}
+            </button>
+            <button 
+              onClick={handleDownload} 
+              disabled={loading}
+              className="border border-[#444] hover:bg-[#222] text-[#ccc] hover:text-white font-bold py-3 px-6 rounded-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+            >
+              <Download className="w-4 h-4" />
+              Descargar Imagen
+            </button>
+          </div>
         </div>
 
         {/* Right Side: Preview */}
