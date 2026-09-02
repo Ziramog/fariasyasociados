@@ -148,7 +148,7 @@ export default function SocialStoryGenerator({ property }) {
                     <div className="w-[380px]">
                       <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase px-12 h-[100px] flex items-center justify-center rounded-[30px] shadow-[0_15px_30px_rgba(0,0,0,0.4)] border-2 border-white/40" style={{ letterSpacing: '8px' }}>
+                    <div className="bg-[var(--color-brand)] text-white text-[45px] font-black uppercase px-12 h-[100px] flex items-center justify-center rounded-full border-4 border-white" style={{ letterSpacing: '8px' }}>
                       {op}
                     </div>
                   </div>
