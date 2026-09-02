@@ -180,7 +180,7 @@ export default function PDFSettingsModal({ initialConfig, user }) {
                   </div>
                   {config.signatureBase64 && (
                     <div className="w-16 p-1 bg-[#0a0a0a] border border-[#222] rounded-sm flex items-center justify-center flex-shrink-0">
-                      <img src={config.signatureBase64} alt="Firma" className="h-6 object-contain" />
+                      <img src={config.signatureBase64} alt="Firma" className="h-6 object-contain invert opacity-90" />
                     </div>
                   )}
                 </div>
