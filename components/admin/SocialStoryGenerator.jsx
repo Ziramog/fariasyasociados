@@ -142,9 +142,9 @@ export default function SocialStoryGenerator({ property }) {
                   </div>
                   {/* Bottom: Signature Info Section */}
                   <div className="mt-auto w-full bg-black/95 px-[60px] py-[60px] flex flex-col text-white">
-                    <h1 className="text-[55px] leading-[1.2] font-normal text-white mb-8" style={{ fontFamily: '"PT Serif", serif', wordWrap: 'break-word' }}>{title}</h1>
+                    <h1 className="text-[55px] leading-[1.2] font-normal text-white mb-8" style={{ fontFamily: 'Georgia, serif', letterSpacing: 'normal' }}>{title}</h1>
                     
-                    <div className="flex items-center text-[#b8b8b8] text-[28px] mb-8">
+                    <div className="flex items-center text-[#b8b8b8] text-[28px] mb-8" style={{ fontFamily: 'Arial, sans-serif', letterSpacing: 'normal' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" className="mr-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
@@ -159,19 +159,19 @@ export default function SocialStoryGenerator({ property }) {
                     <div className="flex justify-between items-end mt-4">
                       <div className="flex items-center">
                         {property.beds > 0 && (
-                          <span className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: '"PT Serif", serif' }}>
+                          <span className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
                             <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
                             {property.beds}
                           </span>
                         )}
                         {property.baths > 0 && (
-                          <span className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: '"PT Serif", serif' }}>
+                          <span className="flex items-center font-normal text-[38px] mr-[40px]" style={{ fontFamily: 'Georgia, serif' }}>
                             <img src="/senada/images/icons/ico_bath.svg" alt="" className="w-[40px] h-[40px] mr-[15px]" />
                             {property.baths}
                           </span>
                         )}
                         {displayArea && (
-                          <span className="flex items-center font-normal text-[38px]" style={{ fontFamily: '"PT Serif", serif' }}>
+                          <span className="flex items-center font-normal text-[38px]" style={{ fontFamily: 'Georgia, serif' }}>
                             {isLand ? (
                                <LandPlot className="w-[40px] h-[40px] text-white mr-[15px]" strokeWidth={1.5} />
                             ) : (
@@ -183,9 +183,9 @@ export default function SocialStoryGenerator({ property }) {
                       </div>
 
                       <div className="text-right">
-                         <span className="text-[75px] font-bold leading-none" style={{ fontFamily: '"PT Serif", serif' }}>{price}</span>
+                         <span className="text-[75px] font-bold leading-none" style={{ fontFamily: 'Georgia, serif' }}>{price}</span>
                          {(operationLabel || statusLabel) && (
-                           <div className="mt-2 text-[#b8b8b8] text-[24px] flex flex-col items-end">
+                           <div className="mt-2 text-[#b8b8b8] text-[24px] flex flex-col items-end" style={{ fontFamily: 'Arial, sans-serif' }}>
                               {operationLabel && <span>Operación <span className="text-white">{operationLabel}</span></span>}
                               {statusLabel && <span>Estado <span className="text-white">{statusLabel}</span></span>}
                            </div>
