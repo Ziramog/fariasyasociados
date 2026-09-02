@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
 import { Image as ImageIcon, Download, X, LandPlot, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { getAreaDisplay } from '@/utils/propertyDisplay';
@@ -9,7 +8,6 @@ import { getAreaDisplay } from '@/utils/propertyDisplay';
 export default function SocialStoryGenerator({ property }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const printRef = useRef(null);
 
   const mainImage = property?.images?.[0]?.url || '';
   const price = property?.price || 'Consultar';
@@ -37,82 +35,31 @@ export default function SocialStoryGenerator({ property }) {
   const statusLabel = statusMap[property?.status];
 
   /* ────────────────────────────────────────────
-   * CAPTURE FIX:
-   * The preview uses CSS transform:scale() to fit 1080×1920 on screen.
-   * html2canvas can't handle that — it distorts the output.
-   *
-   * Solution: clone the canvas node, append it to <body> at full size
-   * but off-screen (left:-9999px), capture the clone, then remove it.
-   * This guarantees a pixel-perfect 1080×1920 capture every time.
+   * Server-side image generation via /api/generate-story/[id]
+   * Uses next/og (satori) — no html2canvas, no browser quirks.
    * ──────────────────────────────────────────── */
-  const getCanvas = async () => {
-    if (!printRef.current) return null;
-
-    // Clone the entire canvas DOM
-    const clone = printRef.current.cloneNode(true);
-
-    // Position off-screen at full 1080×1920
-    Object.assign(clone.style, {
-      position: 'fixed',
-      left: '-9999px',
-      top: '0',
-      width: '1080px',
-      height: '1920px',
-      minWidth: '1080px',
-      maxWidth: '1080px',
-      transform: 'none',
-      zIndex: '-1',
-      overflow: 'hidden',
-    });
-
-    document.body.appendChild(clone);
-
-    // Wait for images inside the clone to load
-    const images = clone.querySelectorAll('img');
-    await Promise.all(
-      Array.from(images).map(
-        (img) =>
-          new Promise((resolve) => {
-            if (img.complete) return resolve();
-            img.onload = resolve;
-            img.onerror = resolve;
-          })
-      )
-    );
-
-    // Small extra delay for layout
-    await new Promise((r) => setTimeout(r, 200));
-
-    try {
-      const canvas = await html2canvas(clone, {
-        useCORS: true,
-        scale: 1,
-        width: 1080,
-        height: 1920,
-        windowWidth: 1080,
-        windowHeight: 1920,
-        allowTaint: true,
-        backgroundColor: '#000000',
-      });
-      return canvas;
-    } finally {
-      document.body.removeChild(clone);
+  const fetchStoryBlob = async () => {
+    const res = await fetch(`/api/generate-story/${property._id}`);
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(text || 'Error del servidor');
     }
+    return await res.blob();
   };
 
   const handleDownload = async () => {
     setLoading(true);
     try {
-      const canvas = await getCanvas();
-      if (!canvas) return;
-      const dataUrl = canvas.toDataURL('image/png');
+      const blob = await fetchStoryBlob();
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.download = `historia-${property._id}.png`;
-      link.href = dataUrl;
+      link.href = url;
       link.click();
+      URL.revokeObjectURL(url);
     } catch (err) {
       console.error(err);
-      alert('Error al generar la imagen');
+      alert('Error al generar la imagen: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -121,30 +68,27 @@ export default function SocialStoryGenerator({ property }) {
   const handleShare = async () => {
     setLoading(true);
     try {
-      const canvas = await getCanvas();
-      if (!canvas) return;
+      const blob = await fetchStoryBlob();
+      const file = new File([blob], `historia-${property._id}.png`, { type: 'image/png' });
       
-      canvas.toBlob(async (blob) => {
-        if (!blob) throw new Error('Blob nulo');
-        const file = new File([blob], `historia-${property._id}.png`, { type: 'image/png' });
-        
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              files: [file],
-              title: title,
-              text: '¡Mirá esta propiedad!',
-            });
-          } catch (err) {
-            console.error('Share cancelled or failed:', err);
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: title,
+            text: '¡Mirá esta propiedad!',
+          });
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            console.error('Share failed:', err);
           }
-        } else {
-          alert('Tu navegador no soporta compartir imágenes directamente. Usa el botón de descargar.');
         }
-      }, 'image/png');
+      } else {
+        alert('Tu navegador no soporta compartir imágenes directamente. Usa el botón de descargar.');
+      }
     } catch (err) {
       console.error(err);
-      alert('Error al compartir la imagen');
+      alert('Error al compartir la imagen: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -176,7 +120,7 @@ export default function SocialStoryGenerator({ property }) {
           </div>
           
           <p className="text-sm text-[#aaa]">
-            Este módulo genera una imagen vertical (1080x1920) lista para subir a Historias de Instagram o Facebook.
+            La imagen se genera en el servidor de forma fiel al diseño. Hacé clic en descargar o compartir.
           </p>
           
           <div className="bg-[#0a0a0a] border border-[#222] p-4 rounded-sm flex flex-col gap-3 text-[13px]">
@@ -208,7 +152,7 @@ export default function SocialStoryGenerator({ property }) {
 
         {/* Right Side: Preview */}
         <div className="w-full md:w-2/3 bg-[#0a0a0a] flex items-center justify-center p-4 relative overflow-hidden">
-          <div className="relative" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="relative w-full h-full flex items-center justify-center">
             <div 
               style={{
                 width: 1080,
@@ -218,84 +162,35 @@ export default function SocialStoryGenerator({ property }) {
               }}
               className="absolute shadow-2xl"
             >
-              {/* The Actual Canvas Content — ref={printRef} */}
-              <div ref={printRef} style={{ width: 1080, height: 1920, position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#000' }}>
-                {/* Main Background Image */}
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+              {/* Visual preview only (not used for capture) */}
+              <div className="w-[1080px] h-[1920px] bg-black relative flex flex-col overflow-hidden">
+                {/* Background */}
+                <div className="absolute inset-0">
                   {mainImage ? (
-                    <img src={mainImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} crossOrigin="anonymous" />
+                    <img src={mainImage} alt="" className="w-full h-full object-cover" crossOrigin="anonymous" />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', backgroundColor: '#222' }} />
+                    <div className="w-full h-full bg-[#222]" />
                   )}
                 </div>
                 
-                {/* Content overlay */}
-                <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%' }}>
-                  {/* Top: Logo & Operation Label */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: 80 }}>
-                    <div style={{ width: 380 }}>
-                      <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
+                {/* Content */}
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Top: Logo & Badge */}
+                  <div className="flex justify-between items-start p-[70px]">
+                    <div className="w-[320px]">
+                      <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    {/* Operation badge — simple solid styles only, no CSS shadows */}
-                    <div style={{
-                      backgroundColor: 'var(--color-brand)',
-                      color: '#fff',
-                      fontSize: 42,
-                      fontWeight: 900,
-                      fontFamily: 'Arial, sans-serif',
-                      textTransform: 'uppercase',
-                      letterSpacing: 6,
-                      paddingLeft: 40,
-                      paddingRight: 40,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height: 85,
-                      lineHeight: 1,
-                      borderRadius: 24,
-                      border: '3px solid rgba(255,255,255,0.3)',
-                    }}>
+                    <div className="bg-[var(--color-brand)] text-white text-[42px] font-black uppercase tracking-[5px] px-9 h-[80px] flex items-center justify-center rounded-[20px] border-[3px] border-white/35">
                       {op}
                     </div>
                   </div>
-
-                  {/* Bottom: Info Section */}
-                  <div style={{
-                    marginTop: 'auto',
-                    width: '100%',
-                    backgroundColor: 'rgba(0,0,0,0.92)',
-                    paddingLeft: 60,
-                    paddingRight: 60,
-                    paddingTop: 55,
-                    paddingBottom: 55,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    color: '#fff',
-                  }}>
-                    {/* Title */}
-                    <div style={{
-                      fontSize: 52,
-                      lineHeight: 1.15,
-                      fontWeight: 400,
-                      fontFamily: 'Georgia, serif',
-                      color: '#fff',
-                      textAlign: 'center',
-                      marginBottom: 20,
-                    }}>
-                      {title}
-                    </div>
+                  
+                  {/* Bottom */}
+                  <div className="mt-auto w-full bg-black/[0.92] px-[60px] py-[50px] flex flex-col text-white">
+                    <h1 className="text-[50px] leading-[1.2] font-normal text-white text-center mb-4 font-[Georgia,serif]">{title}</h1>
                     
-                    {/* Location */}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#b8b8b8',
-                      fontSize: 26,
-                      fontFamily: 'Arial, sans-serif',
-                      marginBottom: 40,
-                    }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" style={{ marginRight: 10, flexShrink: 0 }}>
+                    <div className="flex items-center justify-center text-[#b8b8b8] text-[25px] mb-[35px]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="var(--color-brand)" strokeWidth="1.5" className="mr-2.5 flex-shrink-0">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                       </svg>
@@ -306,51 +201,36 @@ export default function SocialStoryGenerator({ property }) {
                       </span>
                     </div>
 
-                    {/* Price row */}
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 16 }}>
-                      <div style={{ fontSize: 80, fontWeight: 700, lineHeight: 1, fontFamily: 'Georgia, serif', color: '#fff', textAlign: 'center' }}>
-                        {price}
-                      </div>
-                    </div>
+                    <div className="text-[78px] font-bold leading-none text-center mb-[18px] font-[Georgia,serif]">{price}</div>
 
-                    {/* Bottom row: amenities left, operation/status right */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className="flex justify-between items-end">
+                      <div className="flex items-center">
                         {property.beds > 0 && (
-                          <div style={{ display: 'flex', alignItems: 'center', fontSize: 36, fontFamily: 'Georgia, serif', marginRight: 35 }}>
-                            <img src="/senada/images/icons/ico_bed.svg" alt="" style={{ width: 38, height: 38, marginRight: 12 }} />
+                          <div className="flex items-center text-[34px] mr-[30px]">
+                            <img src="/senada/images/icons/ico_bed.svg" alt="" className="w-[38px] h-[38px] mr-3" />
                             <span>{property.beds}</span>
                           </div>
                         )}
                         {property.baths > 0 && (
-                          <div style={{ display: 'flex', alignItems: 'center', fontSize: 36, fontFamily: 'Georgia, serif', marginRight: 35 }}>
-                            <img src="/senada/images/icons/ico_bath.svg" alt="" style={{ width: 38, height: 38, marginRight: 12 }} />
+                          <div className="flex items-center text-[34px] mr-[30px]">
+                            <img src="/senada/images/icons/ico_bath.svg" alt="" className="w-[38px] h-[38px] mr-3" />
                             <span>{property.baths}</span>
                           </div>
                         )}
                         {displayArea && (
-                          <div style={{ display: 'flex', alignItems: 'center', fontSize: 36, fontFamily: 'Georgia, serif' }}>
+                          <div className="flex items-center text-[34px]">
                             {isLand ? (
-                               <LandPlot style={{ width: 38, height: 38, color: '#fff', marginRight: 12 }} strokeWidth={1.5} />
+                              <LandPlot className="w-[38px] h-[38px] text-white mr-3" strokeWidth={1.5} />
                             ) : (
-                               <img src="/senada/images/icons/ico_sqfoot.svg" alt="" style={{ width: 38, height: 38, marginRight: 12 }} />
+                              <img src="/senada/images/icons/ico_sqfoot.svg" alt="" className="w-[38px] h-[38px] mr-3" />
                             )}
                             <span>{displayArea}</span>
                           </div>
                         )}
                       </div>
-
-                      <div style={{ textAlign: 'right', fontFamily: 'Arial, sans-serif' }}>
-                        {operationLabel && (
-                          <div style={{ color: '#b8b8b8', fontSize: 22 }}>
-                            Operación <span style={{ color: '#fff', fontWeight: 700 }}>{operationLabel}</span>
-                          </div>
-                        )}
-                        {statusLabel && (
-                          <div style={{ color: '#b8b8b8', fontSize: 22 }}>
-                            Estado <span style={{ color: '#fff', fontWeight: 700 }}>{statusLabel}</span>
-                          </div>
-                        )}
+                      <div className="text-right text-[22px]">
+                        {operationLabel && <div className="text-[#b8b8b8]">Operación <span className="text-white font-bold">{operationLabel}</span></div>}
+                        {statusLabel && <div className="text-[#b8b8b8]">Estado <span className="text-white font-bold">{statusLabel}</span></div>}
                       </div>
                     </div>
                   </div>
