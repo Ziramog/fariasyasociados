@@ -63,7 +63,7 @@ const FeaturedProperties = ({ properties = [] }) => {
         <div className="text-center mt-6">
           <a
             href="/properties"
-            className="inline-flex items-center justify-center px-8 h-[52px] bg-zinc-50/80 backdrop-blur-sm border border-zinc-200/80 text-zinc-700 hover:text-white hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] rounded-full text-[13px] font-bold uppercase tracking-[0.08em] transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"
+            className="inline-flex items-center justify-center px-8 h-[52px] bg-zinc-50/80 backdrop-blur-sm border border-zinc-200/80 text-zinc-700 hover:text-white hover:bg-[var(--color-brand)] hover:border-[var(--color-brand)] rounded-sm text-[13px] font-bold uppercase tracking-[0.08em] transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"
           >
             Ver todas las propiedades
           </a>
