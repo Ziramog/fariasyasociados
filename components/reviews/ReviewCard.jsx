@@ -15,7 +15,7 @@ function AuthorAvatar({ name, photo }) {
   const initials = name.split(' ').slice(0, 2).map(n => n[0]?.toUpperCase() ?? '').join('');
 
   return (
-    <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white text-sm font-semibold bg-[var(--color-brand)]" aria-label={name}>
+    <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-zinc-600 text-sm font-semibold bg-[#EAEAEA]" aria-label={name}>
       {initials}
     </div>
   );
@@ -34,21 +34,21 @@ export default function ReviewCard({ review, variant = 'default' }) {
     return (
       <Wrapper 
         {...wrapperProps}
-        className="relative flex flex-col h-full bg-[#EAEAEA] rounded-2xl p-6 md:p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 block cursor-pointer" 
+        className="relative flex flex-col h-full bg-[var(--color-brand)] rounded-2xl p-6 md:p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 block cursor-pointer" 
         aria-label={`Reseña de ${review.authorName}`}
       >
-        <p className="text-[15px] md:text-[16px] text-[#555] leading-[1.7] mb-5 md:mb-6 flex-1 italic line-clamp-4" style={{ fontFamily: 'var(--font-body)' }}>
+        <p className="text-[15px] md:text-[16px] text-white/90 leading-[1.7] mb-5 md:mb-6 flex-1 italic line-clamp-4" style={{ fontFamily: 'var(--font-body)' }}>
           "{review.text}"
         </p>
         <div className="flex items-center gap-3 mt-auto">
           <AuthorAvatar name={review.authorName} photo={review.authorPhoto} />
           <div className="min-w-0 flex-1">
             <div className="flex flex-col">
-              <p className="text-sm font-semibold text-[#1a1a1a] tracking-wide truncate">{review.authorName}</p>
-              <time dateTime={review.publishTime} className="text-xs text-[#888]">{review.relativeTimeDescription}</time>
+              <p className="text-sm font-semibold text-white tracking-wide truncate">{review.authorName}</p>
+              <time dateTime={review.publishTime} className="text-xs text-white/70">{review.relativeTimeDescription}</time>
             </div>
             <div className="mt-0.5">
-              <StarRating rating={review.rating} size="sm" variant="dark" />
+              <StarRating rating={review.rating} size="sm" variant="light" />
             </div>
           </div>
         </div>
