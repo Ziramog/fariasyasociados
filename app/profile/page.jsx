@@ -32,7 +32,7 @@ const ProfilePage = async () => {
   return (
     <section className='bg-[#f5f0e8]'>
       <div className='container m-auto py-24'>
-        <div className='bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
+        <div className='bg-[#1C1C1A] px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
           <ScrollReveal>
             <h1 className='text-3xl font-bold mb-4 text-[#1a3c34]'>Tu Perfil</h1>
           </ScrollReveal>

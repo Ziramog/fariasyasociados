@@ -25,7 +25,7 @@ const FullGallery = ({ images = [], propertyName }) => {
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-white/0 group-hover:bg-white/60 transition-all duration-300 ease-in-out pointer-events-none" />
+                    <div className="absolute inset-0 bg-[#1C1C1A]/0 group-hover:bg-[#1C1C1A]/60 transition-all duration-300 ease-in-out pointer-events-none" />
                   </div>
                 )}
               </Item>

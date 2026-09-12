@@ -77,7 +77,7 @@ const StatsBar = () => {
   ];
 
   return (
-    <section className="bg-black py-3 md:py-4 border-b border-white/[0.05]">
+    <section className="bg-black py-3 md:py-4 border-b border-[#3B3B3B]/[0.05]">
       <div className="max-w-[98vw] md:max-w-[60vw] mx-auto px-0 md:px-[50px]">
         <div className="flex justify-center md:justify-between items-center gap-1 md:gap-8 w-full max-w-[100vw] overflow-hidden">
           {STATS.map((stat, idx) => (
@@ -85,7 +85,7 @@ const StatsBar = () => {
               <StatItem stat={stat} />
               {/* Divider between items */}
               {idx < STATS.length - 1 && (
-                <div className="hidden md:block absolute right-[-20%] top-1/2 -translate-y-1/2 w-px h-8 bg-white/[0.08]" />
+                <div className="hidden md:block absolute right-[-20%] top-1/2 -translate-y-1/2 w-px h-8 bg-[#0A0A0A]/[0.08]" />
               )}
             </div>
           ))}

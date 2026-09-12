@@ -93,7 +93,7 @@ export default function SubscribersClient({ initialLink, subscribers }) {
               <button
                 type="submit"
                 disabled={isSaving}
-                className="w-full bg-[#25D366] hover:bg-[#1DA851] text-black font-bold text-[12px] uppercase tracking-wider py-2.5 rounded-sm transition-colors disabled:opacity-50"
+                className="w-full bg-[#25D366] hover:bg-[#1DA851] text-white font-bold text-[12px] uppercase tracking-wider py-2.5 rounded-sm transition-colors disabled:opacity-50"
               >
                 {isSaving ? 'Guardando...' : 'Guardar Link'}
               </button>

@@ -54,10 +54,6 @@ export function getPriceDisplay(property) {
     let num = typeof property.price === 'number'
       ? property.price
       : parseFloat(String(property.price).replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, ''));
-    if (!isNaN(num) && num >= 1000) {
-      const k = num / 1000;
-      return `U$D ${k % 1 === 0 ? k : k.toFixed(k < 10 ? 2 : 1)} K`;
-    }
     if (!isNaN(num)) return `U$D ${num.toLocaleString('es-AR')}`;
   }
   if (property.rates?.monthly) return `U$D ${property.rates.monthly.toLocaleString()}/mes`;

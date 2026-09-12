@@ -30,11 +30,11 @@ const PropertyNormalizedDescription = ({ property }) => {
   const { resumen, ubicacion, detalles = [], highlights = [], nota } = normalizedDescription;
 
   return (
-    <div className='bg-white rounded-2xl border border-[var(--color-border)] shadow-[var(--shadow-card)] mt-4 overflow-hidden'>
+    <div className='bg-[#1C1C1A] rounded-2xl border border-[var(--color-border)] shadow-[var(--shadow-card)] mt-4 overflow-hidden'>
       {/* Resumen */}
       {resumen && (
         <div className='p-6 border-l-4 border-l-[var(--color-brand)]'>
-          <p className='text-gray-600 leading-relaxed'>
+          <p className='text-gray-400 leading-relaxed'>
             {resumen}
           </p>
         </div>
@@ -60,10 +60,10 @@ const PropertyNormalizedDescription = ({ property }) => {
       {/* Ubicación */}
       {ubicacion && (
         <div className='px-6 py-4 border-t border-[var(--color-border)]'>
-          <h4 className='text-sm font-semibold text-[var(--color-ink-tertiary)] uppercase tracking-wide mb-2'>
+          <h4 className='text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2'>
             Ubicación
           </h4>
-          <p className='text-gray-600 leading-relaxed'>
+          <p className='text-gray-400 leading-relaxed'>
             {ubicacion}
           </p>
         </div>
@@ -72,7 +72,7 @@ const PropertyNormalizedDescription = ({ property }) => {
       {/* Detalles */}
       {detalles.length > 0 && (
         <div className='px-6 py-4 border-t border-[var(--color-border)]'>
-          <h4 className='text-sm font-semibold text-[var(--color-ink-tertiary)] uppercase tracking-wide mb-3'>
+          <h4 className='text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3'>
             Detalles
           </h4>
           <ul className='grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 list-none'>
@@ -82,7 +82,7 @@ const PropertyNormalizedDescription = ({ property }) => {
                 <li key={i} className='flex items-start gap-2'>
                   <CheckIcon />
                   <span
-                    className='text-gray-600'
+                    className='text-gray-400'
                     title={full !== display ? full : undefined}
                   >
                     {display}
@@ -101,7 +101,7 @@ const PropertyNormalizedDescription = ({ property }) => {
             <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16' className='text-[var(--color-warn)] flex-shrink-0 mt-0.5'>
               <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' d='M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 0h16v9.5a6.5 6.5 0 0 1-6.5 6.5h-3A6.5 6.5 0 0 1 0 9.5V0zm7 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-.5 3h1v4h-1V7z' />
             </svg>
-            <p className='text-gray-600 leading-relaxed'>
+            <p className='text-gray-400 leading-relaxed'>
               {nota}
             </p>
           </div>

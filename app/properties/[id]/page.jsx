@@ -86,9 +86,9 @@ const PropertyPage = async ({ params }) => {
   try {
     if (!process.env.MONGODB_URI) {
       return (
-        <div className="min-h-screen flex items-center justify-center p-6" style={{ background: '#F6F6F6' }}>
+        <div className="min-h-screen flex items-center justify-center p-6" style={{ background: '#141412' }}>
           <div className="max-w-md text-center">
-            <h1 className="text-2xl font-semibold text-[#0F172A] mb-2">Base de datos pendiente</h1>
+            <h1 className="text-2xl font-semibold text-white mb-2">Base de datos pendiente</h1>
             <p className="text-sm text-[#666]">Configurar MONGODB_URI de Farias para ver propiedades reales.</p>
           </div>
         </div>
@@ -186,18 +186,18 @@ const PropertyPage = async ({ params }) => {
     };
 
     return (
-      <div className="min-h-screen" style={{ background: '#F6F6F6' }}>
+      <div className="min-h-screen" style={{ background: '#141412' }}>
         <JsonLd data={realEstateJsonLd} />
         <JsonLd data={breadcrumbJsonLd} />
         <ScrollReveal variant="fadeScale">
           <PropertyGallery images={property.images} property={property} />
         </ScrollReveal>
-        <section className="pb-16">
+        <section className="pb-8">
           <div className="mx-auto">
             <PropertyDetails property={property} />
             {property.images && property.images.length > 0 && (
               <div className="mt-8" id="full-gallery">
-                <div className="bg-white rounded-none overflow-hidden">
+                <div className="bg-[#0A0A0A] rounded-none overflow-hidden">
                   <div className="mx-auto py-[30px] md:py-[80px] px-4 md:px-[50px] md:pb-[35px]">
                     <div className="pb-[30px]">
                       <SectionTitle size="normal">
@@ -216,14 +216,14 @@ const PropertyPage = async ({ params }) => {
 
             {/* View on Map */}
             <div className="mt-8">
-              <div className="bg-white rounded-none md:rounded-[30px] overflow-hidden">
+              <div className="bg-[#0A0A0A] rounded-none overflow-hidden">
                 <div className="mx-auto px-4 md:px-[50px] py-[30px] md:py-[40px]">
                   <div className="pb-[30px]">
                     <div className="flex items-center justify-between">
                       <SectionTitle size="normal">Vista en Mapa</SectionTitle>
                       <Link
                         href="/properties/map-all"
-                        className="hidden md:inline-flex items-center gap-2 text-[var(--color-brand)] text-[13px] font-bold uppercase tracking-wider transition-colors hover:text-[#0F172A]"
+                        className="hidden md:inline-flex items-center gap-2 text-[var(--color-brand)] text-[13px] font-bold uppercase tracking-wider transition-colors hover:text-white"
                       >
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                           <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
@@ -235,7 +235,7 @@ const PropertyPage = async ({ params }) => {
                     </div>
                     <Link
                       href="/properties/map-all"
-                      className="md:hidden mt-4 w-full flex items-center justify-center gap-2 text-[13px] font-bold uppercase tracking-wider text-[var(--color-brand)] bg-white border border-[var(--color-brand)] rounded-[8px] py-3 px-6 transition-colors hover:bg-[var(--color-brand)] hover:text-white"
+                      className="md:hidden mt-4 w-full flex items-center justify-center gap-2 text-[13px] font-bold uppercase tracking-wider text-[var(--color-brand)] bg-[#0A0A0A] border border-[var(--color-brand)] rounded-[8px] py-3 px-6 transition-colors hover:bg-[var(--color-brand)] hover:text-white"
                     >
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                         <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
@@ -261,7 +261,7 @@ const PropertyPage = async ({ params }) => {
     );
   } catch (err) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6" style={{ background: '#F6F6F6' }}>
+      <div className="min-h-screen flex items-center justify-center p-6" style={{ background: '#141412' }}>
         <div className="max-w-md text-center">
           <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
             <svg viewBox="0 0 24 24" fill="none" stroke="#E94560" strokeWidth="2" className="w-8 h-8">
@@ -270,7 +270,7 @@ const PropertyPage = async ({ params }) => {
               <line x1="12" y1="16" x2="12.01" y2="16"/>
             </svg>
           </div>
-          <h2 className="text-xl font-semibold text-[#0F172A] mb-2">Error al cargar la propiedad</h2>
+          <h2 className="text-xl font-semibold text-white mb-2">Error al cargar la propiedad</h2>
           <p className="text-sm text-[#666] mb-2">{err.message}</p>
           <p className="text-[11px] text-[#bbb] mb-6 font-mono">Digest: {err.digest}</p>
           <Link href="/admin" className="text-[var(--color-brand)] font-medium text-sm hover:underline">

@@ -138,7 +138,7 @@ const AdminPage = async () => {
                   </Link>
 
                   <div className="absolute top-2 right-2 group/help cursor-help">
-                    <div className="p-1 rounded-full hover:bg-white/10 transition-colors">
+                    <div className="p-1 rounded-full hover:bg-[#1C1C1A]/10 transition-colors">
                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#666] group-hover/help:text-white">
                          <circle cx="12" cy="12" r="10"></circle>
                          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>

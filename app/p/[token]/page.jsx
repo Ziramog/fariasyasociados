@@ -39,7 +39,7 @@ export default async function PublicQuotationPage({ params }) {
   return (
     <div className="min-h-screen bg-[#f3f4f6] text-[#1a1a18] selection:bg-[var(--color-brand)] selection:text-white py-12 px-4 sm:px-6">
       
-      <main className="max-w-[800px] mx-auto bg-white shadow-2xl overflow-hidden">
+      <main className="max-w-[800px] mx-auto bg-[#1C1C1A] shadow-2xl overflow-hidden">
         
         {/* Header - Black Bar */}
         <header className="bg-black text-white px-8 py-6 flex items-center justify-between">
@@ -78,7 +78,7 @@ export default async function PublicQuotationPage({ params }) {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                    />
                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <span className="bg-white text-black text-[10px] font-bold px-2 py-1 rounded shadow-sm">Ver detalles</span>
+                      <span className="bg-[#1C1C1A] text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">Ver detalles</span>
                    </div>
                  </Link>
                ))}
@@ -238,7 +238,7 @@ export default async function PublicQuotationPage({ params }) {
         <div className="bg-[#faf9f7] border-t border-[#e8e6e0] px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
            <p className="text-[11px] text-[#8c8c88] max-w-md">Ante cualquier consulta, por favor contactanos respondiendo el mensaje con el que recibiste este enlace.</p>
            {customization?.validUntil && (
-             <div className="flex items-center gap-2 bg-white border border-[#e8e6e0] px-3 py-1.5 rounded-full shadow-sm">
+             <div className="flex items-center gap-2 bg-[#1C1C1A] border border-[#e8e6e0] px-3 py-1.5 rounded-full shadow-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-brand)]">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                   <line x1="16" y1="2" x2="16" y2="6"></line>

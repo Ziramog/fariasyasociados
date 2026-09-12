@@ -46,15 +46,15 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
   return (
     <div
       className={`
-        group relative bg-white rounded-xl overflow-hidden border transition-all duration-300
+        group relative bg-[#1C1C1A] rounded-xl overflow-hidden border transition-all duration-300
         shadow-card hover:shadow-card-hover hover:-translate-y-1
-        ${isSelected ? 'ring-2 ring-primary ring-offset-2 border-primary/30' : 'border-gray-100'}
+        ${isSelected ? 'ring-2 ring-primary ring-offset-2 border-primary/30' : 'border-[#3B3B3B]'}
       `}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <Link href={`/properties/${property._id}`} className="block">
-        <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#2A2A2A]">
             <Image
               src={image}
               alt={property.name}
@@ -87,7 +87,7 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
             className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
               isBookmarked
                 ? 'bg-red-500 hover:bg-red-600 text-white shadow-md'
-                : 'bg-white/90 backdrop-blur-sm hover:bg-white text-gray-400 hover:text-red-500 shadow-sm'
+                : 'bg-[#1C1C1A]/90 backdrop-blur-sm hover:bg-[#1C1C1A] text-gray-400 hover:text-red-500 shadow-sm'
             }`}
             aria-label={isBookmarked ? 'Quitar de favoritos' : 'Guardar en favoritos'}
           >

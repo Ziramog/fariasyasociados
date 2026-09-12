@@ -145,10 +145,10 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
   const finalTotal = filteredProperties.length;
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#1C1C1A]">
       <ScrollToResults searchParams={searchParams} isFiltered={isFiltered} />
       {/* Sort Bar */}
-      <div id="resultados" className="bg-white px-4 md:px-[50px] pt-6 pb-4 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div id="resultados" className="bg-[#1C1C1A] px-4 md:px-[50px] pt-6 pb-4 border-b border-[#3B3B3B] flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <SectionTitle size="normal">{subtitle}</SectionTitle>
         <ScrollReveal delay={100}>
           <SortBar
@@ -160,7 +160,7 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
       </div>
 
       {/* Results */}
-      <section className="bg-white px-4 md:px-[50px] pb-12">
+      <section className="bg-[#1C1C1A] px-4 md:px-[50px] pb-12">
           {finalTotal === 0 ? (
             <ScrollReveal variant="fadeScale">
               <div className="text-center py-20">
@@ -193,8 +193,8 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
 
       {/* Category Map */}
       {filteredProperties.length > 0 && (
-      <section className="relative bg-white px-4 md:px-[50px] pb-12">
-          <div className="bg-white rounded-[30px] overflow-hidden">
+      <section className="relative bg-[#1C1C1A] px-4 md:px-[50px] pb-12">
+          <div className="bg-[#1C1C1A] rounded-[30px] overflow-hidden">
             <div className="mx-auto px-4 md:px-[50px] py-[30px] md:py-[40px]">
               <div className="pb-[30px]">
                 <SectionTitle size="normal">Vista en Mapa</SectionTitle>

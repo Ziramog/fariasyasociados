@@ -232,7 +232,7 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
 
   const inputClass = 'bg-[#111] border border-[#333] text-white rounded w-full py-2 px-3 focus:outline-none focus:border-[var(--color-brand)] focus:ring-1 focus:ring-[var(--color-brand)] transition-colors';
   const labelClass = 'block text-white/80 font-bold mb-2 text-sm';
-  const helperClass = 'text-[11px] text-gray-500 mt-1';
+  const helperClass = 'text-[11px] text-gray-400 mt-1';
 
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
@@ -387,7 +387,7 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
           </select>
           <div className='flex-1'>
             {operation === 'alquiler' ? (
-              <input type='text' name='price' className={`${inputClass} bg-[#222] text-gray-500`} value='Consultar' readOnly />
+              <input type='text' name='price' className={`${inputClass} bg-[#222] text-gray-400`} value='Consultar' readOnly />
             ) : (
               <input type='text' name='price' className={inputClass} placeholder='Ej: 502,000' defaultValue={String(property.price || '').replace(/^[A-Z$]+\s*/i, '')} />
             )}

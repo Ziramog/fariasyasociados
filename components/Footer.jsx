@@ -174,7 +174,7 @@ const Footer = ({
                         onChange={(e) => setWhatsappNumber(e.target.value)}
                         placeholder="Tu nro. de WhatsApp"
                         required
-                        className="w-[285px] h-[40px] bg-white/[0.06] border-none rounded-[5px] text-white font-bold text-[14px] pl-[45px] pr-4 outline-none placeholder:text-white/30"
+                        className="w-[285px] h-[40px] bg-[#1C1C1A]/[0.06] border-none rounded-[5px] text-white font-bold text-[14px] pl-[45px] pr-4 outline-none placeholder:text-white/30"
                       />
                     </div>
                     <button
@@ -207,28 +207,28 @@ const Footer = ({
           </div>
 
           {/* Bottom — Border top + Copyright + Social + Wolfim */}
-          <div className="flex items-center justify-between mt-[35px] pt-[35px] md:mt-[50px] md:pt-[50px] border-t-2 border-white/[0.1]">
+          <div className="flex items-center justify-between mt-[35px] pt-[35px] md:mt-[50px] md:pt-[50px] border-t-2 border-[#3B3B3B]/[0.1]">
             <p className="text-white text-[14px] uppercase font-bold">
               &copy; {currentYear} Farias & Asociados <sup>TM</sup>
             </p>
             <ul className="flex items-center gap-[25px]">
               <li>
-                <a href={`mailto:${contactEmail}`} className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Email">
+                <a href={`mailto:${contactEmail}`} className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Email">
                   <img src="/senada/images/icons/ico_mail.svg" alt="email" className="w-[20px] h-[20px]" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
               <li>
-                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp" onClick={() => trackWhatsappClick({ cta_location: 'footer', context: 'general' })}>
+                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp" onClick={() => trackWhatsappClick({ cta_location: 'footer', context: 'general' })}>
                   <FaWhatsapp className="text-xl" />
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook">
+                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook">
                   <img src="/senada/images/icons/ico_facebook.svg" alt="facebook" className="w-[20px] h-[20px]" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
+                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
                   <img src="/senada/images/icons/ico_instagram.svg" alt="instagram" className="w-[20px] h-[20px]" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
@@ -344,7 +344,7 @@ const Footer = ({
                       onChange={(e) => setWhatsappNumber(e.target.value)}
                       placeholder="Tu nro. de WhatsApp"
                       required
-                      className="w-full h-10 bg-white/[0.06] border-none rounded-[5px] text-white font-bold text-[14px] pl-[45px] pr-4 outline-none placeholder:text-white/30"
+                      className="w-full h-10 bg-[#1C1C1A]/[0.06] border-none rounded-[5px] text-white font-bold text-[14px] pl-[45px] pr-4 outline-none placeholder:text-white/30"
                     />
                   </div>
                   <button
@@ -356,7 +356,7 @@ const Footer = ({
                   </button>
                 </form>
               ) : (
-                <div className="animate-fade-in bg-white/[0.03] rounded-lg p-4 border border-[#25D366]/30">
+                <div className="animate-fade-in bg-[#1C1C1A]/[0.03] rounded-lg p-4 border border-[#25D366]/30">
                   <p className="text-[#4ade80] text-[13px] font-bold mb-3 flex items-center justify-center gap-2">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                     ¡Número guardado!
@@ -376,28 +376,28 @@ const Footer = ({
           </div>
 
           {/* Copyright + Social + Powered by */}
-          <div className="border-t border-white/[0.08] pt-6 flex flex-col items-center gap-4">
+          <div className="border-t border-[#3B3B3B]/[0.08] pt-6 flex flex-col items-center gap-4">
             <p className="text-[14px] text-white uppercase font-bold mb-2">
               &copy; {currentYear} Farias & Asociados <sup>TM</sup>
             </p>
             <ul className="flex items-center gap-[25px]">
               <li>
-                <a href={`mailto:${contactEmail}`} className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Email">
+                <a href={`mailto:${contactEmail}`} className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Email">
                   <img src="/senada/images/icons/ico_mail.svg" alt="email" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
               <li>
-                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp" onClick={() => trackWhatsappClick({ cta_location: 'footer_mobile', context: 'general' })}>
+                <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="WhatsApp" onClick={() => trackWhatsappClick({ cta_location: 'footer_mobile', context: 'general' })}>
                   <FaWhatsapp className="text-xl" />
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook" onClick={() => trackSocialClick({ channel: 'facebook', cta_location: 'footer_mobile', context: 'social' })}>
+                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Facebook" onClick={() => trackSocialClick({ channel: 'facebook', cta_location: 'footer_mobile', context: 'social' })}>
                   <img src="/senada/images/icons/ico_facebook.svg" alt="facebook" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-white/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
+                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-[40px] h-[40px] rounded-[9px] bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-all duration-300" aria-label="Instagram">
                   <img src="/senada/images/icons/ico_instagram.svg" alt="instagram" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </li>

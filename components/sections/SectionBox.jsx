@@ -1,5 +1,5 @@
 const SectionBox = ({ children, className = '' }) => (
-  <div className={`bg-white w-full ${className}`}>
+  <div className={`bg-[#0A0A0A] w-full ${className}`}>
     {children}
   </div>
 );

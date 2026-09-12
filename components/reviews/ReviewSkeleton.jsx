@@ -1,6 +1,6 @@
 export function ReviewSkeleton() {
   return (
-    <div className="flex flex-col p-5 rounded-2xl border border-zinc-100 bg-white animate-pulse">
+    <div className="flex flex-col p-5 rounded-2xl border border-zinc-100 bg-[#1C1C1A] animate-pulse">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-zinc-200 flex-shrink-0" />
         <div className="flex-1 space-y-2">

@@ -5,14 +5,13 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
 import { generateWhatsAppLink, PHONE_NUMBER, PHONE_DISPLAY } from '@/utils/whatsapp';
-import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { trackWhatsappClick, trackPhoneClick } from '@/utils/analytics';
 
 const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = '+54 9 0000 000000' }) => {
   const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [providers, setProviders] = useState(null);
   const [desktopDropdown, setDesktopDropdown] = useState(null);
   const [mobileSubOpen, setMobileSubOpen] = useState(false);
   const [mobileAdminOpen, setMobileAdminOpen] = useState(false);
@@ -35,12 +34,6 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
   if (pathname.startsWith('/p/')) return null;
 
   useEffect(() => {
-    const setAuthProviders = async () => {
-      const res = await getProviders();
-      setProviders(res);
-    };
-    setAuthProviders();
-
     const handleResize = () => setIsMobileMenuOpen(false);
     window.addEventListener('resize', handleResize);
 
@@ -154,20 +147,20 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
           {/* Side Nav — Senada .sideMenu: Phone | Search | Show More */}
           <div className="desktop-dropdown flex items-center gap-4 ml-8">
             {/* Phone → WhatsApp */}
-            <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" aria-label="WhatsApp" onClick={() => trackWhatsappClick({ cta_location: 'navbar_desktop', context: 'general' })}>
+            <a href={generateWhatsAppLink({ context: 'general' })} target="_blank" rel="noopener noreferrer" className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[#1C1C1A]/10 transition-colors" aria-label="WhatsApp" onClick={() => trackWhatsappClick({ cta_location: 'navbar_desktop', context: 'general' })}>
               <img src="/senada/images/icons/ico_phone.svg" alt="Teléfono" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
             </a>
             {/* Search */}
-            <Link href="/properties" className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" aria-label="Buscar">
+            <Link href="/properties" className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[#1C1C1A]/10 transition-colors" aria-label="Buscar">
               <img src="/senada/images/icons/ico_search.svg" alt="Buscar" className="w-5 h-5" style={{ filter: 'brightness(0) invert(1)' }} />
             </Link>
             {/* Show More / Hamburger */}
             <div className="relative" onMouseEnter={() => openDropdown('more')} onMouseLeave={closeDropdown}>
-                <button className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" aria-label="Más">
+                <button className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[#1C1C1A]/10 transition-colors" aria-label="Más">
                   <span className="space-y-1 flex flex-col items-center">
-                    <span className="block w-[18px] h-[2px] bg-white rounded-sm"></span>
-                    <span className="block w-[18px] h-[2px] bg-white rounded-sm"></span>
-                    <span className="block w-[18px] h-[2px] bg-white rounded-sm"></span>
+                    <span className="block w-[18px] h-[2px] bg-[#1C1C1A] rounded-sm"></span>
+                    <span className="block w-[18px] h-[2px] bg-[#1C1C1A] rounded-sm"></span>
+                    <span className="block w-[18px] h-[2px] bg-[#1C1C1A] rounded-sm"></span>
                   </span>
                 </button>
                 <div style={{
@@ -178,11 +171,11 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
                   position: 'absolute', top: '100%', right: '0', zIndex: 50,
                 }}>
                   <ul className="bg-black rounded-[6px] min-w-[180px] text-center shadow-[0_8px_14px_-3px_rgba(255,255,255,0.1)] mt-2">
-                    {!session && providers && Object.values(providers).map((provider) => (
-                      <li key={provider.id} className="border-b border-[#252525] last:border-b-0">
-                          <button onClick={() => signIn(provider.id, { callbackUrl: '/admin' })} className="block w-full text-center text-white text-[13px] px-5 py-[15px] font-normal hover:opacity-40">Ingresar</button>
+                    {!session && (
+                      <li className="border-b border-[#252525] last:border-b-0">
+                          <button onClick={() => signIn('google', { callbackUrl: '/admin' })} className="block w-full text-center text-white text-[13px] px-5 py-[15px] font-normal hover:opacity-40">Ingresar</button>
                       </li>
-                    ))}
+                    )}
                     {session && (
                       <li className="border-b border-[#252525] last:border-b-0"><button onClick={() => signOut()} className="block w-full text-center text-white text-[13px] px-5 py-[15px] font-normal hover:opacity-40">Salir</button></li>
                     )}
@@ -251,12 +244,12 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
         >
           <nav className="flex-1 flex flex-col px-0">
             {/* Oportunidades */}
-            <Link href="/properties" className={`block text-white text-[22px] py-[15px] border-b border-white/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.4s' }} onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href="/properties" className={`block text-white text-[22px] py-[15px] border-b border-[#3B3B3B]/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.4s' }} onClick={() => setIsMobileMenuOpen(false)}>
               Oportunidades
             </Link>
 
             {/* Propiedades — expandable */}
-            <div className={`border-b border-white/[.08] ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ animationDelay: '0.45s' }}>
+            <div className={`border-b border-[#3B3B3B]/[.08] ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ animationDelay: '0.45s' }}>
               <button
                   onClick={() => setMobileSubOpen(!mobileSubOpen)}
                   className="flex items-center justify-between w-full text-white text-[22px] py-[15px] hover:text-[var(--color-brand)] transition-colors"
@@ -284,27 +277,25 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
             </div>
 
             {/* SOBRE NOSOTROS */}
-            <Link href="/#nuestra-historia" className={`block text-white text-[22px] py-[15px] border-b border-white/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.5s' }} onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href="/#nuestra-historia" className={`block text-white text-[22px] py-[15px] border-b border-[#3B3B3B]/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.5s' }} onClick={() => setIsMobileMenuOpen(false)}>
               Sobre nosotros
             </Link>
 
             {/* PANEL DE CONTROL */}
             {session && (
-              <Link href="/admin" className={`block text-white text-[22px] py-[15px] border-b border-white/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.55s' }} onClick={() => setIsMobileMenuOpen(false)}>
+              <Link href="/admin" className={`block text-white text-[22px] py-[15px] border-b border-[#3B3B3B]/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.55s' }} onClick={() => setIsMobileMenuOpen(false)}>
                 Panel de control
               </Link>
             )}
 
             {session ? (
-              <button onClick={() => { signOut(); setIsMobileMenuOpen(false); }} className={`block w-full text-left text-white text-[22px] py-[15px] border-b border-white/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.6s' }}>
+              <button onClick={() => { signOut(); setIsMobileMenuOpen(false); }} className={`block w-full text-left text-white text-[22px] py-[15px] border-b border-[#3B3B3B]/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.6s' }}>
                 Salir
               </button>
             ) : (
-              providers && Object.values(providers).map((provider, i) => (
-                <button key={provider.id} onClick={() => { signIn(provider.id, { callbackUrl: '/admin' }); setIsMobileMenuOpen(false); }} className={`block w-full text-left text-white text-[22px] py-[15px] border-b border-white/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: `${0.55 + (i*0.05)}s` }}>
-                  Ingresar
-                </button>
-              ))
+              <button onClick={() => { signIn('google', { callbackUrl: '/admin' }); setIsMobileMenuOpen(false); }} className={`block w-full text-left text-white text-[22px] py-[15px] border-b border-[#3B3B3B]/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.6s' }}>
+                Ingresar
+              </button>
             )}
           </nav>
 
@@ -327,12 +318,12 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Instagram">
+                <a href="https://www.instagram.com/inmobiliariafariasasociados/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Instagram">
                   <img src="/senada/images/icons/ico_instagram.svg" alt="instagram" className="w-5 h-5" />
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Facebook">
+                <a href="https://www.facebook.com/p/Inmobiliaria-Farias-Asociados-100054256688329/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#1C1C1A]/[0.15] hover:bg-[var(--color-brand)] transition-colors duration-300" aria-label="Facebook">
                   <img src="/senada/images/icons/ico_facebook.svg" alt="facebook" className="w-5 h-5" />
                 </a>
               </li>

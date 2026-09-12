@@ -89,7 +89,7 @@ export default function MapPropertySidebar({ property, onClose }) {
 
       {/* Sidebar — desktop goes above navbar (z-[100]) */}
       <div
-        className={`fixed ${isMobile ? 'z-40' : 'z-[110]'} bg-white shadow-xl overflow-hidden flex-col ${
+        className={`fixed ${isMobile ? 'z-40' : 'z-[110]'} bg-[#1C1C1A] shadow-xl overflow-hidden flex-col ${
           isMobile
             ? 'top-[calc(env(safe-area-inset-top,8px)+60px)] left-0 right-0 bottom-0 rounded-none'
             : 'top-0 right-0 h-screen w-[760px]'
@@ -147,12 +147,12 @@ export default function MapPropertySidebar({ property, onClose }) {
             {/* Property footer — no extra tags here, badge is on image */}
             <div className="py-4">
               <h3
-                className="text-[28px] font-medium text-[#0F172A] group-hover:text-[var(--color-brand)] leading-snug line-clamp-2 mb-1 transition-colors"
+                className="text-[28px] font-medium text-white group-hover:text-[var(--color-brand)] leading-snug line-clamp-2 mb-1 transition-colors"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {property.name}
               </h3>
-              <p className="text-[16px] text-[#878787] leading-tight line-clamp-1">
+              <p className="text-[16px] text-gray-400 leading-tight line-clamp-1">
                 {city}
               </p>
             </div>
@@ -163,10 +163,10 @@ export default function MapPropertySidebar({ property, onClose }) {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6">
               {features.map((feat) => (
                 <div key={feat.label} className="py-2">
-                  <p className="whitespace-nowrap font-medium text-[26px] text-[#0F172A]" style={{ fontFamily: 'var(--font-heading)' }}>
+                  <p className="whitespace-nowrap font-medium text-[26px] text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                     {feat.value}
                   </p>
-                  <p className="text-[16px] text-[#878787] leading-[17px] mt-0.5">
+                  <p className="text-[16px] text-gray-400 leading-[17px] mt-0.5">
                     {feat.label}
                   </p>
                 </div>
@@ -178,7 +178,7 @@ export default function MapPropertySidebar({ property, onClose }) {
           <div className="flex gap-3 pb-6">
             <button
               onClick={() => router.push(`/properties/${property._id}`)}
-              className="flex-1 py-3.5 border border-[#0F172A] text-[#0F172A] text-[13px] font-bold uppercase tracking-wider transition-colors hover:bg-[#0F172A] hover:text-white"
+              className="flex-1 py-3.5 border border-[var(--color-ink)] text-white text-[13px] font-bold uppercase tracking-wider transition-colors hover:bg-[var(--color-ink)] hover:text-white"
             >
               Ver detalle
             </button>

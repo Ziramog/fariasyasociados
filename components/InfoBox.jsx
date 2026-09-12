@@ -1,7 +1,7 @@
 const InfoBox = ({
   heading,
-  backgroundColor = 'bg-gray-100',
-  textColor = 'text-gray-800',
+  backgroundColor = 'bg-[#2A2A2A]',
+  textColor = 'text-white',
   buttonInfo,
   children,
 }) => {

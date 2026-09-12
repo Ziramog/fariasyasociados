@@ -136,7 +136,7 @@ export default function SocialStoryGenerator({ property }) {
               disabled={loading}
               className="bg-gradient-to-r from-pink-600 to-orange-500 hover:from-pink-500 hover:to-orange-400 text-white font-bold py-4 px-6 rounded-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
             >
-              {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Share2 className="w-5 h-5" />}
+              {loading ? <div className="w-5 h-5 border-2 border-[#3B3B3B]/30 border-t-white rounded-full animate-spin" /> : <Share2 className="w-5 h-5" />}
               {loading ? 'Generando...' : 'Compartir (Mobile)'}
             </button>
             <button 
@@ -180,7 +180,7 @@ export default function SocialStoryGenerator({ property }) {
                     <div className="w-[320px]">
                       <Image src="/images/logo_only.png" alt="Logo" width={500} height={500} className="w-full h-auto object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]" />
                     </div>
-                    <div className="bg-[var(--color-brand)] text-white text-[42px] font-black uppercase tracking-[5px] px-9 h-[80px] flex items-center justify-center rounded-[20px] border-[3px] border-white/35">
+                    <div className="bg-[var(--color-brand)] text-white text-[42px] font-black uppercase tracking-[5px] px-9 h-[80px] flex items-center justify-center rounded-[20px] border-[3px] border-[#3B3B3B]/35">
                       {op}
                     </div>
                   </div>

@@ -164,7 +164,7 @@ export default function PDFSettingsModal({ initialConfig, user }) {
                     <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Guardada</span>
                   )}
                 </div>
-                <div className="border border-[#333] rounded-sm overflow-hidden mb-2 bg-white" style={{ filter: 'invert(1) hue-rotate(180deg)' }}>
+                <div className="border border-[#333] rounded-sm overflow-hidden mb-2 bg-[#1C1C1A]" style={{ filter: 'invert(1) hue-rotate(180deg)' }}>
                   <SignatureCanvas
                     ref={sigRef}
                     penColor="#1a1a1a"

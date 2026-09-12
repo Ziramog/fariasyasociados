@@ -14,7 +14,7 @@ const MapView = dynamic(() => import('./MapView'), {
   ssr: false,
   loading: () => (
     <div className="h-full w-full flex items-center justify-center bg-[#E8E6E0]">
-      <div className="flex flex-col items-center gap-3 text-[var(--color-ink-tertiary)]">
+      <div className="flex flex-col items-center gap-3 text-gray-400">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12 opacity-50">
           <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
           <line x1="8" y1="2" x2="8" y2="18"/>
@@ -37,8 +37,8 @@ const EmptyState = () => (
         <line x1="16" y1="6" x2="16" y2="22"/>
       </svg>
     </div>
-    <p className="text-[15px] font-semibold text-[var(--color-ink)] mb-2">Seleccioná una propiedad</p>
-    <p className="text-[13px] text-[var(--color-ink-secondary)] leading-relaxed">
+    <p className="text-[15px] font-semibold text-white mb-2">Seleccioná una propiedad</p>
+    <p className="text-[13px] text-gray-200 leading-relaxed">
       Hacé click en un pin del mapa para ver todos los detalles
     </p>
   </div>
@@ -74,9 +74,9 @@ const PropertyDetail = ({ property, onClose }) => {
         )}
         <a
           href={`/properties/${property._id}`}
-          className="absolute top-3 right-3 w-10 h-10 bg-white/40 backdrop-blur-md border border-white/40 rounded-full flex items-center justify-center hover:bg-white/60 transition-all shadow-sm"
+          className="absolute top-3 right-3 w-10 h-10 bg-[#1C1C1A]/40 backdrop-blur-md border border-[#3B3B3B]/40 rounded-full flex items-center justify-center hover:bg-[#1C1C1A]/60 transition-all shadow-sm"
         >
-          <FaExpand className="w-5 h-5 text-[var(--color-ink)]" />
+          <FaExpand className="w-5 h-5 text-white" />
         </a>
       </div>
 
@@ -85,32 +85,32 @@ const PropertyDetail = ({ property, onClose }) => {
           <p className="text-[24px] font-bold leading-tight" style={{ color: '#C93E15' }}>
             {price}
           </p>
-          <p className="text-[14px] text-[var(--color-ink)] font-medium mt-0.5">
+          <p className="text-[14px] text-white font-medium mt-0.5">
             {property.name}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-[13px] text-[var(--color-ink-secondary)]">
+        <div className="flex items-center gap-2 text-[13px] text-gray-200">
           <MapPin className="w-4 h-4 flex-shrink-0 text-[var(--color-brand)]" />
           {property.location?.city}
         </div>
 
-        <div className="flex items-center gap-4 text-[13px] font-medium text-[var(--color-ink)] border-t-2 border-b-2 border-[var(--color-border-strong)] py-2.5">
+        <div className="flex items-center gap-4 text-[13px] font-medium text-white border-t-2 border-b-2 border-[var(--color-border-strong)] py-2.5">
           {property.beds > 0 && (
             <span className="flex items-center gap-1.5">
-              <FaBed className="w-4 h-4 text-[var(--color-ink-tertiary)]" />
+              <FaBed className="w-4 h-4 text-gray-400" />
               {property.beds} Dorm.
             </span>
           )}
           {property.baths > 0 && (
             <span className="flex items-center gap-1.5">
-              <FaBath className="w-4 h-4 text-[var(--color-ink-tertiary)]" />
+              <FaBath className="w-4 h-4 text-gray-400" />
               {property.baths} Baños
             </span>
           )}
           {property.area && (
             <span className="flex items-center gap-1.5">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 text-[var(--color-ink-tertiary)]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 text-gray-400">
                 <polyline points="15 3 21 3 21 9"/>
                 <polyline points="9 21 3 21 3 15"/>
                 <line x1="21" y1="3" x2="14" y2="10"/>
@@ -122,7 +122,7 @@ const PropertyDetail = ({ property, onClose }) => {
         </div>
 
         {property.description && (
-          <p className="text-[13px] text-[var(--color-ink)] leading-relaxed line-clamp-3">
+          <p className="text-[13px] text-white leading-relaxed line-clamp-3">
             {property.description}
           </p>
         )}
@@ -252,7 +252,7 @@ const MapProperties = ({ initialProperties = [] }) => {
                   className={`h-8 md:h-9 px-3 md:px-5 border-[1.5px] text-[12px] md:text-[13px] font-medium rounded transition-all duration-150 whitespace-nowrap ${
                     activeType === type && !showGranInversion
                       ? 'bg-[var(--color-brand)] border-[var(--color-brand)] text-white shadow-[0_2px_8px_rgba(242,107,46,0.3)]'
-                      : 'bg-white border-[var(--color-border-strong)] text-[var(--color-ink)] hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]'
+                      : 'bg-[#1C1C1A] border-[var(--color-border-strong)] text-white hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]'
                   }`}
                 >
                   {type}
@@ -269,7 +269,7 @@ const MapProperties = ({ initialProperties = [] }) => {
                 className={`h-8 md:h-9 px-3 md:px-5 border-[1.5px] text-[12px] md:text-[13px] font-medium rounded transition-all duration-150 flex items-center gap-1.5 whitespace-nowrap ${
                   showGranInversion
                     ? 'bg-[var(--color-brand)] border-[var(--color-brand)] text-white shadow-[0_2px_8px_rgba(242,107,46,0.3)]'
-                    : 'bg-white border-[var(--color-border-strong)] text-[var(--color-ink)] hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]'
+                    : 'bg-[#1C1C1A] border-[var(--color-border-strong)] text-white hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]'
                 }`}
               >
                 <TrendingUp className="w-3.5 h-3.5" />
@@ -290,7 +290,7 @@ const MapProperties = ({ initialProperties = [] }) => {
                   selectedId={selectedPropertyId}
                 />
               </div>
-              <div className="col-span-4 bg-white border-l-2 border-[var(--color-border-strong)] flex flex-col overflow-hidden">
+              <div className="col-span-4 bg-[#1C1C1A] border-l-2 border-[var(--color-border-strong)] flex flex-col overflow-hidden">
                 <PropertyDetail property={selectedProperty} />
               </div>
             </div>
@@ -309,7 +309,7 @@ const MapProperties = ({ initialProperties = [] }) => {
             {/* Map all link — mobile */}
             <Link
               href="/properties/map-all"
-              className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-white/90 backdrop-blur-md border border-white/40 rounded-full px-3 py-1.5 text-[11px] font-semibold text-[#1A1A18] shadow-lg hover:bg-white transition-all lg:hidden"
+              className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-[#1C1C1A]/90 backdrop-blur-md border border-[#3B3B3B]/40 rounded-full px-3 py-1.5 text-[11px] font-semibold text-[#1A1A18] shadow-lg hover:bg-[#1C1C1A] transition-all lg:hidden"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
                 <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
@@ -320,20 +320,20 @@ const MapProperties = ({ initialProperties = [] }) => {
             </Link>
 
             <div
-              className={`absolute inset-x-0 bottom-0 z-20 bg-white rounded-t-3xl transition-transform duration-300 overflow-hidden ${snapPoints[sheetPosition]}`}
+              className={`absolute inset-x-0 bottom-0 z-20 bg-[#1C1C1A] rounded-t-3xl transition-transform duration-300 overflow-hidden ${snapPoints[sheetPosition]}`}
               style={{ height: '55vh', maxHeight: '60vh', boxShadow: '0 -8px 40px rgba(0,0,0,0.2), 0 -2px 12px rgba(0,0,0,0.1)' }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
-              <div className="flex justify-center pt-3 pb-2 sticky top-0 bg-white z-20">
+              <div className="flex justify-center pt-3 pb-2 sticky top-0 bg-[#1C1C1A] z-20">
                 <div className="w-10 h-1.5 bg-[var(--color-border-strong)] rounded-full" />
               </div>
               <button
                 onClick={handleCloseMobileDetail}
-                className="absolute top-4 right-4 w-10 h-10 bg-white/30 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center z-20 hover:bg-white/45 transition-all shadow-sm"
+                className="absolute top-4 right-4 w-10 h-10 bg-[#1C1C1A]/30 backdrop-blur-md border border-[#3B3B3B]/30 rounded-full flex items-center justify-center z-20 hover:bg-[#1C1C1A]/45 transition-all shadow-sm"
               >
-                <FaTimes className="w-5 h-5 text-[var(--color-ink)]" />
+                <FaTimes className="w-5 h-5 text-white" />
               </button>
               <div className="overflow-y-auto" style={{ height: 'calc(100% - 28px)' }}>
                 <PropertyDetail property={selectedProperty} />

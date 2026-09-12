@@ -85,9 +85,7 @@ function formatPrice(property) {
   const cleaned = priceStr.replace(/[^0-9]/g, '');
   const num = parseInt(cleaned, 10);
   if (isNaN(num)) return '?';
-  if (num >= 1000000) return `USD $${(num / 1000000).toFixed(1)}M`;
-  if (num >= 1000) return `USD ${Math.round(num / 1000)}k`;
-  return `USD $${num}`;
+  return `U$D ${num.toLocaleString('es-AR')}`;
 }
 
 import MapProvider from '@/components/shared/MapProvider';
@@ -145,8 +143,8 @@ const MapView = forwardRef(({ properties = [], onMarkerClick, selectedId }, ref)
 
   if (geocodedProps.length === 0) {
     return (
-      <div className="h-full w-full flex items-center justify-center bg-gray-100 rounded-lg">
-        <div className="text-center text-gray-500">
+      <div className="h-full w-full flex items-center justify-center bg-[#2A2A2A] rounded-lg">
+        <div className="text-center text-gray-400">
           <svg className="w-12 h-12 mx-auto mb-2 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
           </svg>
@@ -163,8 +161,8 @@ const MapView = forwardRef(({ properties = [], onMarkerClick, selectedId }, ref)
         alt={prop.name}
         className="w-full h-32 object-cover rounded-md mb-2"
       />
-      <h3 className="font-semibold text-sm text-gray-900 line-clamp-1">{prop.name}</h3>
-      <p className="text-xs text-gray-500 mt-0.5">
+      <h3 className="font-semibold text-sm text-white line-clamp-1">{prop.name}</h3>
+      <p className="text-xs text-gray-400 mt-0.5">
         {prop.location?.city}, {prop.location?.state}
       </p>
       <p className="font-bold mt-1 text-base" style={{ color: '#C93E15' }}>{prop.price || 'Consultar'}</p>

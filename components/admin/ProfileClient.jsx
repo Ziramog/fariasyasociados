@@ -119,7 +119,7 @@ export default function ProfileClient({ user, totalProps, payments, config: init
               <h2 className="text-[28px] font-bold leading-tight mb-1 text-white" style={{ fontFamily: 'var(--font-heading)' }}>Pro</h2>
               <p className="text-white/50 text-xs">Propiedades: {totalProps} activas</p>
             </div>
-            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+            <div className="mt-4 pt-3 border-t border-[#3B3B3B]/10 flex items-center justify-between">
               <div>
                 <p className="text-[20px] font-bold text-white">Plan Anual</p>
                 <p className="text-[10px] text-[var(--color-brand)] uppercase tracking-wider mt-0.5 font-bold">Próximo pago: 08/06/27</p>

@@ -7,7 +7,7 @@
    Section Container
    ---------------------------------------------- */
 .property-section {
-  background: #FFFFFF;
+  background: transparent;
   padding: var(--space-20) 0;
 }
 
@@ -91,7 +91,7 @@
    Property Card
    ---------------------------------------------- */
 .property-card {
-  background: #FFFFFF;
+  background: #1C1C1A;
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -116,7 +116,7 @@
   position: relative;
   height: 210px;
   overflow: hidden;
-  background: var(--color-surface-soft);
+  background: var(--color-surface-darker);
 }
 
 .property-card-image img {
@@ -135,8 +135,9 @@
   position: absolute;
   top: 12px;
   left: 12px;
-  background: var(--color-ink);
-  color: #FFFFFF;
+  background: rgba(26, 26, 24, 0.85);
+  backdrop-filter: blur(4px);
+  color: var(--color-ink);
   font-family: var(--font-ui);
   font-size: 13px;
   font-weight: 600;
@@ -173,7 +174,7 @@
 }
 
 .property-card-status--consult {
-  background: #FFFFFF;
+  background: transparent;
   color: var(--color-brand);
   border: 1.5px solid var(--color-brand);
 }
@@ -185,15 +186,15 @@
   right: 12px;
   width: 32px;
   height: 32px;
-  background: rgba(255, 255, 255, 0.90);
+  background: rgba(28, 28, 26, 0.85);
   backdrop-filter: blur(4px);
   border-radius: var(--radius-full);
-  border: none;
+  border: 1px solid rgba(255,255,255,0.05);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all var(--transition-fast);
   z-index: 1;
 }
@@ -222,10 +223,10 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-full);
-  border: 2px solid #FFFFFF;
-  background: #FFFFFF;
+  border: 2px solid #1C1C1A;
+  background: #1C1C1A;
   object-fit: contain;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 

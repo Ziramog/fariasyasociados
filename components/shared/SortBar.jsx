@@ -22,7 +22,7 @@ const SortBar = ({ total, activeSort, searchParams }) => {
       <select
         value={activeSort || 'price-desc'}
         onChange={handleSortChange}
-        className="text-sm border border-gray-200 rounded-lg px-3 py-2 text-[#0F172A] bg-white focus:outline-none focus:ring-2 focus:ring-[#E94560]/30 focus:border-[#E94560] cursor-pointer transition-all"
+        className="text-sm border border-[#3B3B3B] rounded-lg px-3 py-2 text-white bg-[#1C1C1A] focus:outline-none focus:ring-2 focus:ring-[#E94560]/30 focus:border-[#E94560] cursor-pointer transition-all"
       >
         {SORT_OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>

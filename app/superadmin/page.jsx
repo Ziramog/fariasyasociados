@@ -73,7 +73,7 @@ export default function SuperadminPage() {
             </thead>
             <tbody className="divide-y divide-purple-900/10">
               {users.map((user) => (
-                <tr key={user._id} className="hover:bg-white/[0.02] transition-colors">
+                <tr key={user._id} className="hover:bg-[#1C1C1A]/[0.02] transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       {user.image ? (

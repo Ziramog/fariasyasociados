@@ -33,7 +33,7 @@ const PropertySearchForm = () => {
           type='text'
           id='location'
           placeholder='Ciudad, barrio o关键词...'
-          className='w-full px-4 py-3 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring focus:ring-[#d4a574]'
+          className='w-full px-4 py-3 rounded-lg bg-[#1C1C1A] text-white focus:outline-none focus:ring focus:ring-[#d4a574]'
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         />
@@ -44,7 +44,7 @@ const PropertySearchForm = () => {
         </label>
         <select
           id='property-type'
-          className='w-full px-4 py-3 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring focus:ring-[#d4a574]'
+          className='w-full px-4 py-3 rounded-lg bg-[#1C1C1A] text-white focus:outline-none focus:ring focus:ring-[#d4a574]'
           value={propertyType}
           onChange={(e) => setPropertyType(e.target.value)}
         >

@@ -52,7 +52,7 @@ export default function BackupsPage() {
           <button 
             onClick={() => downloadBackup('csv')}
             disabled={downloadingCsv}
-            className="w-full py-3.5 px-4 bg-emerald-500 hover:bg-emerald-400 text-black font-bold tracking-wide rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3.5 px-4 bg-emerald-500 hover:bg-emerald-400 text-white font-bold tracking-wide rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {downloadingCsv ? (
               <>

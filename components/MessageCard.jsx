@@ -30,7 +30,7 @@ const MessageCard = ({ message }) => {
   }
 
   return (
-    <div className='relative bg-white p-4 rounded-md shadow-md border border-gray-200'>
+    <div className='relative bg-[#1C1C1A] p-4 rounded-md shadow-md border border-[#3B3B3B]'>
       {!isRead && (
         <div className='absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-md'>
           Nuevo
@@ -40,7 +40,7 @@ const MessageCard = ({ message }) => {
         <span className='font-bold'>Consulta por Propiedad:</span>{' '}
         {message.property.name}
       </h2>
-      <p className='text-gray-700'>{message.body}</p>
+      <p className='text-gray-200'>{message.body}</p>
 
       <ul className='mt-4'>
         <li>

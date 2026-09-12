@@ -15,10 +15,10 @@ const BEDROOM_OPTIONS = [
 ];
 
 const PRICE_PRESETS = [
-  { label: 'Hasta 100k', min: '', max: '100000' },
-  { label: '100k–200k', min: '100000', max: '200000' },
-  { label: '200k–500k', min: '200000', max: '500000' },
-  { label: '500k+', min: '500000', max: '' },
+  { label: 'Hasta 100.000', min: '', max: '100000' },
+  { label: '100.000–200.000', min: '100000', max: '200000' },
+  { label: '200.000–500.000', min: '200000', max: '500000' },
+  { label: '500.000+', min: '500000', max: '' },
 ];
 
 const FilterBar = ({
@@ -64,7 +64,7 @@ const FilterBar = ({
         <select
           value={filters.city}
           onChange={(e) => updateFilter('city', e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="px-3 py-2 border border-[#3B3B3B] rounded-md text-sm bg-[#1C1C1A] focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         >
           {cities.map((city) => (
             <option key={city} value={city === 'Todas las ciudades' ? '' : city}>
@@ -82,7 +82,7 @@ const FilterBar = ({
               className={`px-3 py-2 text-xs font-medium rounded-md border transition-colors ${
                 isPricePresetActive(preset)
                   ? 'bg-navy text-white border-navy'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-navy'
+                  : 'bg-[#1C1C1A] text-gray-400 border-[#3B3B3B] hover:border-navy'
               }`}
             >
               {preset.label}
@@ -91,15 +91,15 @@ const FilterBar = ({
         </div>
 
         {/* Bedrooms segmented */}
-        <div className="flex border border-gray-200 rounded-md overflow-hidden">
+        <div className="flex border border-[#3B3B3B] rounded-md overflow-hidden">
           {BEDROOM_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               onClick={() => updateFilter('bedrooms', opt.value)}
-              className={`px-3 py-2 text-xs font-medium transition-colors border-r last:border-r-0 border-gray-200 ${
+              className={`px-3 py-2 text-xs font-medium transition-colors border-r last:border-r-0 border-[#3B3B3B] ${
                 filters.bedrooms === opt.value
                   ? 'bg-primary text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-50'
+                  : 'bg-[#1C1C1A] text-gray-400 hover:bg-[#141412]'
               }`}
             >
               {opt.label}

@@ -36,11 +36,11 @@ const CategoryCards = () => {
             CATEGORÍAS
           </span>
           <ScrollReveal variant="fadeLeft">
-            <h2 className="text-2xl md:text-[32px] font-medium text-[#0F172A] leading-tight tracking-[-0.01em] mb-3" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h2 className="text-2xl md:text-[32px] font-medium text-white leading-tight tracking-[-0.01em] mb-3" style={{ fontFamily: 'var(--font-heading)' }}>
               Explorá por categoría
             </h2>
           </ScrollReveal>
-          <p className="text-[14px] md:text-[17px] font-light text-[#475569] leading-[1.7]">
+          <p className="text-[14px] md:text-[17px] font-light text-gray-200 leading-[1.7]">
             Encontrá el tipo de propiedad que mejor se adapta a vos
           </p>
         </div>
@@ -54,7 +54,7 @@ const CategoryCards = () => {
                 key={type}
                 onClick={() => handleClick(type)}
                 className={`
-                  group relative bg-white border rounded-2xl p-5 pb-4 md:p-8 md:pb-7
+                  group relative bg-[#0A0A0A] border rounded-2xl p-5 pb-4 md:p-8 md:pb-7
                   flex flex-col items-center gap-3 md:gap-4 cursor-pointer
                   border-[#e1e1e1]
                   shadow-[0_2px_8px_rgba(0,0,0,0.06),0_4px_16px_rgba(0,0,0,0.04)]
@@ -85,7 +85,7 @@ const CategoryCards = () => {
                 <span
                   className={`
                     text-[12px] md:text-sm font-medium text-center
-                    ${isActive ? 'text-[var(--color-brand)]' : 'text-[#475569]'}
+                    ${isActive ? 'text-[var(--color-brand)]' : 'text-gray-200'}
                     transition-colors duration-150
                     group-hover:text-[var(--color-brand)]
                   `}

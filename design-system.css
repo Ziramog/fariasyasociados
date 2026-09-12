@@ -9,28 +9,28 @@
   --color-brand-muted: #F9DDD0;
 
   /* Neutrals */
-  --color-ink: #1A1A18;
-  --color-ink-secondary: #4B4B48;
+  --color-ink: #F7F4EF;
+  --color-ink-secondary: #D8C9B2;
   --color-ink-tertiary: #8C8C88;
-  --color-border: #E8E6E0;
-  --color-border-strong: #CCCAC3;
+  --color-border: #3B3B3B;
+  --color-border-strong: #fe8b01;
 
   /* Surfaces */
-  --color-surface: #FFFFFF;
-  --color-surface-soft: #F7F6F2;
-  --color-surface-dark: #1C1C1A;
-  --color-surface-darker: #141412;
+  --color-surface: #2A2A2A;
+  --color-surface-soft: #1C1C1A;
+  --color-surface-dark: #F7F4EF;
+  --color-surface-darker: #000000;
 
   /* Functional */
   --color-success: #16A34A;
-  --color-success-bg: #DCFCE7;
+  --color-success-bg: #1C2B21;
   --color-warn: #D97706;
-  --color-warn-bg: #FEF3C7;
-  --color-info-bg: #EFF6FF;
+  --color-warn-bg: #2B2313;
+  --color-info-bg: #141C2A;
 
   /* Typography — Fonts */
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-ui: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-ui: 'Montserrat', system-ui, sans-serif;
 
   /* Typography Scale */
   --t-hero-size: 72px; --t-hero-weight: 700; --t-hero-lh: 1.05; --t-hero-ls: -0.02em; --t-hero-family: var(--font-display);

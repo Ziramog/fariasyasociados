@@ -243,8 +243,8 @@ export default function GoogleMapPilot({ initialProperties = [] }) {
 
   if (!hasLoaded) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#F6F6F6]">
-        <p className="text-gray-500">Cargando propiedades...</p>
+      <div className="h-screen flex items-center justify-center bg-[#141412]">
+        <p className="text-gray-400">Cargando propiedades...</p>
       </div>
     );
   }
@@ -253,7 +253,7 @@ export default function GoogleMapPilot({ initialProperties = [] }) {
 
   if (!API_KEY) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#F6F6F6] text-center p-4">
+      <div className="h-screen flex items-center justify-center bg-[#141412] text-center p-4">
         <p className="text-red-500 font-bold">Error: Falta configurar NEXT_PUBLIC_GOOGLE_MAPS_API_KEY en Vercel/.env</p>
       </div>
     );
@@ -261,7 +261,7 @@ export default function GoogleMapPilot({ initialProperties = [] }) {
 
   return (
     <APIProvider apiKey={API_KEY}>
-      <div className="min-h-screen bg-[#F6F6F6]">
+      <div className="min-h-screen bg-[#141412]">
         <section className="bg-black px-4 md:px-[50px] pt-20 md:pt-28 pb-6">
           <div className="max-w-7xl mx-auto">
             <PropertiesSearch onFilter={setActiveFilters} title="Piloto Google Maps" />
@@ -269,7 +269,7 @@ export default function GoogleMapPilot({ initialProperties = [] }) {
         </section>
 
         <section className="px-4 md:px-[50px] pb-12 pt-[12px]">
-          <div className="bg-white rounded-[30px] overflow-hidden">
+          <div className="bg-[#1C1C1A] rounded-[30px] overflow-hidden">
             <div className="mx-auto px-4 md:px-[50px] py-[30px] md:py-[40px]">
               <div className="pb-[30px] flex items-center justify-between">
                 <SectionTitle size="normal">Propiedades (Google Maps)</SectionTitle>
@@ -277,7 +277,7 @@ export default function GoogleMapPilot({ initialProperties = [] }) {
 
               <ScrollReveal>
                 <div className="relative rounded-[30px] overflow-hidden" style={{ height: 'calc(100vh - 380px)', minHeight: '500px' }}>
-                  <div className="absolute top-4 right-14 z-20 bg-white/90 backdrop-blur-md rounded-full px-4 py-2 text-[12px] font-semibold text-[#1A1A18] shadow-lg">
+                  <div className="absolute top-4 right-14 z-20 bg-[#1C1C1A]/90 backdrop-blur-md rounded-full px-4 py-2 text-[12px] font-semibold text-[#1A1A18] shadow-lg">
                     {visibleCount} propiedades visibles
                   </div>
 

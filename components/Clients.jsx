@@ -26,7 +26,7 @@ const Clients = () => {
 
   return (
     CLIENTS.length > 0 && (
-    <section ref={sectionRef} className="bg-[#F6F6F6] pt-[12px] pb-[12px]">
+    <section ref={sectionRef} className="bg-[#141412] pt-[12px] pb-[12px]">
       <div className="px-4 md:px-[50px]">
         {/* Client logo cards — horizontal scroll on mobile, grid on desktop */}
         <div className="flex md:grid overflow-x-auto md:overflow-visible gap-[15px] md:gap-[20px] scrollbar-hide md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -36,7 +36,7 @@ const Clients = () => {
               className={`flex-shrink-0 w-[160px] md:w-auto transition-all duration-500 ease-in-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[50px]'}`}
               style={{ transitionDelay: `${i * 150}ms` }}
             >
-              <div className="bg-white rounded-[20px] p-3 md:p-4 flex items-center justify-center min-h-[110px] md:min-h-[130px]">
+              <div className="bg-[#0A0A0A] rounded-[20px] p-3 md:p-4 flex items-center justify-center min-h-[110px] md:min-h-[130px]">
                 <Image
                   src={client.logo}
                   alt={client.name}

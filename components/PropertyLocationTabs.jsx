@@ -87,7 +87,7 @@ const PropertyLocationTabs = ({ property }) => {
   if (loading) return <Spinner loading={loading} />;
 
   if (geocodeError) {
-    return <div className='text-xl text-[var(--color-ink-tertiary)]'>No location data found</div>;
+    return <div className='text-xl text-gray-400'>No location data found</div>;
   }
 
   const tabs = [
@@ -119,7 +119,7 @@ const PropertyLocationTabs = ({ property }) => {
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
                 activeTab === tab.id
                   ? 'bg-[var(--color-brand)] text-white shadow-md shadow-[var(--color-brand)]/20'
-                  : 'bg-[var(--color-surface-soft)] text-[var(--color-ink-secondary)] hover:bg-[var(--color-border)]'
+                  : 'bg-[var(--color-surface-soft)] text-gray-200 hover:bg-[var(--color-border)]'
               }`}
             >
               {tab.icon}
@@ -175,7 +175,7 @@ const PropertyLocationTabs = ({ property }) => {
                 href={`https://www.google.com/maps/@${lat},${lng},3a,75y,210h,90t/data=!3m6!1e1!3m4!1s!2e0!7i13312!8i6656`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-[var(--color-ink)] px-4 py-2 rounded-xl text-sm font-medium shadow-lg hover:bg-white transition-all flex items-center gap-2"
+                className="absolute bottom-4 right-4 bg-[#1C1C1A]/90 backdrop-blur-sm text-white px-4 py-2 rounded-xl text-sm font-medium shadow-lg hover:bg-[#1C1C1A] transition-all flex items-center gap-2"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>

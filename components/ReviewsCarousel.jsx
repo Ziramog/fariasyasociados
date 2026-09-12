@@ -69,12 +69,12 @@ export default function ReviewsCarousel({ reviews, googleRating, totalRatings })
 
   return (
     <section className="pt-[12px] pb-[12px]">
-      <div className="bg-white w-full pt-[30px] pb-[30px] md:pt-[60px] md:pb-[70px]">
+      <div className="bg-[#0A0A0A] w-full pt-[30px] pb-[30px] md:pt-[60px] md:pb-[70px]">
         <div className="max-w-[1820px] mx-auto px-4 md:px-[50px]">
 
           <div className="text-center mb-10 md:mb-14">
             <ScrollReveal variant="fadeLeft">
-              <h2 className="text-[28px] md:text-[40px] font-normal text-[#0F172A] leading-tight mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+              <h2 className="text-[28px] md:text-[40px] font-normal text-white leading-tight mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
                 Historias reales de quienes ya nos eligieron.
               </h2>
             </ScrollReveal>

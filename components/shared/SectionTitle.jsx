@@ -8,7 +8,7 @@ const SectionTitle = ({ children, size = 'normal', delay = 0, className = '' }) 
   return (
     <ScrollReveal variant="fadeLeft" delay={delay}>
       <h2
-        className={`${headingStyle} font-semibold text-[#0F172A] flex items-center ${className}`}
+        className={`${headingStyle} font-semibold text-white flex items-center ${className}`}
         style={{ fontFamily: 'var(--font-heading)' }}
       >
         {children}

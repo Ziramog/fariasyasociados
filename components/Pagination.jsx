@@ -18,7 +18,7 @@ const Pagination = ({ page, pageSize, totalItems, searchParams = {} }) => {
     <section className='container mx-auto flex justify-center items-center my-8'>
       {page > 1 ? (
         <Link
-          className='mr-2 px-2 py-1 border border-gray-300 rounded'
+          className='mr-2 px-2 py-1 border border-[#4B4B48] rounded'
           href={getUrl(page - 1)}
         >
           Anterior
@@ -32,7 +32,7 @@ const Pagination = ({ page, pageSize, totalItems, searchParams = {} }) => {
 
       {page < totalPages ? (
         <Link
-          className='ml-2 px-2 py-1 border border-gray-300 rounded'
+          className='ml-2 px-2 py-1 border border-[#4B4B48] rounded'
           href={getUrl(page + 1)}
         >
           Siguiente

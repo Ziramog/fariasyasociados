@@ -41,14 +41,14 @@ const FilterDrawer = () => {
     setOpen(false);
   };
 
-  const glassCls = 'bg-black/20 backdrop-blur-xl border border-white/10';
+  const glassCls = 'bg-black/20 backdrop-blur-xl border border-[#3B3B3B]/10';
 
   return (
     <>
       {/* Toggle button — fixed right side */}
       <button
         onClick={() => setOpen(true)}
-        className='fixed right-0 top-1/2 -translate-y-1/2 z-50 bg-black/20 backdrop-blur-xl border border-white/10 border-r-0 rounded-l-xl px-2 py-4 flex flex-col items-center gap-1 text-white/80 hover:text-white hover:bg-black/30 transition-all'
+        className='fixed right-0 top-1/2 -translate-y-1/2 z-50 bg-black/20 backdrop-blur-xl border border-[#3B3B3B]/10 border-r-0 rounded-l-xl px-2 py-4 flex flex-col items-center gap-1 text-white/80 hover:text-white hover:bg-black/30 transition-all'
         style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
       >
         <FaSlidersH className='w-4 h-4' />
@@ -70,7 +70,7 @@ const FilterDrawer = () => {
         }`}
       >
         {/* Header */}
-        <div className='flex items-center justify-between px-5 py-4 border-b border-white/10'>
+        <div className='flex items-center justify-between px-5 py-4 border-b border-[#3B3B3B]/10'>
           <span className='text-white font-bold uppercase tracking-wider text-sm'>Filtros</span>
           <button onClick={() => setOpen(false)} className='text-white/60 hover:text-white transition-colors'>
             <FaTimes className='w-5 h-5' />
@@ -82,7 +82,7 @@ const FilterDrawer = () => {
           <div>
             <label className='text-white/60 text-[11px] font-bold uppercase tracking-widest mb-2 block'>Tipo</label>
             <select name='type' value={filters.type} onChange={handleChange}
-              className='w-full bg-black/20 border border-white/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none appearance-none cursor-pointer'>
+              className='w-full bg-black/20 border border-[#3B3B3B]/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none appearance-none cursor-pointer'>
               {PROPERTY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
@@ -90,7 +90,7 @@ const FilterDrawer = () => {
           <div>
             <label className='text-white/60 text-[11px] font-bold uppercase tracking-widest mb-2 block'>Ubicación</label>
             <select name='city' value={filters.city} onChange={handleChange}
-              className='w-full bg-black/20 border border-white/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none appearance-none cursor-pointer'>
+              className='w-full bg-black/20 border border-[#3B3B3B]/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none appearance-none cursor-pointer'>
               {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
@@ -99,19 +99,19 @@ const FilterDrawer = () => {
             <div className='flex-1'>
               <label className='text-white/60 text-[11px] font-bold uppercase tracking-widest mb-2 block'>Precio mín</label>
               <input type='number' name='minPrice' value={filters.minPrice} onChange={handleChange} placeholder='U$S'
-                className='w-full bg-black/20 border border-white/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none placeholder:text-white/40' />
+                className='w-full bg-black/20 border border-[#3B3B3B]/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none placeholder:text-white/40' />
             </div>
             <div className='flex-1'>
               <label className='text-white/60 text-[11px] font-bold uppercase tracking-widest mb-2 block'>Precio máx</label>
               <input type='number' name='maxPrice' value={filters.maxPrice} onChange={handleChange} placeholder='U$S'
-                className='w-full bg-black/20 border border-white/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none placeholder:text-white/40' />
+                className='w-full bg-black/20 border border-[#3B3B3B]/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none placeholder:text-white/40' />
             </div>
           </div>
 
           <div>
             <label className='text-white/60 text-[11px] font-bold uppercase tracking-widest mb-2 block'>Dormitorios</label>
             <select name='bedrooms' value={filters.bedrooms} onChange={handleChange}
-              className='w-full bg-black/20 border border-white/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none appearance-none cursor-pointer'>
+              className='w-full bg-black/20 border border-[#3B3B3B]/10 text-white text-sm py-3 px-4 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 outline-none appearance-none cursor-pointer'>
               <option value=''>Cualquiera</option>
               {BEDROOM_OPTS.filter(o => o).map((o) => <option key={o} value={o}>{o}+</option>)}
             </select>

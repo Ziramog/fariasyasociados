@@ -264,15 +264,15 @@ export default function MapAllProperties({ initialProperties = [] }) {
 
   if (allProps.length === 0) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#F6F6F6]">
-        <p className="text-gray-500">Cargando mapa...</p>
+      <div className="h-screen flex items-center justify-center bg-[#141412]">
+        <p className="text-gray-400">Cargando mapa...</p>
       </div>
     );
   }
 
   return (
     <MapProvider>
-      <div className="min-h-screen bg-[#F6F6F6]">
+      <div className="min-h-screen bg-[#141412]">
         {/* Search bar */}
         <section className="bg-black px-4 md:px-[50px] pt-20 md:pt-28 pb-6">
           <div className="max-w-7xl mx-auto">
@@ -282,7 +282,7 @@ export default function MapAllProperties({ initialProperties = [] }) {
 
         {/* Map section */}
         <section className="px-4 md:px-[50px] pb-12 pt-[12px]">
-          <div className="bg-white rounded-[30px] overflow-hidden">
+          <div className="bg-[#1C1C1A] rounded-[30px] overflow-hidden">
             <div className="mx-auto px-4 md:px-[50px] py-[30px] md:py-[40px]">
               {/* Title */}
               <div className="pb-[30px] flex items-center justify-between">
@@ -293,7 +293,7 @@ export default function MapAllProperties({ initialProperties = [] }) {
               <ScrollReveal>
                 <div className="relative rounded-[30px] overflow-hidden" style={{ height: 'calc(100vh - 380px)', minHeight: '500px' }}>
                   {/* Property count badge */}
-                  <div className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur-md rounded-full px-4 py-2 text-[12px] font-semibold text-[#1A1A18] shadow-lg">
+                  <div className="absolute top-4 right-4 z-20 bg-[#1C1C1A]/90 backdrop-blur-md rounded-full px-4 py-2 text-[12px] font-semibold text-[#1A1A18] shadow-lg">
                     {visibleCount} propiedades visibles
                   </div>
 

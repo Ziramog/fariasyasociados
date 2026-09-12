@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const LoadingOverlay = () => {
   return (
-    <div className="fixed inset-0 w-full h-screen bg-white/60 backdrop-blur-sm flex flex-col items-center justify-center z-[100] transition-opacity duration-500">
+    <div className="fixed inset-0 w-full h-screen bg-[#1C1C1A]/60 backdrop-blur-sm flex flex-col items-center justify-center z-[100] transition-opacity duration-500">
       <div className="flex flex-col items-center gap-8 animate-pulse scale-125">
         {/* Animated spinner with logo inside or just logo */}
         <div className="relative w-24 h-24 flex items-center justify-center">
@@ -20,7 +20,7 @@ const LoadingOverlay = () => {
             style={{ height: '50px', width: 'auto' }}
             priority
           />
-          <span className="text-black/50 text-[12px] uppercase tracking-[0.25em] font-bold mt-2">
+          <span className="text-white/50 text-[12px] uppercase tracking-[0.25em] font-bold mt-2">
             Buscando Propiedades...
           </span>
         </div>

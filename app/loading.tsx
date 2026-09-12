@@ -4,7 +4,7 @@ export default function Loading() {
       <div className="flex flex-col items-center gap-6">
         {/* Animated logo mark */}
         <div className="relative w-12 h-12">
-          <div className="absolute inset-0 border-2 border-white/20 rounded-full" />
+          <div className="absolute inset-0 border-2 border-[#3B3B3B]/20 rounded-full" />
           <div className="absolute inset-0 border-2 border-transparent border-t-white rounded-full animate-spin" />
         </div>
         {/* Brand name */}

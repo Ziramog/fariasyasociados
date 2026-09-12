@@ -68,7 +68,7 @@ const PropertyGallery = ({ images = [], property }) => {
                 </Item>
               )}
               {/* White overlay on hover */}
-              <div className="absolute inset-0 bg-white/0 group-hover:bg-white/60 transition-all duration-300 ease-in-out pointer-events-none z-[5]" />
+              <div className="absolute inset-0 bg-[#1C1C1A]/0 group-hover:bg-[#1C1C1A]/60 transition-all duration-300 ease-in-out pointer-events-none z-[5]" />
               {images.length > 1 && (
                 <button
                   onClick={scrollToFullGallery}
@@ -93,7 +93,7 @@ const PropertyGallery = ({ images = [], property }) => {
                           <Image src={image?.url} alt="" fill
                                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                                  sizes="130px" loading="lazy" />
-                          <div className="absolute inset-0 bg-white/0 group-hover:bg-white/60 transition-all duration-300 ease-in-out pointer-events-none" />
+                          <div className="absolute inset-0 bg-[#1C1C1A]/0 group-hover:bg-[#1C1C1A]/60 transition-all duration-300 ease-in-out pointer-events-none" />
                         </div>
                       )}
                     </Item>
@@ -109,7 +109,7 @@ const PropertyGallery = ({ images = [], property }) => {
                           <Image src={image?.url} alt="" fill
                                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                                  sizes="20vw" loading="lazy" />
-                          <div className="absolute inset-0 bg-white/0 group-hover:bg-white/60 transition-all duration-300 ease-in-out pointer-events-none" />
+                          <div className="absolute inset-0 bg-[#1C1C1A]/0 group-hover:bg-[#1C1C1A]/60 transition-all duration-300 ease-in-out pointer-events-none" />
                         </div>
                       )}
                     </Item>

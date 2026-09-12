@@ -4,7 +4,7 @@ export default function ReviewSummary({ summary }) {
   const { totalReviews, averageRating, ratingDistribution } = summary;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-8 p-6 bg-white rounded-2xl border border-zinc-100 shadow-sm">
+    <div className="flex flex-col sm:flex-row items-center gap-8 p-6 bg-[#1C1C1A] rounded-2xl border border-zinc-100 shadow-sm">
       <div className="flex flex-col items-center gap-1 flex-shrink-0">
         <span className="text-5xl font-bold text-zinc-900 tracking-tight">{averageRating.toFixed(1)}</span>
         <StarRating rating={averageRating} size="md" />

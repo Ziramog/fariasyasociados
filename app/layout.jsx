@@ -5,39 +5,23 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import { GlobalProvider } from '@/context/GlobalContext';
 import { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { Cormorant_Garamond } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Cinzel, Montserrat } from 'next/font/google';
 import 'react-toastify/dist/ReactToastify.css';
 import '@/assets/styles/globals.css';
 import { SITE_CONFIG, getSiteUrl } from '@/config/site';
 import 'photoswipe/dist/photoswipe.css';
 
-const lato = localFont({
-  src: [
-    { path: '../assets/fonts/lato/Lato-Light.woff2', weight: '300', style: 'normal' },
-    { path: '../assets/fonts/lato/Lato-LightItalic.woff2', weight: '300', style: 'italic' },
-    { path: '../assets/fonts/lato/Lato-Regular.woff2', weight: '400', style: 'normal' },
-    { path: '../assets/fonts/lato/Lato-Italic.woff2', weight: '400', style: 'italic' },
-    { path: '../assets/fonts/lato/Lato-Bold.woff2', weight: '700', style: 'normal' },
-  ],
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const ptSerif = localFont({
-  src: [
-    { path: '../assets/fonts/pt-serif/PTSerif-Regular.woff2', weight: '400', style: 'normal' },
-    { path: '../assets/fonts/pt-serif/PTSerif-Bold.woff2', weight: '700', style: 'normal' },
-  ],
-  variable: '--font-heading',
-  display: 'swap',
-});
-
-const cormorantGaramond = Cormorant_Garamond({
+const cinzel = Cinzel({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-display',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-heading',
   display: 'swap',
 });
 
@@ -94,8 +78,8 @@ const MainLayout = async ({ children }) => {
   return (
     <AuthProvider>
       <GlobalProvider>
-        <html lang='es' className={`${lato.variable} ${ptSerif.variable} ${cormorantGaramond.variable}`}>
-          <body className='font-sans antialiased text-body'>
+        <html lang='es' className={`${montserrat.variable} ${cinzel.variable}`}>
+          <body className='font-sans antialiased text-gray-200'>
             <Navbar contactEmail={siteConfig.contactEmail} contactPhone={siteConfig.contactPhone} />
             <main className="relative pb-[12px]">{children}</main>
             <Footer footerDescription={siteConfig.footerDescription} contactEmail={siteConfig.contactEmail} contactPhone={siteConfig.contactPhone} contactAddress={siteConfig.contactAddress} />

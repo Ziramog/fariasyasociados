@@ -7,10 +7,10 @@ const PropertyCardInfo = ({ property, className = '' }) => {
 
   return (
     <div className={`px-3 py-3 ${className}`}>
-      <h3 className="text-[22px] font-medium text-[#0F172A] group-hover:text-[var(--color-brand)] leading-snug line-clamp-2 mb-1" style={{ fontFamily: 'var(--font-heading)' }}>
+      <h3 className="text-[22px] font-medium text-white group-hover:text-[var(--color-brand)] leading-snug line-clamp-2 mb-1" style={{ fontFamily: 'var(--font-heading)' }}>
         {name}
       </h3>
-      <p className="text-[16px] text-[#878787] leading-tight line-clamp-1">
+      <p className="text-[16px] text-gray-400 leading-tight line-clamp-1">
         {city}
       </p>
     </div>

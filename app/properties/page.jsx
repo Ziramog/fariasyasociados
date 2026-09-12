@@ -53,7 +53,7 @@ const PropertiesPage = async ({ searchParams }) => {
   const suspenseKey = JSON.stringify(searchParams);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#1C1C1A]">
       {/* Header + Filters — full dark band */}
       <section className="bg-black px-4 md:px-[50px] pt-32 md:pt-36 pb-6">
         {/* Search */}
@@ -65,7 +65,7 @@ const PropertiesPage = async ({ searchParams }) => {
         los filtros o la paginación, mostrando el LoadingOverlay en lugar 
         de congelar la pantalla anterior. 
       */}
-      <div className="relative min-h-[70vh] bg-white">
+      <div className="relative min-h-[70vh] bg-[#1C1C1A]">
         <Suspense key={suspenseKey} fallback={<LoadingOverlay />}>
           <PropertiesContent searchParams={searchParams} subtitle={subtitle} />
         </Suspense>

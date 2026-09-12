@@ -62,7 +62,7 @@ const BookmarkButton = ({ property }) => {
   ) : (
     <button
       onClick={handleClick}
-      className='flex items-center justify-center gap-2 w-full py-3 px-4 bg-white hover:bg-gray-50 text-[#0F172A] font-semibold text-sm rounded-none md:rounded-[18px] border border-[#ddd] transition-all duration-200'
+      className='flex items-center justify-center gap-2 w-full py-3 px-4 bg-[#1C1C1A] hover:bg-[#141412] text-white font-semibold text-sm rounded-none md:rounded-[18px] border border-[#ddd] transition-all duration-200'
     >
       <FaBookmark className='w-4 h-4' />
       Guardar Propiedad

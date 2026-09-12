@@ -77,8 +77,8 @@
     overflow-x: hidden;
   }
   body {
-    background-color: #F6F6F6;
-    @apply text-body;
+    background-color: #141412;
+    color: var(--color-ink);
     overflow-x: hidden;
   }
   *, *::before, *::after {
@@ -87,7 +87,7 @@
     padding: 0;
   }
   h1, h2, h3, h4 {
-    @apply font-heading text-heading;
+    @apply font-heading text-white;
   }
 }
 
@@ -97,7 +97,7 @@
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-card hover:shadow-card-hover transition-shadow duration-300;
+    @apply bg-[#1C1C1A] rounded-xl shadow-card hover:shadow-card-hover transition-shadow duration-300 border border-[#3B3B3B];
   }
 
   .btn-primary {
@@ -113,7 +113,7 @@
   }
 
   .pill-inactive {
-    @apply bg-white text-body border-gray-200 hover:border-primary hover:text-primary;
+    @apply bg-[#1C1C1A] text-marfil border-[#3B3B3B] hover:border-primary hover:text-primary;
   }
 
   .price-marker {
@@ -122,16 +122,16 @@
   }
 
   .custom-cluster {
-    @apply bg-navy text-white rounded-full flex items-center justify-center font-bold text-sm;
+    @apply bg-carbon text-white rounded-full flex items-center justify-center font-bold text-sm;
     width: 40px;
     height: 40px;
-    border: 3px solid white;
+    border: 3px solid #3B3B3B;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   .skeleton {
-    @apply bg-gray-100 rounded-lg;
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    @apply bg-[#2A2A2A] rounded-lg;
+    background: linear-gradient(90deg, #1C1C1A 25%, #2A2A2A 50%, #1C1C1A 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
@@ -213,9 +213,12 @@
 
   /* ── Leaflet Popup contrast overrides ── */
   .leaflet-popup-content-wrapper {
+    background-color: rgba(28, 28, 26, 0.85) !important;
+    color: var(--color-ink) !important;
+    backdrop-filter: blur(8px) !important;
     border-radius: 12px !important;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1) !important;
-    border: 1.5px solid rgba(0,0,0,0.08) !important;
+    border: 1.5px solid rgba(255,255,255,0.08) !important;
     padding: 0 !important;
   }
   .leaflet-popup-content {
@@ -223,10 +226,11 @@
     line-height: 1.5 !important;
   }
   .leaflet-popup-tip {
+    background-color: rgba(28, 28, 26, 0.85) !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
   }
   .leaflet-popup-close-button {
-    color: #4B4B48 !important;
+    color: var(--color-ink-tertiary) !important;
     font-size: 20px !important;
     width: 28px !important;
     height: 28px !important;
@@ -234,7 +238,7 @@
     right: 8px !important;
   }
   .leaflet-popup-close-button:hover {
-    color: #1A1A18 !important;
+    color: var(--color-ink) !important;
   }
 
   /* ── Mapbox Popup glass close button ── */
@@ -244,10 +248,10 @@
     top: 8px !important;
     right: 8px !important;
     font-size: 18px !important;
-    color: #4B4B48 !important;
-    background: rgba(255, 255, 255, 0.6) !important;
+    color: var(--color-ink-tertiary) !important;
+    background: rgba(28, 28, 26, 0.6) !important;
     backdrop-filter: blur(8px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 50% !important;
     display: flex !important;
     align-items: center !important;
@@ -255,12 +259,10 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
   }
   .mapboxgl-popup-close-button:hover {
-    background: rgba(255, 255, 255, 0.85) !important;
-    color: #1A1A18 !important;
+    background: rgba(28, 28, 26, 0.85) !important;
+    color: var(--color-ink) !important;
   }
 }
-
-
 
 /* ============================================
    MAPBOX COOPERATIVE GESTURES OVERLAY

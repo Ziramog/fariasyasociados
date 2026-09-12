@@ -12,12 +12,12 @@ const TIPO_OPTIONS = [
 ];
 const PRECIO_RANGES = [
   { value: '', label: '' },
-  { value: '0-100000', label: 'Hasta U$S 100,000' },
-  { value: '100000-300000', label: 'U$S 100,000-300,000' },
-  { value: '300000-500000', label: 'U$S 300,000-500,000' },
-  { value: '500000-1000000', label: 'U$S 500,000-1,000,000' },
-  { value: '1000000-2000000', label: 'U$S 1,000,000-2,000,000' },
-  { value: '2000000-0', label: '>U$S 2,000,000' },
+  { value: '0-100000', label: 'Hasta U$S 100.000' },
+  { value: '100000-300000', label: 'U$S 100.000-300.000' },
+  { value: '300000-500000', label: 'U$S 300.000-500.000' },
+  { value: '500000-1000000', label: 'U$S 500.000-1.000.000' },
+  { value: '1000000-2000000', label: 'U$S 1.000.000-2.000.000' },
+  { value: '2000000-0', label: '>U$S 2.000.000' },
 ];
 const AREA_RANGES = [
   { value: '', label: '' },

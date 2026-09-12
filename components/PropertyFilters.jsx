@@ -44,11 +44,11 @@ const PropertyFilters = ({ variant = 'hero' }) => {
     return (
       <form onSubmit={handleSubmit} className="flex flex-wrap gap-3 items-center">
         <select name="type" value={filters.type} onChange={handleChange}
-          className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all">
+          className="px-4 py-2.5 border border-[#3B3B3B] rounded-lg text-sm bg-[#1C1C1A] focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all">
           {propertyTypes.map((type) => (<option key={type} value={type}>{type}</option>))}
         </select>
         <select name="city" value={filters.city} onChange={handleChange}
-          className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all">
+          className="px-4 py-2.5 border border-[#3B3B3B] rounded-lg text-sm bg-[#1C1C1A] focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all">
           {cities.map((city) => (<option key={city} value={city}>{city}</option>))}
         </select>
         <button type="submit" className="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary-hover transition-all">
@@ -63,32 +63,32 @@ const PropertyFilters = ({ variant = 'hero' }) => {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-end">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-bold uppercase tracking-widest text-[var(--color-ink-tertiary)]">Tipo</label>
+            <label className="text-[11px] font-bold uppercase tracking-widest text-gray-400">Tipo</label>
             <select name="type" value={filters.type} onChange={handleChange}
-              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-white text-[var(--color-ink)] focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all appearance-none cursor-pointer">
+              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-[#1C1C1A] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all appearance-none cursor-pointer">
               {propertyTypes.map((type) => (<option key={type} value={type}>{type}</option>))}
             </select>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-bold uppercase tracking-widest text-[var(--color-ink-tertiary)]">Ubicación</label>
+            <label className="text-[11px] font-bold uppercase tracking-widest text-gray-400">Ubicación</label>
             <select name="city" value={filters.city} onChange={handleChange}
-              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-white text-[var(--color-ink)] focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all appearance-none cursor-pointer">
+              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-[#1C1C1A] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all appearance-none cursor-pointer">
               {cities.map((city) => (<option key={city} value={city}>{city}</option>))}
             </select>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-bold uppercase tracking-widest text-[var(--color-ink-tertiary)]">Precio Máx (USD)</label>
+            <label className="text-[11px] font-bold uppercase tracking-widest text-gray-400">Precio Máx (USD)</label>
             <input type="number" name="maxPrice" value={filters.maxPrice} onChange={handleChange}
               placeholder="Sin límite"
-              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-white text-[var(--color-ink)] placeholder:text-[var(--color-ink-tertiary)] focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all" />
+              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-[#1C1C1A] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all" />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-bold uppercase tracking-widest text-[var(--color-ink-tertiary)]">Dormitorios</label>
+            <label className="text-[11px] font-bold uppercase tracking-widest text-gray-400">Dormitorios</label>
             <select name="bedrooms" value={filters.bedrooms} onChange={handleChange}
-              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-white text-[var(--color-ink)] focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all appearance-none cursor-pointer">
+              className="w-full border border-[var(--color-border)] rounded-xl py-3 px-4 text-sm bg-[#1C1C1A] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all appearance-none cursor-pointer">
               <option value="">Cualquiera</option>
               {bedroomOptions.filter(o => o).map((opt) => (<option key={opt} value={opt}>{opt}+</option>))}
             </select>
@@ -104,7 +104,7 @@ const PropertyFilters = ({ variant = 'hero' }) => {
     );
   }
 
-  const heroInputCls = 'w-full bg-black/20 border border-white/10 text-white py-4 px-5 rounded-2xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all outline-none appearance-none cursor-pointer';
+  const heroInputCls = 'w-full bg-black/20 border border-[#3B3B3B]/10 text-white py-4 px-5 rounded-2xl focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all outline-none appearance-none cursor-pointer';
   const heroLabelCls = 'text-white/60 text-[11px] font-bold uppercase tracking-widest ml-1 mb-2 block';
 
   return (
