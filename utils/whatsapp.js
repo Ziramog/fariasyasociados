@@ -1,4 +1,4 @@
-const WA_NUMBER = '5493564625246';
+const WA_NUMBER = '549356462524';
 
 const MESSAGES = {
   hero: 'Hola! Estoy buscando una propiedad. ¿Me pueden asesorar?',

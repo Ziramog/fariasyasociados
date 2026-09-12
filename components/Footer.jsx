@@ -85,11 +85,11 @@ const Footer = ({
               <div className="flex items-start gap-[5px] py-[5px]">
                 <img src="/senada/images/icons/ico_phone.svg" alt="phone" className="w-[17px] h-[17px] mt-[2px]" style={{ filter: 'brightness(0) invert(1)' }} />
                 <div className="flex flex-col gap-[2px]">
-                  <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => trackWhatsappClick({ cta_location: 'footer' })}>
-                    {contactPhone.replace(/(\d{2})(\d{4})$/, '$1-$2')}
+                  <a href="tel:3564417598" className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
+                    Fijo: 3564-417598
                   </a>
-                  <a href="https://wa.me/5490000000000" className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => trackWhatsappClick({ cta_location: 'footer' })}>
-                    +54 9 0000 000000
+                  <a href="https://wa.me/549356462524" target="_blank" rel="noopener noreferrer" className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => trackWhatsappClick({ cta_location: 'footer' })}>
+                    WhatsApp: 3564-62524
                   </a>
                 </div>
               </div>
@@ -279,11 +279,11 @@ const Footer = ({
             <div className="flex items-start gap-2">
               <img src="/senada/images/icons/ico_phone.svg" alt="phone" className="w-[17px] h-[17px] mt-[2px]" style={{ filter: 'brightness(0) invert(1)' }} />
               <div className="flex flex-col gap-1">
-                <a href={`https://wa.me/${contactPhone.replace(/\D/g, '')}`} className="text-[13px] text-white font-light">
-                  {contactPhone.replace(/(\d{2})(\d{4})$/, '$1-$2')}
+                <a href="tel:3564417598" className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
+                  Fijo: 3564-417598
                 </a>
-                <a href="https://wa.me/5490000000000" className="text-[13px] text-white font-light">
-                  +54 9 0000 000000
+                <a href="https://wa.me/549356462524" target="_blank" rel="noopener noreferrer" className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
+                  WhatsApp: 3564-62524
                 </a>
               </div>
             </div>
