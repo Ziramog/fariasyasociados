@@ -252,18 +252,18 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                     )}
                   </button>
                 </td>
-                <td className="px-3 md:px-6 py-3 text-right">
-                  <div className="flex items-center justify-end gap-1 md:gap-2">
+                <td className="px-3 md:px-6 py-3">
+                  <div className="flex items-center md:grid md:grid-cols-2 justify-end gap-1.5 md:gap-2 md:w-[160px] ml-auto">
                     <XintelExporter property={prop} />
                     <SocialStoryGenerator property={prop} />
                     <Link href={`/admin/properties/${prop._id}/edit`}
-                      className="inline-flex items-center justify-center md:gap-1.5 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[13px] font-semibold w-8 h-8 md:w-auto md:px-4 md:py-2 rounded-sm transition-colors"
+                      className="inline-flex items-center justify-center md:gap-1.5 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[13px] font-semibold w-8 h-8 md:w-full md:px-4 md:py-1.5 rounded-sm transition-colors"
                       title="Editar">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                       <span className="hidden md:inline">Editar</span>
                     </Link>
                     <button onClick={() => handleDelete(prop._id, prop.name)}
-                      className="inline-flex items-center justify-center md:gap-1.5 text-[12px] font-medium text-[#888] hover:text-red-400 w-8 h-8 md:w-auto md:px-3 md:py-1.5 border border-[#333] hover:border-red-400/50 rounded-sm transition-colors"
+                      className="inline-flex items-center justify-center md:gap-1.5 text-[12px] font-medium text-[#888] hover:text-red-400 w-8 h-8 md:w-full md:px-3 md:py-1.5 border border-[#333] hover:border-red-400/50 rounded-sm transition-colors"
                       title="Eliminar">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21h-8.276a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/></svg>
                       <span className="hidden md:inline">Eliminar</span>

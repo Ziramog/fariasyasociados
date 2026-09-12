@@ -38,7 +38,7 @@ ${imagesList}
   return (
     <button 
       onClick={handleCopy}
-      className={`inline-flex items-center justify-center md:gap-1.5 w-8 h-8 md:w-auto md:px-3 md:py-1.5 border rounded-sm transition-colors ${
+      className={`inline-flex items-center justify-center md:gap-1.5 w-8 h-8 md:w-full md:px-3 md:py-1.5 border rounded-sm transition-colors ${
         copied 
           ? 'text-green-400 border-green-400/50 bg-green-400/10' 
           : 'text-[12px] font-medium text-[#888] hover:text-[var(--color-brand)] border-[#333] hover:border-[var(--color-brand)]/50'

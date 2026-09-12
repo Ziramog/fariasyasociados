@@ -98,7 +98,7 @@ export default function SocialStoryGenerator({ property }) {
     return (
       <button 
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center justify-center md:gap-1.5 text-[12px] font-medium text-[#888] hover:text-pink-500 w-8 h-8 md:w-auto md:px-3 md:py-1.5 border border-[#333] hover:border-pink-500/50 rounded-sm transition-colors"
+        className="inline-flex items-center justify-center md:gap-1.5 text-[12px] font-medium text-[#888] hover:text-pink-500 w-8 h-8 md:w-full md:px-3 md:py-1.5 border border-[#333] hover:border-pink-500/50 rounded-sm transition-colors"
         title="Generar Historia IG"
       >
         <ImageIcon className="w-3.5 h-3.5" />
