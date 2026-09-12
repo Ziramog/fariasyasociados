@@ -6,6 +6,7 @@ import deleteProperty from '@/app/actions/deleteProperty';
 import { toast } from 'react-toastify';
 import { isGranInversion } from '@/utils/filterProperties';
 import SocialStoryGenerator from '@/components/admin/SocialStoryGenerator';
+import XintelExporter from '@/components/admin/XintelExporter';
 
 const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = '', defaultGranInversion = false, defaultFeatured = '', defaultPublished = '' }) => {
   const router = useRouter();
@@ -253,6 +254,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                 </td>
                 <td className="px-3 md:px-6 py-3 text-right">
                   <div className="flex items-center justify-end gap-1 md:gap-2">
+                    <XintelExporter property={prop} />
                     <SocialStoryGenerator property={prop} />
                     <Link href={`/admin/properties/${prop._id}/edit`}
                       className="inline-flex items-center justify-center md:gap-1.5 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[13px] font-semibold w-8 h-8 md:w-auto md:px-4 md:py-2 rounded-sm transition-colors"
@@ -346,6 +348,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                 </button>
               </div>
               <div className="flex items-center gap-2">
+                <XintelExporter property={prop} />
                 <SocialStoryGenerator property={prop} />
                 <Link href={`/admin/properties/${prop._id}/edit`}
                   className="inline-flex items-center justify-center w-8 h-8 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white rounded-sm transition-colors">
