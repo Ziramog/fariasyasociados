@@ -10,7 +10,7 @@ export default function StarRating({ rating, size = 'md', showValue = false, var
 
   const filledColor = isDark ? 'text-[var(--color-brand)]' : 'text-amber-400';
   const partialColor = isDark ? 'text-[var(--color-brand)] opacity-70' : 'text-amber-300';
-  const emptyColor = isDark ? 'text-[#ddd]' : 'text-zinc-200';
+  const emptyColor = isDark ? 'text-[#333]' : 'text-zinc-200';
 
   return (
     <div className="flex items-center gap-1">
