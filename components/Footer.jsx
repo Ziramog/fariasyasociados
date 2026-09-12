@@ -72,8 +72,8 @@ const Footer = ({
                       <a href="https://www.google.com/maps/search/?api=1&query=Bv+Saenz+Pe%C3%B1a+2002%2C+San+Francisco%2C+AR" target="_blank" rel="noopener noreferrer" className="flex items-start gap-[5px] text-[13px] text-white/70 font-light hover:text-white transition-colors group" onClick={() => trackMapClick({ cta_location: 'footer', context: 'office_address' })}>
                         <MapPin className="w-4 h-4 text-[#fe8b01] mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
                         <span>
-                          {contactAddress}<br/>
-                          San Francisco, AR
+                          Blvd. Roque Sáenz Peña 2002<br/>
+                          San Francisco, Córdoba
                         </span>
                       </a>
                     </li>
@@ -268,8 +268,8 @@ const Footer = ({
             <a href="https://www.google.com/maps/search/?api=1&query=Bv+Saenz+Pe%C3%B1a+2002%2C+San+Francisco%2C+AR" target="_blank" rel="noopener noreferrer" className="flex items-start gap-2 text-[13px] text-white/60 font-light mt-3 hover:text-white transition-colors" onClick={() => trackMapClick({ cta_location: 'footer_mobile', context: 'office_address' })}>
               <MapPin className="w-4 h-4 text-[#fe8b01] mt-0.5 shrink-0" />
               <span>
-                {contactAddress}<br/>
-                San Francisco, AR
+                Blvd. Roque Sáenz Peña 2002<br/>
+                San Francisco, Córdoba
               </span>
             </a>
             <a href={`mailto:${contactEmail}`} className="flex items-center gap-2 text-[13px] text-white font-light">
