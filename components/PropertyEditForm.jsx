@@ -351,16 +351,16 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
       </div>
 
       {/* Características */}
-      <div className='mb-4 flex flex-wrap gap-3'>
-        <div className='flex-1 min-w-[30%]'>
+      <div className='mb-4 flex flex-wrap gap-4'>
+        <div className='w-[calc(50%-8px)] md:flex-1 md:min-w-[20%]'>
           <label className={labelClass}>Dormitorios</label>
           <input type='number' id='beds' name='beds' className={inputClass} defaultValue={property.beds} />
         </div>
-        <div className='flex-1 min-w-[30%]'>
+        <div className='w-[calc(50%-8px)] md:flex-1 md:min-w-[20%]'>
           <label className={labelClass}>Baños</label>
           <input type='number' id='baths' name='baths' className={inputClass} defaultValue={property.baths} />
         </div>
-        <div className='flex-1 min-w-[30%]'>
+        <div className='w-full md:flex-1 md:min-w-[20%]'>
           <label className={labelClass}>Sup. Total</label>
           <div className='flex'>
             <input type='number' id='square_feet' name='square_feet' className={`${inputClass} rounded-r-none`} defaultValue={property.total_area ?? property.square_feet} />
@@ -371,7 +371,7 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
           </div>
         </div>
         {!isLandOrCommercial && (
-          <div className='flex-1 min-w-[30%]'>
+          <div className='w-full md:flex-1 md:min-w-[20%]'>
             <label className={labelClass}>Sup. Cubierta (m²)</label>
             <input type='number' id='covered_area' name='covered_area' className={inputClass} defaultValue={property.covered_area} />
           </div>

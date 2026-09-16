@@ -280,33 +280,33 @@ const PropertyAddForm = ({ customLabels = [] }) => {
       </div>
 
       {/* Características */}
-      <div className='mb-4 flex flex-wrap gap-3'>
-        <div className='flex-1 min-w-[30%]'>
+      <div className='mb-4 flex flex-wrap gap-4'>
+        <div className='w-[calc(50%-8px)] md:flex-1 md:min-w-[20%]'>
           <label htmlFor='beds' className={labelClass}>
             Dormitorios
-            {isLandOrCommercial && <span className="text-gray-400 font-normal ml-2 text-xs">Opcional para este tipo de propiedad</span>}
+            {isLandOrCommercial && <span className="block text-gray-400 font-normal text-xs md:ml-2 md:inline">Opcional</span>}
           </label>
           <input type='number' id='beds' name='beds' className={inputClass} required={!isLandOrCommercial} />
         </div>
-        <div className='flex-1 min-w-[30%]'>
+        <div className='w-[calc(50%-8px)] md:flex-1 md:min-w-[20%]'>
           <label htmlFor='baths' className={labelClass}>
             Baños
-            {isLandOrCommercial && <span className="text-gray-400 font-normal ml-2 text-xs">Opcional para este tipo de propiedad</span>}
+            {isLandOrCommercial && <span className="block text-gray-400 font-normal text-xs md:ml-2 md:inline">Opcional</span>}
           </label>
           <input type='number' id='baths' name='baths' className={inputClass} required={!isLandOrCommercial} />
         </div>
-          <div className='flex-1 min-w-[30%]'>
-            <label htmlFor='square_feet' className={labelClass}>Sup. Total</label>
-            <div className='flex'>
-              <input type='number' id='square_feet' name='square_feet' className={`${inputClass} rounded-r-none`} required />
-              <select name='area_unit' className='bg-[#2a2626] border border-[#2a2626] text-white px-2 rounded-r-md outline-none focus:border-[var(--color-brand)] focus:ring-1 focus:ring-[var(--color-brand)]'>
-                <option value='m2'>m²</option>
-                <option value='has'>has</option>
-              </select>
-            </div>
+        <div className='w-full md:flex-1 md:min-w-[20%]'>
+          <label htmlFor='square_feet' className={labelClass}>Sup. Total</label>
+          <div className='flex'>
+            <input type='number' id='square_feet' name='square_feet' className={`${inputClass} rounded-r-none`} required />
+            <select name='area_unit' className='bg-[#2a2626] border border-[#2a2626] text-white px-2 rounded-r-md outline-none focus:border-[var(--color-brand)] focus:ring-1 focus:ring-[var(--color-brand)]'>
+              <option value='m2'>m²</option>
+              <option value='has'>has</option>
+            </select>
           </div>
+        </div>
         {!isLandOrCommercial && (
-          <div className='flex-1 min-w-[30%]'>
+          <div className='w-full md:flex-1 md:min-w-[20%]'>
             <label htmlFor='covered_area' className={labelClass}>Sup. Cubierta (m²)</label>
             <input type='number' id='covered_area' name='covered_area' className={inputClass} />
           </div>
