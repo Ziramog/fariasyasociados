@@ -6,7 +6,7 @@ import CheckIcon from './icons/CheckIcon';
 import ShareButtons from './ShareButtons';
 import ScrollReveal from '@/components/shared/ScrollReveal';
 import SectionTitle from '@/components/shared/SectionTitle';
-import { getAreaDisplay } from '@/utils/propertyDisplay';
+import { getAreaDisplay, getPriceDisplay } from '@/utils/propertyDisplay';
 
 const ReadMoreText = ({ text, maxChars = 400 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -42,11 +42,8 @@ const PropertyDetails = ({ property }) => {
     property.operation === 'alquiler' ? 'Alquiler' :
     property.operation === 'compra' ? 'Compra' : '';
 
-  const rawPrice = property.price;
-  const numericPrice = rawPrice ? parseFloat(String(rawPrice).replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, '')) : null;
-
   const featureItems = [
-    { label: 'Precio', value: numericPrice ? `U$D ${numericPrice.toLocaleString('es-AR')}` : 'Consultar' },
+    { label: 'Precio', value: getPriceDisplay(property) },
     { label: 'Superficie', value: getAreaDisplay(property) },
     { label: 'Dormitorios', value: property.beds || null },
     { label: 'Baños', value: property.baths || null },
