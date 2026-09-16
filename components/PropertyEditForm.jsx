@@ -454,9 +454,10 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
         {removedImages.length > 0 && (
           <div className='flex flex-wrap gap-2 mb-4'>
             {removedImages.map((url) => (
-              <span key={url} className='bg-red-900/30 border border-red-800 text-red-500 text-xs px-2 py-1 rounded flex items-center gap-1'>
-                Marcada para eliminar
-                <button type='button' onClick={() => handleUndoRemove(url)} className='font-bold hover:text-red-400'>↩ Deshacer</button>
+              <span key={url} className='bg-red-900/30 border border-red-800 text-red-500 text-xs px-2 py-1 rounded flex items-center gap-2'>
+                <Image src={url} width={24} height={24} className="w-6 h-6 object-cover rounded" alt="Eliminada" />
+                <span>Foto marcada para eliminar</span>
+                <button type='button' onClick={() => handleUndoRemove(url)} className='font-bold hover:text-red-400 border-l border-red-800 pl-2 ml-1'>↩ Deshacer</button>
               </span>
             ))}
           </div>
