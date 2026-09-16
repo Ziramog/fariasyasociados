@@ -80,12 +80,7 @@ function MapViewControls({ mapRef, geocodedProps }) {
 }
 
 function formatPrice(property) {
-  const priceStr = property.price;
-  if (!priceStr) return '?';
-  const cleaned = priceStr.replace(/[^0-9]/g, '');
-  const num = parseInt(cleaned, 10);
-  if (isNaN(num)) return '?';
-  return `U$D ${num.toLocaleString('es-AR')}`;
+  return getPriceDisplay(property);
 }
 
 import MapProvider from '@/components/shared/MapProvider';
