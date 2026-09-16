@@ -84,7 +84,9 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
           }
 
           const uploadData = new FormData();
-          uploadData.append('file', fileToUpload);
+          // Generate a unique filename to prevent Cloudinary from ignoring the upload if overwrite=false & unique_filename=false
+          const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e5)}-${file.name}`;
+          uploadData.append('file', fileToUpload, uniqueName);
           uploadData.append('upload_preset', uploadPreset);
           if (uploadFolder) uploadData.append('folder', uploadFolder);
           
