@@ -10,16 +10,19 @@ const ProfileProperties = ({ properties: initialProperties }) => {
 
   const handleDeleteProperty = async (propertyId) => {
     const confirmed = window.confirm(
-      'Are you sure you want to delete this property?'
+      '¿Estás seguro de que quieres eliminar esta propiedad?'
     );
 
     if (!confirmed) return;
 
-    const deletePropertyById = deleteProperty.bind(null, propertyId);
+    const res = await deleteProperty(propertyId);
 
-    await deletePropertyById();
+    if (res?.error) {
+      toast.error(res.error);
+      return;
+    }
 
-    toast.success('Property Deleted');
+    toast.success('Propiedad eliminada correctamente');
 
     const updatedProperties = properties.filter(
       (property) => property._id !== propertyId
