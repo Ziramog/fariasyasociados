@@ -28,8 +28,11 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
 
   const isHomepage = pathname === '/';
   const isAdminPage = pathname.startsWith('/admin');
+  const isPropertiesPage = pathname.startsWith('/properties');
   const isGlassMode = isHomepage ? (isScrolled || isMobileMenuOpen) : true;
   const showIso = isScrolled || isAdminPage;
+
+  const isMobileLargeHeader = !isScrolled && !isMobileMenuOpen && !isPropertiesPage;
 
   if (pathname.startsWith('/p/')) return null;
 
@@ -191,7 +194,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
         className={`md:hidden fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isGlassMode ? 'bg-black' : 'bg-transparent'
         }`}
-        style={{ height: (!isScrolled && !isMobileMenuOpen) ? 'calc(env(safe-area-inset-top, 8px) + 140px)' : 'calc(env(safe-area-inset-top, 8px) + 80px)' }}
+        style={{ height: isMobileLargeHeader ? 'calc(env(safe-area-inset-top, 8px) + 140px)' : 'calc(env(safe-area-inset-top, 8px) + 80px)' }}
       >
         <div className="flex items-center justify-between px-4 h-full">
           {/* Logo — isotipo */}
@@ -200,9 +203,9 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
               className="transition-all duration-300"
               src="/images/logo_only.png"
               alt="Farias & Asociados"
-              width={(!isScrolled && !isMobileMenuOpen) ? 140 : 70}
-              height={(!isScrolled && !isMobileMenuOpen) ? 140 : 70}
-              style={{ height: (!isScrolled && !isMobileMenuOpen) ? '120px' : '70px', width: 'auto' }}
+              width={isMobileLargeHeader ? 140 : 70}
+              height={isMobileLargeHeader ? 140 : 70}
+              style={{ height: isMobileLargeHeader ? '120px' : '70px', width: 'auto' }}
             />
           </Link>
 

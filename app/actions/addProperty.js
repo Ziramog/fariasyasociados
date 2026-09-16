@@ -49,7 +49,7 @@ async function addProperty(prevState, formData) {
       type: formData.get('type'),
       name: formData.get('name'),
       description: formData.get('description'),
-      price: formData.get('operation') === 'alquiler' || formData.get('price') === 'Consultar' || !formData.get('price') ? 'Consultar' : `${formData.get('price_currency') || 'USD'} ${formData.get('price')}`,
+      price: formData.get('price') === 'Consultar' || !formData.get('price') ? 'Consultar' : `${formData.get('price_currency') || 'USD'} ${formData.get('price')}`,
       location: {
         street: formData.get('location.street'),
         city: formData.get('location.city'),

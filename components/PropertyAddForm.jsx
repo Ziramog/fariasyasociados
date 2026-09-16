@@ -58,7 +58,7 @@ const PropertyAddForm = ({ customLabels = [] }) => {
       
       if (imageFiles.length > 0 && imageFiles[0].size > 0) {
         formData.delete('images');
-        const options = { maxSizeMB: 0.6, maxWidthOrHeight: 1600, useWebWorker: true };
+        const options = { maxSizeMB: 0.6, maxWidthOrHeight: 1600, useWebWorker: false };
         for (const file of imageFiles) {
           if (file.name === '' || file.size === 0) continue;
           let fileToUpload = file;
@@ -119,10 +119,7 @@ const PropertyAddForm = ({ customLabels = [] }) => {
       }
     } catch (err) {
       console.error("Action error:", err);
-      let msg = 'Error de red. Las imágenes pueden ser demasiado grandes (límite 20MB).';
-      if (err && err.message && err.message.includes('DEBUG LOCAL')) {
-        msg = err.message;
-      }
+      let msg = err?.message || 'Error desconocido al subir la propiedad.';
       setError(msg);
       toast.error(msg);
       setIsUploading(false);
@@ -316,23 +313,17 @@ const PropertyAddForm = ({ customLabels = [] }) => {
 
       {/* Precio */}
       <div className='mb-6'>
-        <label className={labelClass}>Precio de Venta</label>
+        <label className={labelClass}>Precio de Venta o Alquiler</label>
         <div className='flex gap-2 items-start'>
-          <select name='price_currency' className={`${inputClass} !w-[110px] flex-shrink-0`} disabled={operation === 'alquiler'}>
+          <select name='price_currency' className={`${inputClass} !w-[110px] flex-shrink-0`}>
             <option value='USD'>U$D</option>
             <option value='$'>$</option>
             <option value='ARS'>ARS</option>
           </select>
           <div className='flex-1'>
-            {operation === 'alquiler' ? (
-              <input type='text' name='price' className={`${inputClass} bg-[#222] text-gray-400`} value='Consultar' readOnly />
-            ) : (
-              <input type='text' name='price' className={inputClass} placeholder='Ej: 502000' />
-            )}
+            <input type='text' name='price' className={inputClass} placeholder='Ej: 502000' />
             <p className={helperClass}>
-              {operation === 'alquiler' 
-                ? 'Para alquileres, el precio se fija en "Consultar".' 
-                : 'Ej: 502000 — Escribí solo números. Usá coma para miles. Escribí "Consultar" si no querés publicar el precio.'}
+              Ej: 502000 — Escribí solo números. Usá coma para miles. Escribí "Consultar" si no querés publicar el precio.
             </p>
           </div>
         </div>

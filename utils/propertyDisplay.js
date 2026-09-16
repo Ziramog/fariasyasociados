@@ -50,11 +50,21 @@ export function getAreaDisplay(property) {
  */
 export function getPriceDisplay(property) {
   if (property.price) {
-    // Handle both string ('USD 320,000') and number prices
+    if (typeof property.price === 'string' && property.price.toLowerCase().includes('consultar')) return 'Consultar';
+    
+    let strPrice = String(property.price).trim();
+    let currency = 'U$D';
+    if (strPrice.startsWith('$')) currency = '$';
+    else if (strPrice.startsWith('ARS')) currency = 'ARS';
+    else if (strPrice.startsWith('USD') || strPrice.startsWith('U$D')) currency = 'U$D';
+
     let num = typeof property.price === 'number'
       ? property.price
-      : parseFloat(String(property.price).replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, ''));
-    if (!isNaN(num)) return `U$D ${num.toLocaleString('es-AR')}`;
+      : parseFloat(strPrice.replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, ''));
+      
+    if (!isNaN(num)) return `${currency} ${num.toLocaleString('es-AR')}`;
+    
+    return strPrice;
   }
   if (property.rates?.monthly) return `U$D ${property.rates.monthly.toLocaleString()}/mes`;
   if (property.rates?.weekly) return `U$D ${property.rates.weekly.toLocaleString()}/sem`;
