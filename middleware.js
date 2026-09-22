@@ -55,42 +55,43 @@ const SUSPENDED_HTML = `<!DOCTYPE html>
         <!-- Main content area -->
         <div class="flex-1 flex flex-col items-center justify-center p-8 md:p-16 text-center relative z-10 bg-pattern">
             
-            <!-- Icon -->
-            <div class="w-[120px] h-[120px] bg-[#fdfaf5] rounded-full flex items-center justify-center mb-8 relative border border-orange-50 shadow-sm">
-                <svg class="w-16 h-16 text-[#b0a8a0]" fill="currentColor" viewBox="0 0 24 24">
-                    <!-- Server icon -->
-                    <rect x="3" y="5" width="18" height="5" rx="1.5" fill="currentColor"></rect>
-                    <circle cx="6" cy="7.5" r="1" fill="white"></circle>
-                    <rect x="9" y="7" width="3" height="1" fill="white"></rect>
-                    
-                    <rect x="3" y="13" width="18" height="5" rx="1.5" fill="currentColor"></rect>
-                    <circle cx="6" cy="15.5" r="1" fill="white"></circle>
-                    <rect x="9" y="15" width="3" height="1" fill="white"></rect>
-                </svg>
+            <!-- Icon / Logo -->
+            <div class="w-[120px] h-[120px] bg-[#111827] rounded-full flex items-center justify-center mb-8 relative shadow-lg">
+                <img src="/images/wolfim%20studio%20white-Photoroom.png" alt="Wolfim Studio" class="w-20 h-20 object-contain" onerror="this.outerHTML='<span class=\\'text-white font-bold text-xl\\'>WOLFIM</span>'" />
                 
-                <!-- Lock Icon -->
-                <div class="absolute -bottom-1 -right-1 bg-[#d97d41] w-11 h-11 rounded-lg flex items-center justify-center border-4 border-white shadow-sm">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                    </svg>
+                <!-- Status Icon -->
+                <div class="absolute -bottom-1 -right-1 bg-[#ff5f56] w-10 h-10 rounded-full flex items-center justify-center border-4 border-white shadow-sm">
+                    <div class="w-3 h-3 rounded-full bg-white"></div>
                 </div>
             </div>
 
             <!-- Text Content -->
             <h1 class="heading-font text-[2rem] md:text-[2.75rem] font-medium text-[#111827] mb-5 tracking-tight">
-                Servicio temporalmente no disponible
+                Sitio web temporalmente suspendido
             </h1>
             
             <p class="text-[#565f6d] text-[1.1rem] mb-10 max-w-2xl leading-relaxed">
-                El sitio web se encuentra en mantenimiento o suspendido temporalmente.<br class="hidden md:block"/>
-                Por favor, regrese más tarde.
+                El servicio se encuentra momentáneamente en pausa.<br class="hidden md:block"/>
+                Para solicitar la reanudación del servicio, por favor contactar con <strong>Wolfim Studio</strong>.
             </p>
+
+            <!-- WhatsApp Action Button -->
+            <!-- NOTA: Reemplazar el Href con el enlace correcto de WA -->
+            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#25D366] hover:bg-[#20b858] text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg text-[1rem]">
+                <!-- WhatsApp SVG Icon -->
+                <svg class="mr-2.5 w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.031 21.018l-.01.002c-1.576 0-3.123-.42-4.48-1.216l-.321-.188-3.333.874.887-3.25-.207-.328A9.782 9.782 0 013.06 12.028c0-5.385 4.387-9.769 9.775-9.769 2.61 0 5.064 1.018 6.908 2.864 1.846 1.845 2.862 4.298 2.862 6.91 0 5.386-4.385 9.773-9.774 9.773h-.8z"/>
+                    <path fill="#fafafa" d="M12.031 4.024c-4.412 0-8.005 3.593-8.005 8.003 0 1.41.369 2.788 1.069 4.004l-1.144 4.186 4.28-.12.593-.163c-.157.086-2.585-.125-2.585-.125l-.261-.152c1.298.775 2.793 1.185 4.331 1.185h.008c4.414 0 8.008-3.594 8.008-8.005 0-2.14-.834-4.153-2.348-5.666-1.514-1.513-3.526-2.347-5.666-2.347h-.001zm0-1.765c5.387 0 9.774 4.388 9.774 9.773 0 2.612-1.016 5.065-2.862 6.91-1.844 1.846-4.298 2.864-6.908 2.864-5.388 0-9.775-4.384-9.775-9.769 0-1.7.44-3.35 1.28-4.815l-1.5-5.5 5.63 1.476a9.756 9.756 0 014.361-1.037l.004-.002z"/>
+                    <path fill="#fafafa" d="M17.11 14.195c-.279-.14-1.652-.816-1.907-.909-.256-.093-.443-.14-.629.14-.187.279-.723.909-.886 1.096-.163.187-.327.21-.606.07-.279-.14-1.179-.434-2.247-1.389-.83-.742-1.39-1.66-1.553-1.94-.163-.279-.017-.43.123-.57.126-.126.279-.327.42-.49.14-.164.186-.279.279-.466.093-.186.046-.35-.024-.49-.07-.14-.629-1.516-.862-2.075-.226-.544-.456-.47-.629-.479-.163-.008-.35-.008-.537-.008s-.489.07-.745.35c-.256.279-.978.955-.978 2.33 0 1.375 1.002 2.704 1.142 2.89.14.187 1.97 3.006 4.773 4.215.666.287 1.186.459 1.593.588.669.213 1.278.183 1.76.111.54-.08 1.652-.676 1.885-1.328.233-.653.233-1.212.163-1.328-.07-.116-.256-.186-.535-.326z"/>
+                </svg>
+                Contactar por WhatsApp
+            </a>
             
             <!-- Divider -->
-            <hr class="w-full max-w-[20rem] border-gray-200 mt-6 mb-6" />
+            <hr class="w-full max-w-[20rem] border-gray-200 mt-12 mb-6" />
             
             <p class="text-[0.85rem] text-[#9ca3af]">
-                Lamentamos las molestias ocasionadas.
+                &copy; Wolfim Studio - Todos los derechos reservados.
             </p>
         </div>
     </div>
