@@ -67,54 +67,30 @@ export async function parsePropertyAudio(formData) {
       messages: [
         {
           role: 'system',
-          content: 'Eres un asistente experto inmobiliario. Tu tarea es extraer la información de una propiedad a partir de la transcripción de un agente. Si recibes imágenes, utilízalas para deducir comodidades adicionales (ej. Piscina, Garage, Balcón), estado del inmueble, materiales, y mejorar la redacción de la descripción. Debes devolver la información estrictamente en el formato JSON requerido.'
+          content: `Eres un asistente experto inmobiliario. Tu tarea es extraer la información de una propiedad a partir de la transcripción de un agente. Si recibes imágenes, utilízalas para deducir comodidades adicionales (ej. Piscina, Garage, Balcón), estado del inmueble, materiales, y mejorar la redacción de la descripción. Debes devolver la información estrictamente en un JSON válido con la siguiente estructura exacta:
+{
+  "name": "Un título breve",
+  "type": "Tipo de inmueble (ej. Casa)",
+  "operation": "venta | alquiler",
+  "price": "Valor numérico o Consultar",
+  "price_currency": "USD | ARS",
+  "location": { "street": "", "city": "", "state": "", "zipcode": "" },
+  "beds": 0,
+  "baths": 0,
+  "covered_area": 0,
+  "square_feet": 0,
+  "area_unit": "m2 | has",
+  "description": "Descripción para la web",
+  "amenities": ["Piscina", "Garage"]
+}
+Si un dato no se menciona ni se infiere de la imagen, déjalo vacío ("" o 0 según corresponda).`
         },
         {
           role: 'user',
           content: userMessageContent
         }
       ],
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "property_extraction",
-          strict: true,
-          schema: {
-            type: "object",
-            properties: {
-              name: { type: "string", description: "Un título breve y atractivo para la propiedad (ej. Hermosa Casa en Zona Norte)." },
-              type: { type: "string", description: "Tipo de inmueble (ej. Casa, Departamento, Lote, Local, Oficina)." },
-              operation: { type: "string", enum: ["compra", "venta", "alquiler"], description: "El tipo de operación." },
-              price: { type: "string", description: "El valor numérico del precio o la palabra 'Consultar' (ej. 150000 o 250000)." },
-              price_currency: { type: "string", enum: ["USD", "ARS"], description: "La moneda del precio." },
-              location: {
-                type: "object",
-                properties: {
-                  street: { type: "string" },
-                  city: { type: "string" },
-                  state: { type: "string" },
-                  zipcode: { type: "string" }
-                },
-                required: ["street", "city", "state", "zipcode"],
-                additionalProperties: false
-              },
-              beds: { type: "number", description: "Cantidad de habitaciones." },
-              baths: { type: "number", description: "Cantidad de baños." },
-              covered_area: { type: "number", description: "Metros cuadrados cubiertos." },
-              square_feet: { type: "number", description: "Metros cuadrados o hectáreas totales." },
-              area_unit: { type: "string", enum: ["m2", "has"], description: "Unidad de medida del terreno total." },
-              description: { type: "string", description: "Una descripción completa y atractiva de la propiedad, redactada para la web, usando saltos de línea donde sea necesario." },
-              amenities: {
-                type: "array",
-                items: { type: "string" },
-                description: "Lista de amenidades (ej. Piscina, Garage, Quincho, Balcón)."
-              }
-            },
-            required: ["name", "type", "operation", "price", "price_currency", "location", "beds", "baths", "covered_area", "square_feet", "area_unit", "description", "amenities"],
-            additionalProperties: false
-          }
-        }
-      },
+      response_format: { type: "json_object" },
       temperature: 0.2,
     });
 
