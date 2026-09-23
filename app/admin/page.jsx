@@ -56,6 +56,7 @@ const AdminPage = async () => {
   ];
 
   const NAV_LINKS = [
+    { label: 'CRM', href: '/admin/crm/contacts', Icon: User, color: '#fe8b01' },
     { label: 'Perfil', href: '/admin/profile', Icon: User, color: '#888' },
     { label: 'Propuestas', href: '/admin/quotations', Icon: FileText, color: '#3B82F6' },
     { label: 'Comunidad', href: '/admin/subscribers', Icon: MessageCircle, color: '#25D366' },
@@ -121,6 +122,7 @@ const AdminPage = async () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {NAV_LINKS.map((link, index) => {
             const tooltipText = 
+              link.label === 'CRM' ? 'Gestión de clientes, perfiles de búsqueda, seguimiento y actividades.' :
               link.label === 'Perfil' ? 'Administra información personal, firma PDF y configuraciones de contacto.' :
               link.label === 'Propuestas' ? 'Crea y gestiona presupuestos en PDF o web para tus clientes.' :
               link.label === 'Comunidad' ? 'Gestiona contactos, suscripciones y boletines.' :
