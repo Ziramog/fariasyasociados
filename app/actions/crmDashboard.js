@@ -2,6 +2,7 @@
 import connectDB from '@/config/database';
 import Contact from '@/models/Contact';
 import Task from '@/models/Task';
+import Activity from '@/models/Activity';
 import { getSessionUser } from '@/utils/getSessionUser';
 
 export async function getDashboardData() {
@@ -42,10 +43,6 @@ export async function getDashboardData() {
     });
 
     // Actividad Reciente (Timeline global)
-    // We need to import Activity model
-    const mongoose = require('mongoose');
-    const Activity = mongoose.models.Activity || require('@/models/Activity');
-    
     const activityFilter = {};
     if (!isSuperAdmin) {
       activityFilter.createdBy = userId;
