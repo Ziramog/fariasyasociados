@@ -102,7 +102,7 @@ export default async function ContactDetailPage({ params }) {
                 <div>
                   <h3 className="text-xl text-white font-bold mb-1">{nextTask.title}</h3>
                   <p className="text-gray-400 text-sm mb-2">{nextTask.description || 'Sin notas adicionales.'}</p>
-                  <p className="text-xs text-amber-400 font-medium">Vence: {nextTask.dueDate ? new Date(nextTask.dueDate).toLocaleDateString() : 'Sin fecha'}</p>
+                  <p className="text-xs text-amber-400 font-medium">Vence: {nextTask.dueDate ? `${new Date(nextTask.dueDate).toLocaleDateString()} a las ${new Date(nextTask.dueDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}` : 'Sin fecha'}</p>
                 </div>
                 <CompleteTaskButton taskId={nextTask._id} contactId={contact._id} />
               </div>
@@ -165,7 +165,10 @@ export default async function ContactDetailPage({ params }) {
                   <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] bg-[#1a1a1a] border border-[#333] p-4 rounded-xl shadow-lg">
                     <div className="flex justify-between items-start mb-1">
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{activity.type}</span>
-                      <span className="text-[10px] text-gray-500">{new Date(activity.date).toLocaleDateString()}</span>
+                      <div className="text-right">
+                        <span className="text-[10px] text-gray-400 block">{new Date(activity.date).toLocaleDateString()}</span>
+                        <span className="text-[10px] text-gray-500 block">{new Date(activity.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                      </div>
                     </div>
                     {activity.outcome && <p className="text-sm text-white font-bold mt-1">{activity.outcome}</p>}
                     <p className="text-gray-400 text-sm mt-2 whitespace-pre-wrap">{activity.notes}</p>

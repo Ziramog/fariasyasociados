@@ -52,9 +52,19 @@ export default function NewTaskModal({ contactId }) {
                 <input type="text" name="title" required placeholder="Ej. Llamar para coordinar visita..." className={inputClass} />
               </div>
               
-              <div>
-                <label className="block text-xs text-gray-400 font-bold mb-1 uppercase">Vencimiento</label>
-                <input type="date" name="dueDate" className={inputClass} />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-gray-400 font-bold mb-1 uppercase">Vencimiento y Hora</label>
+                  <input type="datetime-local" name="dueDate" className={inputClass} />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-400 font-bold mb-1 uppercase">Prioridad</label>
+                  <select name="priority" defaultValue="normal" className={inputClass}>
+                    <option value="low">Baja</option>
+                    <option value="normal">Media</option>
+                    <option value="high">Alta</option>
+                  </select>
+                </div>
               </div>
 
               <div>

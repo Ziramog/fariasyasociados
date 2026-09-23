@@ -208,6 +208,7 @@ function TaskCard({ task }) {
         {task.contactId && (
           <p className="text-xs text-gray-400 mt-1 truncate">
             👤 {task.contactId.firstName} {task.contactId.lastName} {task.contactId.phone && `· 📞 ${task.contactId.phone}`}
+            {task.dueDate && ` · ⏰ ${new Date(task.dueDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`}
           </p>
         )}
       </div>

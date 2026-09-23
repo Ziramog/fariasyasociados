@@ -144,6 +144,11 @@ export async function addActivity(formData) {
       createdBy: sessionUser.userId,
     };
     
+    const activityAt = formData.get('activity_at');
+    if (activityAt) {
+      activityData.date = new Date(activityAt);
+    }
+
     const propertyId = formData.get('propertyId');
     if (propertyId) {
       activityData.propertyId = propertyId;

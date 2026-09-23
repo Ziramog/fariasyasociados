@@ -76,14 +76,35 @@ export default function NewActivityModal({ contactId }) {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-gray-500 mb-1">Resultado (Corto)</label>
-                  <input type="text" name="outcome" placeholder="Ej. 'Interesado'" className={inputClass} />
+                  <label className="block text-[10px] uppercase font-bold text-gray-500 mb-1">Resultado</label>
+                  <select name="outcome" className={inputClass}>
+                    <option value="">Seleccionar...</option>
+                    <option value="Contacto Efectivo">Contacto Efectivo</option>
+                    <option value="No Contesta / Buzón">No Contesta / Buzón</option>
+                    <option value="Agendó Visita">Agendó Visita</option>
+                    <option value="Solicitó Información">Solicitó Información</option>
+                    <option value="Hizo Oferta">Hizo Oferta</option>
+                    <option value="Positivo">Positivo (General)</option>
+                    <option value="Negativo">Negativo (General)</option>
+                  </select>
                 </div>
               </div>
               
               <div>
                 <label className="block text-[10px] uppercase font-bold text-gray-500 mb-1">Detalles de la gestión *</label>
                 <textarea name="notes" rows="4" placeholder="Qué se habló, qué pidió, qué pasó..." required className={inputClass}></textarea>
+              </div>
+
+              <div>
+                <details className="group">
+                  <summary className="text-[10px] font-bold text-gray-400 uppercase tracking-wider cursor-pointer hover:text-white transition list-none flex items-center gap-2">
+                    <span className="text-[var(--color-brand)]">+</span> Opciones Avanzadas (Carga Retroactiva)
+                  </summary>
+                  <div className="pt-3">
+                    <label className="block text-[10px] uppercase font-bold text-gray-500 mb-1">Fecha y hora de la gestión (Vacío = Ahora)</label>
+                    <input type="datetime-local" name="activity_at" className={inputClass} />
+                  </div>
+                </details>
               </div>
 
               <div className="flex justify-end gap-3 pt-6 border-t border-[#333]">
