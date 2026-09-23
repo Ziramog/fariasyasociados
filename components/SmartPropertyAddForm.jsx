@@ -7,7 +7,7 @@ import Link from 'next/link';
 import addProperty from '@/app/actions/addProperty';
 import { parsePropertyAudio } from '@/app/actions/parsePropertyAudio';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
-import { FaMicrophone, FaStop, FaMagic } from 'react-icons/fa';
+import { FaMicrophone, FaStop, FaMagic, FaCamera, FaImages, FaTrash } from 'react-icons/fa';
 
 export default function SmartPropertyAddForm({ initialCredits }) {
   const router = useRouter();
@@ -95,8 +95,12 @@ export default function SmartPropertyAddForm({ initialCredits }) {
 
   const handleImageChange = (e) => {
     if (e.target.files) {
-      setSelectedImages(Array.from(e.target.files));
+      setSelectedImages((prev) => [...prev, ...Array.from(e.target.files)]);
     }
+  };
+
+  const handleRemoveImage = (indexToRemove) => {
+    setSelectedImages((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
 
   const handleProcessAI = async () => {
@@ -285,22 +289,55 @@ export default function SmartPropertyAddForm({ initialCredits }) {
           {/* Images Section */}
           <div className="bg-[#111] p-6 rounded-lg border border-[#333]">
             <h3 className="text-white font-bold mb-2 text-center">2. Selecciona las fotos</h3>
-            <div className="border-2 border-dashed border-[#444] hover:border-[var(--color-brand)] transition-colors rounded-lg p-6 text-center mt-4 cursor-pointer relative">
-              <input 
-                type="file" 
-                accept="image/*" 
-                multiple 
-                onChange={handleImageChange}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
-              <div className="text-gray-400 text-sm font-medium">
-                {selectedImages.length > 0 ? (
-                  <span className="text-[var(--color-brand)] font-bold">{selectedImages.length} imagen(es) seleccionada(s)</span>
-                ) : (
-                  "Toca aquí para seleccionar imágenes"
-                )}
+            <div className="flex gap-4 mt-4">
+              <div className="flex-1 border-2 border-dashed border-[#444] hover:border-[var(--color-brand)] transition-colors rounded-lg p-6 text-center cursor-pointer relative">
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  multiple 
+                  onChange={handleImageChange}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div className="text-gray-400 text-sm font-medium">
+                  <FaImages className="mx-auto mb-2 text-2xl" />
+                  Galería
+                </div>
+              </div>
+
+              <div className="flex-1 border-2 border-dashed border-[#444] hover:border-[var(--color-brand)] transition-colors rounded-lg p-6 text-center cursor-pointer relative">
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  capture="environment"
+                  onChange={handleImageChange}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div className="text-gray-400 text-sm font-medium">
+                  <FaCamera className="mx-auto mb-2 text-2xl" />
+                  Cámara
+                </div>
               </div>
             </div>
+
+            {selectedImages.length > 0 && (
+              <div className="mt-4">
+                <p className="text-left text-sm text-gray-300 font-bold mb-2">Imágenes listas ({selectedImages.length}):</p>
+                <div className="flex gap-2 overflow-x-auto pb-2">
+                  {selectedImages.map((file, idx) => (
+                    <div key={idx} className="relative flex-shrink-0 w-20 h-20 bg-[#222] rounded-md overflow-hidden border border-[#444]">
+                      <img src={URL.createObjectURL(file)} alt="Preview" className="w-full h-full object-cover" />
+                      <button 
+                        type="button" 
+                        onClick={() => handleRemoveImage(idx)}
+                        className="absolute top-1 right-1 bg-red-500/80 text-white p-1 rounded-full hover:bg-red-600 transition"
+                      >
+                        <FaTrash size={10} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             
             {/* Opcion IA Visual */}
             <div className="mt-4 bg-[#0a0a0a] p-4 rounded-lg border border-[#222] flex flex-col items-center">
