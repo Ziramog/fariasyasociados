@@ -1,7 +1,7 @@
 import { getContactById } from '@/app/actions/crmContacts';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { FaPhone, FaWhatsapp, FaEnvelope, FaPlus, FaHistory, FaCheckSquare } from 'react-icons/fa';
+import { FaPhone, FaWhatsapp, FaEnvelope, FaPlus, FaCheckSquare, FaHistory, FaMapMarkerAlt, FaHome, FaRegCommentDots, FaUserTie } from 'react-icons/fa';
 import ActivityForm from './ActivityForm';
 
 export const dynamic = 'force-dynamic';
@@ -11,123 +11,195 @@ export default async function ContactDetailPage({ params }) {
   if (!data) notFound();
 
   const { contact, activities, tasks, profiles } = data;
+  
+  // Encontrar próxima tarea
+  const pendingTasks = tasks.filter(t => t.status !== 'completed');
+  const nextTask = pendingTasks.length > 0 ? pendingTasks[0] : null;
+
+  const latestActivity = activities.length > 0 ? activities[0] : null;
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="max-w-7xl mx-auto py-6 px-4 md:px-6 min-h-screen pb-24 md:pb-6">
       
-      {/* Columna Izquierda: Datos del Cliente */}
-      <div className="lg:col-span-1 space-y-6">
-        <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-6 shadow-xl">
-          <Link href="/admin/crm/contacts" className="text-xs text-gray-500 hover:text-white uppercase tracking-wider font-bold mb-4 inline-block">&larr; Volver</Link>
-          
-          <h1 className="text-2xl font-bold text-white uppercase mb-1" style={{ fontFamily: 'var(--font-heading)' }}>
+      {/* 1. HEADER E IDENTIDAD */}
+      <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#333] pb-4 gap-4">
+        <div>
+          <Link href="/admin/crm/contacts" className="text-xs text-gray-500 hover:text-[var(--color-brand)] uppercase tracking-wider font-bold mb-2 inline-block transition-colors">&larr; Volver al CRM</Link>
+          <h1 className="text-3xl md:text-4xl font-bold text-white uppercase leading-none" style={{ fontFamily: 'var(--font-heading)' }}>
             {contact.firstName} {contact.lastName}
           </h1>
-          
-          <div className="flex gap-2 flex-wrap mb-6 mt-3">
+          <div className="flex gap-2 flex-wrap mt-3">
             {contact.roles && contact.roles.map(role => (
-              <span key={role} className="bg-[#222] border border-[#444] text-[10px] px-2 py-1 rounded-sm uppercase tracking-wider text-gray-300">
+              <span key={role} className="bg-[#222] border border-[#444] text-[10px] px-2 py-1 rounded-sm uppercase tracking-wider text-[var(--color-brand)] font-bold">
                 {role}
               </span>
             ))}
-          </div>
-
-          <div className="space-y-3 mb-8">
-            {contact.phone && (
-              <div className="flex items-center gap-3 text-gray-300">
-                <FaPhone className="text-gray-500" />
-                <span>{contact.phone}</span>
-              </div>
-            )}
-            {contact.email && (
-              <div className="flex items-center gap-3 text-gray-300">
-                <FaEnvelope className="text-gray-500" />
-                <span>{contact.email}</span>
-              </div>
-            )}
-            <div className="text-xs text-gray-500 mt-2">
-              Asignado a: <span className="text-gray-300">{contact.assignedTo ? contact.assignedTo.name : 'Nadie'}</span>
-            </div>
-          </div>
-
-          <div className="flex gap-2">
-            <a href={`tel:${contact.phone}`} className="flex-1 bg-[#222] hover:bg-[#333] border border-[#444] text-white py-2 rounded flex items-center justify-center gap-2 transition">
-              <FaPhone size={14} /> Llamar
-            </a>
-            <a href={`https://wa.me/${contact.phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 bg-green-600/20 hover:bg-green-600/40 border border-green-600/50 text-green-400 py-2 rounded flex items-center justify-center gap-2 transition">
-              <FaWhatsapp size={16} /> WhatsApp
-            </a>
+            <span className="bg-[#111] border border-[#333] text-[10px] px-2 py-1 rounded-sm uppercase tracking-wider text-gray-400">
+              Origen: {contact.source || 'Manual'}
+            </span>
           </div>
         </div>
-
-        {/* Tareas / Seguimientos pendientes */}
-        <div className="bg-[#111] border border-[#333] rounded-xl p-6 shadow-xl">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-white font-bold flex items-center gap-2"><FaCheckSquare className="text-[var(--color-brand)]"/> Próximas Acciones</h3>
-            <button className="text-gray-400 hover:text-white"><FaPlus size={12} /></button>
-          </div>
-          
-          <div className="space-y-3">
-            {tasks.length > 0 ? tasks.map(task => (
-              <div key={task._id} className="bg-[#1a1a1a] border border-[#333] p-3 rounded-lg flex gap-3 items-start">
-                <input type="checkbox" className="mt-1 accent-[var(--color-brand)]" />
-                <div>
-                  <p className="text-sm text-white font-medium">{task.title}</p>
-                  {task.dueDate && <p className="text-xs text-red-400 mt-1">Vence: {new Date(task.dueDate).toLocaleDateString()}</p>}
-                </div>
-              </div>
-            )) : (
-              <p className="text-sm text-gray-500 italic">No hay tareas pendientes.</p>
-            )}
-          </div>
+        
+        {/* Acciones Rápidas Desktop */}
+        <div className="hidden md:flex gap-3 w-full md:w-auto">
+          {contact.phone && (
+            <>
+              <a href={`tel:${contact.phone}`} className="bg-[#222] hover:bg-[#333] text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 border border-[#444] transition">
+                <FaPhone size={14} /> Llamar
+              </a>
+              <a href={`https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="bg-green-600/20 hover:bg-green-600/40 text-green-400 px-4 py-2 rounded-lg font-bold flex items-center gap-2 border border-green-600/50 transition">
+                <FaWhatsapp size={16} /> WhatsApp
+              </a>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Columna Derecha: Timeline y Actividad */}
-      <div className="lg:col-span-2 space-y-6">
+      {/* GRID PRINCIPAL */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         
-        {/* Registro rápido de actividad */}
-        <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-6 shadow-xl">
-          <h3 className="text-white font-bold mb-4 flex items-center gap-2"><FaPlus className="text-[var(--color-brand)]"/> Registrar Actividad</h3>
-          <ActivityForm contactId={contact._id} />
-        </div>
-
-        {/* Timeline */}
-        <div className="bg-[#111] border border-[#333] rounded-xl p-6 shadow-xl">
-          <h3 className="text-white font-bold mb-6 flex items-center gap-2"><FaHistory className="text-gray-400"/> Historial de Actividades</h3>
+        {/* COLUMNA IZQUIERDA (Prioridad Visual) */}
+        <div className="md:col-span-8 space-y-6">
           
-          <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[#333] before:to-transparent">
-            {activities.length > 0 ? activities.map(activity => (
-              <div key={activity._id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                {/* Icon */}
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#444] bg-[#1a1a1a] text-gray-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow">
-                  {activity.type === 'call' && <FaPhone size={14} />}
-                  {activity.type === 'whatsapp' && <FaWhatsapp size={14} />}
-                  {activity.type === 'email' && <FaEnvelope size={14} />}
-                  {activity.type === 'visit' && <FaCheckSquare size={14} />}
-                  {activity.type === 'note' && <span className="font-serif italic text-lg leading-none">N</span>}
-                  {activity.type === 'other' && <span className="w-2 h-2 bg-gray-400 rounded-full"></span>}
+          {/* PRÓXIMA ACCIÓN (Hero Block) */}
+          <div className={`rounded-xl border ${nextTask ? 'bg-amber-900/10 border-amber-500/30' : 'bg-[#111] border-[#333]'} p-5 md:p-6 shadow-xl relative overflow-hidden`}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${nextTask ? 'text-amber-500' : 'text-gray-500'}`}>
+                <FaCheckSquare /> Próxima Acción
+              </h2>
+              <button className="text-xs bg-[#222] hover:bg-[#333] px-3 py-1 rounded text-white border border-[#444] transition">+ Crear Tarea</button>
+            </div>
+            
+            {nextTask ? (
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-xl text-white font-bold mb-1">{nextTask.title}</h3>
+                  <p className="text-gray-400 text-sm mb-2">{nextTask.description || 'Sin notas adicionales.'}</p>
+                  <p className="text-xs text-amber-400 font-medium">Vence: {nextTask.dueDate ? new Date(nextTask.dueDate).toLocaleDateString() : 'Sin fecha'}</p>
                 </div>
-                
-                {/* Card */}
-                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-[#1a1a1a] border border-[#333] p-4 rounded-xl shadow">
-                  <div className="flex justify-between items-start mb-1">
-                    <span className="text-xs font-bold text-[var(--color-brand)] uppercase tracking-wider">{activity.type}</span>
-                    <span className="text-xs text-gray-500">{new Date(activity.date).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</span>
-                  </div>
-                  {activity.outcome && (
-                    <p className="text-sm text-gray-300 font-bold mt-1">Resultado: {activity.outcome}</p>
-                  )}
-                  <p className="text-gray-400 text-sm mt-2 whitespace-pre-wrap">{activity.notes}</p>
-                  <p className="text-xs text-gray-600 mt-3 text-right">por {activity.createdBy?.name || 'Sistema'}</p>
-                </div>
+                <button className="bg-amber-500 hover:bg-amber-600 text-black font-bold px-4 py-3 rounded-lg shadow-lg shadow-amber-500/20 whitespace-nowrap transition-transform active:scale-95">
+                  Completar
+                </button>
               </div>
-            )) : (
-              <p className="text-center text-gray-500 py-10">No hay actividades registradas.</p>
+            ) : (
+              <p className="text-gray-500 text-sm italic py-2">No hay seguimientos programados. ¡Estás al día!</p>
             )}
+          </div>
+
+          {/* PERFIL DE BÚSQUEDA (El "Estado Comercial" Inmobiliario) */}
+          <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-5 md:p-6 shadow-xl">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+              <FaHome /> Perfil de Búsqueda
+            </h2>
+            
+            {profiles.length > 0 ? (
+              profiles.map(p => (
+                <div key={p._id} className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-[#111] rounded-lg border border-[#333]">
+                  <div>
+                    <p className="text-[10px] text-gray-500 uppercase font-bold">Operación</p>
+                    <p className="text-white capitalize">{p.operation || '-'}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-gray-500 uppercase font-bold">Presupuesto</p>
+                    <p className="text-green-400 font-bold">{p.currency} {p.priceMax ? p.priceMax.toLocaleString() : 'Abierto'}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-[10px] text-gray-500 uppercase font-bold">Zonas</p>
+                    <p className="text-gray-300">{p.locations?.join(', ') || 'No definidas'}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-6 border-2 border-dashed border-[#333] rounded-lg">
+                <p className="text-gray-500 text-sm mb-3">Aún no has definido qué busca este cliente.</p>
+                <button className="text-[var(--color-brand)] font-bold text-sm hover:underline">+ Configurar Perfil</button>
+              </div>
+            )}
+          </div>
+
+          {/* TIMELINE DE ACTIVIDAD */}
+          <div className="bg-[#111] border border-[#333] rounded-xl p-5 md:p-6 shadow-xl">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-6 flex items-center gap-2">
+              <FaHistory /> Actividad Reciente
+            </h2>
+            
+            <div className="space-y-6 relative before:absolute before:inset-0 before:ml-4 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[#333] before:to-transparent">
+              {activities.length > 0 ? activities.map(activity => (
+                <div key={activity._id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full border border-[#444] bg-[#1a1a1a] text-[var(--color-brand)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-lg z-10">
+                    {activity.type === 'call' && <FaPhone size={12} />}
+                    {activity.type === 'whatsapp' && <FaWhatsapp size={14} />}
+                    {activity.type === 'email' && <FaEnvelope size={12} />}
+                    {activity.type === 'visit' && <FaMapMarkerAlt size={12} />}
+                    {activity.type === 'note' && <FaRegCommentDots size={12} />}
+                  </div>
+                  
+                  <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] bg-[#1a1a1a] border border-[#333] p-4 rounded-xl shadow-lg">
+                    <div className="flex justify-between items-start mb-1">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{activity.type}</span>
+                      <span className="text-[10px] text-gray-500">{new Date(activity.date).toLocaleDateString()}</span>
+                    </div>
+                    {activity.outcome && <p className="text-sm text-white font-bold mt-1">{activity.outcome}</p>}
+                    <p className="text-gray-400 text-sm mt-2 whitespace-pre-wrap">{activity.notes}</p>
+                  </div>
+                </div>
+              )) : (
+                <p className="text-center text-gray-500 py-4 text-sm">Registro en blanco.</p>
+              )}
+            </div>
           </div>
         </div>
 
+        {/* COLUMNA DERECHA (Contexto) */}
+        <div className="md:col-span-4 space-y-6">
+          
+          {/* DATOS DE CONTACTO */}
+          <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-5 shadow-xl">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+              <FaUserTie /> Contacto Principal
+            </h2>
+            
+            <div className="space-y-4">
+              {contact.phone && (
+                <div>
+                  <p className="text-[10px] text-gray-500 uppercase font-bold">Celular</p>
+                  <p className="text-white text-sm">{contact.phone}</p>
+                </div>
+              )}
+              {contact.email && (
+                <div>
+                  <p className="text-[10px] text-gray-500 uppercase font-bold">Email</p>
+                  <p className="text-white text-sm">{contact.email}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-[10px] text-gray-500 uppercase font-bold">Asesor Responsable</p>
+                <p className="text-[var(--color-brand)] text-sm font-bold">{contact.assignedTo ? contact.assignedTo.name : 'Sin asignar'}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* REGISTRO RÁPIDO */}
+          <div className="bg-[#111] border border-[#333] rounded-xl p-5 shadow-xl">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--color-brand)] mb-4 flex items-center gap-2">
+              <FaPlus /> Nueva Gestión
+            </h2>
+            <ActivityForm contactId={contact._id} />
+          </div>
+
+        </div>
+      </div>
+
+      {/* MOBILE FLOATING ACTIONS (Thumbing UX) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/90 to-transparent z-50">
+        <div className="flex gap-2">
+           <a href={`https://wa.me/${contact.phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl">
+              <FaWhatsapp size={20} /> Hablar
+           </a>
+           <a href={`tel:${contact.phone}`} className="bg-[#222] border border-[#444] text-white p-4 rounded-xl flex items-center justify-center shadow-xl">
+              <FaPhone size={20} />
+           </a>
+        </div>
       </div>
 
     </div>
