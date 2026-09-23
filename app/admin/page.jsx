@@ -57,7 +57,8 @@ const AdminPage = async () => {
   ];
 
   const session = await getSessionUser();
-  const isSuperAdmin = session?.role === 'superadmin' || session?.user?.email === 'ingjuliangalindo@gmail.com';
+  const superAdminEmails = ['ingjuangomariz@gmail.com', 'fariasyasociadosweb@gmail.com'];
+  const isSuperAdmin = session?.role === 'superadmin' || superAdminEmails.includes(session?.user?.email);
 
   const NAV_LINKS = [
     { label: 'CRM', href: isSuperAdmin ? '/admin/crm/contacts' : '#', Icon: User, color: isSuperAdmin ? '#fe8b01' : '#555', disabled: !isSuperAdmin, badge: !isSuperAdmin ? 'En desarrollo' : null },

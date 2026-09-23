@@ -7,7 +7,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function ContactsPage() {
   const session = await getSessionUser();
-  const isSuperAdmin = session?.role === 'superadmin' || session?.user?.email === 'ingjuliangalindo@gmail.com';
+  const superAdminEmails = ['ingjuangomariz@gmail.com', 'fariasyasociadosweb@gmail.com'];
+  const isSuperAdmin = session?.role === 'superadmin' || superAdminEmails.includes(session?.user?.email);
   
   if (!isSuperAdmin) {
     return (
