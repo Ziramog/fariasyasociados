@@ -2,11 +2,12 @@ import { getContactById } from '@/app/actions/crmContacts';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { FaPhone, FaWhatsapp, FaEnvelope, FaPlus, FaCheckSquare, FaHistory, FaMapMarkerAlt, FaHome, FaRegCommentDots, FaUserTie } from 'react-icons/fa';
-import ActivityForm from './ActivityForm';
+import NewActivityModal from './NewActivityModal';
 import CompleteTaskButton from './CompleteTaskButton';
 import NewTaskModal from './NewTaskModal';
 import NewProfileModal from './NewProfileModal';
 import PropertyMatches from './PropertyMatches';
+import StatusSelector from './StatusSelector';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,15 +24,19 @@ export default async function ContactDetailPage({ params }) {
   const latestActivity = activities.length > 0 ? activities[0] : null;
 
   return (
-    <div className="max-w-7xl mx-auto py-6 px-4 md:px-6 min-h-screen pb-24 md:pb-6">
+    <div className="max-w-7xl mx-auto py-6 px-4 md:px-6 min-h-screen pb-24 md:pb-6 relative">
       
       {/* 1. HEADER E IDENTIDAD */}
       <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#333] pb-4 gap-4">
-        <div>
+        <div className="w-full md:w-auto">
           <Link href="/admin/crm/contacts" className="text-xs text-gray-500 hover:text-[var(--color-brand)] uppercase tracking-wider font-bold mb-2 inline-block transition-colors">&larr; Volver al CRM</Link>
-          <h1 className="text-3xl md:text-4xl font-bold text-white uppercase leading-none" style={{ fontFamily: 'var(--font-heading)' }}>
-            {contact.firstName} {contact.lastName}
-          </h1>
+          <div className="flex flex-col md:flex-row md:items-center gap-3">
+             <h1 className="text-3xl md:text-4xl font-bold text-white uppercase leading-none" style={{ fontFamily: 'var(--font-heading)' }}>
+               {contact.firstName} {contact.lastName}
+             </h1>
+             <StatusSelector contactId={contact._id} currentStatus={contact.status} />
+          </div>
+          
           <div className="flex gap-2 flex-wrap mt-3">
             {contact.roles && contact.roles.map(role => (
               <span key={role} className="bg-[#222] border border-[#444] text-[10px] px-2 py-1 rounded-sm uppercase tracking-wider text-[var(--color-brand)] font-bold">
@@ -158,8 +163,10 @@ export default async function ContactDetailPage({ params }) {
         {/* COLUMNA DERECHA (Contexto) */}
         <div className="md:col-span-4 space-y-6">
           
+          <NewActivityModal contactId={contact._id} />
+
           {/* DATOS DE CONTACTO */}
-          <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-5 shadow-xl">
+          <div className="bg-[#1a1a1a] border border-[#333] rounded-xl p-5 shadow-xl mt-4">
             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
               <FaUserTie /> Contacto Principal
             </h2>
@@ -184,34 +191,26 @@ export default async function ContactDetailPage({ params }) {
             </div>
           </div>
 
-          {/* REGISTRO RÁPIDO */}
+          {/* CREAR PROPUESTA FORMAL */}
           <div className="bg-[#111] border border-[#333] rounded-xl p-5 shadow-xl">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--color-brand)] mb-4 flex items-center gap-2">
-              <FaPlus /> Nueva Gestión
-            </h2>
-            <ActivityForm contactId={contact._id} />
-            
-            <div className="mt-4 pt-4 border-t border-[#333]">
-               <Link href={`/admin/quotations/new?contactId=${contact._id}`} className="block w-full text-center bg-[#222] border border-[#444] hover:bg-[#333] hover:border-[var(--color-brand)] text-gray-300 hover:text-white py-3 rounded-lg font-bold transition text-sm">
-                 Generar Propuesta Formal (PDF/Web)
-               </Link>
-            </div>
+             <Link href={`/admin/quotations/new?contactId=${contact._id}`} className="block w-full text-center bg-[#222] border border-[#444] hover:bg-[#333] hover:border-[var(--color-brand)] text-gray-300 hover:text-white py-3 rounded-lg font-bold transition text-sm">
+               Generar Propuesta Formal (PDF)
+             </Link>
           </div>
 
         </div>
       </div>
 
-      {/* MOBILE FLOATING ACTIONS (Thumbing UX) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/90 to-transparent z-50">
-        <div className="flex gap-2">
-           <a href={`https://wa.me/${contact.phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl">
-              <FaWhatsapp size={20} /> Hablar
-           </a>
-           <a href={`tel:${contact.phone}`} className="bg-[#222] border border-[#444] text-white p-4 rounded-xl flex items-center justify-center shadow-xl">
-              <FaPhone size={20} />
-           </a>
+      {/* MOBILE FLOATING ACTIONS (Thumbing UX) - Sólo si hay teléfono */}
+      {contact.phone && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/90 to-transparent z-30 pointer-events-none">
+          <div className="flex gap-2 w-3/4 pointer-events-auto">
+             <a href={`https://wa.me/${contact.phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl">
+                <FaWhatsapp size={20} /> Hablar
+             </a>
+          </div>
         </div>
-      </div>
+      )}
 
     </div>
   );

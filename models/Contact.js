@@ -27,6 +27,11 @@ const ContactSchema = new Schema(
       type: String,
       default: 'Manual',
     },
+    status: {
+      type: String,
+      enum: ['Pendiente', 'En gestión', 'Interesado', 'Oportunidad', 'Cotización', 'Cliente', 'Descartado'],
+      default: 'Pendiente',
+    },
     tags: [{
       type: String,
     }],

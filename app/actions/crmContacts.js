@@ -94,6 +94,7 @@ export async function createContact(formData) {
       phone: formData.get('phone'),
       whatsapp: formData.get('whatsapp'),
       source: formData.get('source'),
+      status: formData.get('status') || 'Pendiente',
       roles: formData.getAll('roles'),
       tags: formData.get('tags') ? formData.get('tags').split(',').map(t => t.trim()) : [],
       assignedTo: sessionUser.userId,
@@ -107,6 +108,21 @@ export async function createContact(formData) {
     return { success: true, contactId: newContact._id.toString() };
   } catch (error) {
     console.error('Error creating contact:', error);
+    return { error: error.message };
+  }
+}
+
+export async function updateContactStatus(contactId, status) {
+  try {
+    await connectDB();
+    const sessionUser = await getSessionUser();
+    if (!sessionUser) return { error: 'No autorizado' };
+
+    await Contact.findByIdAndUpdate(contactId, { status });
+    revalidatePath(`/admin/crm/contacts/${contactId}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating status:', error);
     return { error: error.message };
   }
 }
