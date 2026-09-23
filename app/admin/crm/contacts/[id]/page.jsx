@@ -6,6 +6,7 @@ import ActivityForm from './ActivityForm';
 import CompleteTaskButton from './CompleteTaskButton';
 import NewTaskModal from './NewTaskModal';
 import NewProfileModal from './NewProfileModal';
+import PropertyMatches from './PropertyMatches';
 
 export const dynamic = 'force-dynamic';
 
@@ -107,6 +108,9 @@ export default async function ContactDetailPage({ params }) {
                   <div className="col-span-2">
                     <p className="text-[10px] text-gray-500 uppercase font-bold">Zonas</p>
                     <p className="text-gray-300">{p.locations?.join(', ') || 'No definidas'}</p>
+                  </div>
+                  <div className="col-span-2 md:col-span-4 mt-2">
+                    <PropertyMatches profileId={p._id} />
                   </div>
                 </div>
               ))
