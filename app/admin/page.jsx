@@ -61,7 +61,7 @@ const AdminPage = async () => {
   const isSuperAdmin = session?.role === 'superadmin' || superAdminEmails.includes(session?.user?.email);
 
   const NAV_LINKS = [
-    { label: 'CRM', href: isSuperAdmin ? '/admin/crm/contacts' : '#', Icon: User, color: isSuperAdmin ? '#fe8b01' : '#555', disabled: !isSuperAdmin, badge: !isSuperAdmin ? 'En desarrollo' : null },
+    { label: 'CRM', href: isSuperAdmin ? '/admin/crm' : '#', Icon: User, color: isSuperAdmin ? '#fe8b01' : '#555', disabled: !isSuperAdmin, badge: !isSuperAdmin ? 'En desarrollo' : null },
     { label: 'Perfil', href: '/admin/profile', Icon: User, color: '#888' },
     { label: 'Propuestas', href: '/admin/quotations', Icon: FileText, color: '#3B82F6' },
     { label: 'Comunidad', href: '/admin/subscribers', Icon: MessageCircle, color: '#25D366' },

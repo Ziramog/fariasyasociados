@@ -26,6 +26,7 @@ export default async function ContactsPage() {
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4">
+      <Link href="/admin/crm" className="text-xs text-gray-500 hover:text-[var(--color-brand)] uppercase tracking-wider font-bold mb-4 inline-block transition-colors">&larr; Volver a Mi Día</Link>
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: 'var(--font-heading)' }}>CRM Clientes</h1>

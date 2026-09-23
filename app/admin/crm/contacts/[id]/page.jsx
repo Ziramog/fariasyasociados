@@ -47,7 +47,7 @@ export default async function ContactDetailPage({ params }) {
       {/* 1. HEADER E IDENTIDAD */}
       <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#333] pb-4 gap-4">
         <div className="w-full md:w-auto">
-          <Link href="/admin/crm/contacts" className="text-xs text-gray-500 hover:text-[var(--color-brand)] uppercase tracking-wider font-bold mb-2 inline-block transition-colors">&larr; Volver al CRM</Link>
+          <Link href="/admin/crm" className="text-xs text-gray-500 hover:text-[var(--color-brand)] uppercase tracking-wider font-bold mb-2 inline-block transition-colors">&larr; Volver al CRM</Link>
           <div className="flex flex-col md:flex-row md:items-center gap-3">
              <h1 className="text-3xl md:text-4xl font-bold text-white uppercase leading-none" style={{ fontFamily: 'var(--font-heading)' }}>
                {contact.firstName} {contact.lastName}
