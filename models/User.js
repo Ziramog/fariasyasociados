@@ -29,6 +29,10 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
+    ai_credits: {
+      type: Number,
+      default: 3,
+    },
   },
   {
     timestamps: true,

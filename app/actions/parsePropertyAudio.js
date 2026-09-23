@@ -6,8 +6,24 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+import connectDB from '@/config/database';
+import User from '@/models/User';
+import { getSessionUser } from '@/utils/getSessionUser';
+
 export async function parsePropertyAudio(formData) {
   try {
+    await connectDB();
+    const sessionUser = await getSessionUser();
+    
+    if (!sessionUser || !sessionUser.userId) {
+      return { error: 'No autorizado.' };
+    }
+
+    const user = await User.findById(sessionUser.userId);
+    if (!user || user.ai_credits <= 0) {
+      return { error: 'No tienes créditos suficientes para procesar la propiedad.' };
+    }
+
     const audioFile = formData.get('audio');
     
     if (!audioFile) {
@@ -84,6 +100,10 @@ export async function parsePropertyAudio(formData) {
 
     const parsedData = JSON.parse(completion.choices[0].message.content);
     
+    // Deduct 1 credit
+    user.ai_credits -= 1;
+    await user.save();
+
     return { success: true, data: parsedData, transcription: transcribedText };
 
   } catch (error) {

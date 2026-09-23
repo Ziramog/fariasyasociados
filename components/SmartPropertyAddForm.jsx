@@ -9,8 +9,10 @@ import { parsePropertyAudio } from '@/app/actions/parsePropertyAudio';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
 import { FaMicrophone, FaStop, FaMagic } from 'react-icons/fa';
 
-export default function SmartPropertyAddForm() {
+export default function SmartPropertyAddForm({ initialCredits }) {
   const router = useRouter();
+  const [credits, setCredits] = useState(initialCredits || 0);
+  const [isBuying, setIsBuying] = useState(false);
 
   // Audio Recording State
   const [isRecording, setIsRecording] = useState(false);
@@ -27,6 +29,27 @@ export default function SmartPropertyAddForm() {
   const [parsedData, setParsedData] = useState(null);
   const [cloudinaryImages, setCloudinaryImages] = useState([]);
   const [transcription, setTranscription] = useState('');
+
+  const handleBuyCredits = async (packageType) => {
+    setIsBuying(true);
+    try {
+      const res = await fetch('/api/checkout/mercadopago', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ packageType }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error('Error al generar el pago');
+      }
+    } catch (err) {
+      toast.error('Error de conexión');
+    } finally {
+      setIsBuying(false);
+    }
+  };
 
   // Submission State
   const [isUploading, setIsUploading] = useState(false);
@@ -142,6 +165,7 @@ export default function SmartPropertyAddForm() {
       setTranscription(audioResult.transcription);
       setParsedData(audioResult.data);
       setCloudinaryImages(uploadedImages);
+      setCredits(prev => prev - 1); // Decrement local state
       toast.success('¡Propiedad analizada con éxito!');
 
     } catch (err) {
@@ -193,13 +217,35 @@ export default function SmartPropertyAddForm() {
   if (!parsedData) {
     return (
       <div className="max-w-2xl mx-auto bg-[#1a1a1a] p-6 md:p-8 rounded-xl shadow-xl border border-[#333]">
-        <h2 className='text-[28px] md:text-3xl text-center font-normal mb-8 text-white' style={{ fontFamily: 'var(--font-heading)' }}>
-          Carga Inteligente con IA
-        </h2>
+        <div className="flex justify-between items-center mb-6 border-b border-[#333] pb-4">
+          <h2 className='text-[24px] md:text-2xl font-normal text-white' style={{ fontFamily: 'var(--font-heading)' }}>
+            Carga Inteligente con IA
+          </h2>
+          <div className="flex flex-col items-end">
+            <span className={`text-sm font-bold px-3 py-1 rounded-full ${credits > 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+              {credits} Créditos AI
+            </span>
+          </div>
+        </div>
+
+        {credits <= 0 && (
+          <div className="bg-[#111] p-6 rounded-lg border border-[#333] mb-8 text-center">
+            <h3 className="text-white font-bold mb-2">No tienes créditos suficientes</h3>
+            <p className="text-gray-400 text-sm mb-4">Compra un paquete para seguir procesando propiedades automáticamente.</p>
+            <div className="flex justify-center gap-4">
+              <button onClick={() => handleBuyCredits(50)} disabled={isBuying} className="bg-[#222] hover:bg-[#333] text-white px-4 py-2 rounded-lg border border-[#444] transition">
+                50 Créditos
+              </button>
+              <button onClick={() => handleBuyCredits(100)} disabled={isBuying} className="bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white px-4 py-2 rounded-lg transition">
+                100 Créditos
+              </button>
+            </div>
+          </div>
+        )}
         
         {error && <div className="bg-red-500/20 border border-red-500 text-red-100 p-4 rounded-lg mb-6">{error}</div>}
 
-        <div className="space-y-8">
+        <div className={`space-y-8 ${credits <= 0 ? 'opacity-50 pointer-events-none' : ''}`}>
           {/* Audio Section */}
           <div className="bg-[#111] p-6 rounded-lg border border-[#333] text-center">
             <h3 className="text-white font-bold mb-2">1. Describe la propiedad</h3>
