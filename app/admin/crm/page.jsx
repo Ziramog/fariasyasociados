@@ -1,7 +1,7 @@
 import { getDashboardData } from '@/app/actions/crmDashboard';
 import { getSessionUser } from '@/utils/getSessionUser';
 import Link from 'next/link';
-import { FaCheckSquare, FaUserPlus, FaUsers, FaArrowRight, FaBolt, FaExclamationCircle } from 'react-icons/fa';
+import { FaCheckSquare, FaUserPlus, FaArrowRight, FaBolt, FaHistory, FaPhone, FaWhatsapp, FaEnvelope, FaMapMarkerAlt, FaRegCommentDots } from 'react-icons/fa';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,7 @@ export default async function CRMDashboardPage() {
     return <div className="text-red-500 p-6">Error: {res.error}</div>;
   }
 
-  const { tasks, pendingLeads, activeContactsCount } = res.data;
+  const { tasks, pendingLeads, activeContactsCount, activities } = res.data;
   
   // Agrupar tareas
   const today = new Date();
@@ -111,6 +111,51 @@ export default async function CRMDashboardPage() {
                  )}
                </div>
             )}
+          </div>
+          
+          {/* LÍNEA DE TIEMPO (TIMELINE) GLOBAL */}
+          <div className="bg-[#111] border border-[#333] rounded-xl p-5 md:p-6 shadow-xl">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-6 flex items-center gap-2">
+              <FaHistory /> Registro de Actividad Global
+            </h2>
+            
+            <div className="space-y-6 relative before:absolute before:inset-0 before:ml-4 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[#333] before:to-transparent">
+              {activities && activities.length > 0 ? activities.map(activity => {
+                const activityDate = new Date(activity.date);
+                return (
+                  <div key={activity._id} className="relative flex items-center justify-normal group is-active pl-12">
+                    <div className="absolute left-0 flex items-center justify-center w-8 h-8 rounded-full border border-[#444] bg-[#1a1a1a] text-[var(--color-brand)] shadow-lg z-10">
+                      {activity.type === 'call' && <FaPhone size={12} />}
+                      {activity.type === 'whatsapp' && <FaWhatsapp size={14} />}
+                      {activity.type === 'email' && <FaEnvelope size={12} />}
+                      {activity.type === 'visit' && <FaMapMarkerAlt size={12} />}
+                      {activity.type === 'note' && <FaRegCommentDots size={12} />}
+                    </div>
+                    
+                    <div className="w-full bg-[#1a1a1a] border border-[#333] p-4 rounded-xl shadow-lg hover:border-[#555] transition">
+                      <div className="flex justify-between items-start mb-1">
+                        <div className="flex items-center gap-2">
+                           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{activity.type}</span>
+                           {activity.contactId && (
+                             <Link href={`/admin/crm/contacts/${activity.contactId._id}`} className="text-xs text-[var(--color-brand)] font-bold hover:underline">
+                               Con {activity.contactId.firstName} {activity.contactId.lastName}
+                             </Link>
+                           )}
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[10px] text-gray-400 block">{activityDate.toLocaleDateString()}</span>
+                          <span className="text-[10px] text-gray-500 block">{activityDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>
+                      </div>
+                      {activity.outcome && <p className="text-sm text-white font-bold mt-1">{activity.outcome}</p>}
+                      <p className="text-gray-400 text-sm mt-2 whitespace-pre-wrap">{activity.notes}</p>
+                    </div>
+                  </div>
+                );
+              }) : (
+                <p className="text-center text-gray-500 py-4 text-sm">Registro en blanco.</p>
+              )}
+            </div>
           </div>
         </div>
 

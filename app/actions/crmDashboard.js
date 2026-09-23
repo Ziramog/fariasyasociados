@@ -41,16 +41,50 @@ export async function getDashboardData() {
       status: { $in: ['En gestión', 'Interesado', 'Oportunidad', 'Cotización'] }
     });
 
+    // Actividad Reciente (Timeline global)
+    // We need to import Activity model
+    const mongoose = require('mongoose');
+    const Activity = mongoose.models.Activity || require('@/models/Activity');
+    
+    const activityFilter = {};
+    if (!isSuperAdmin) {
+      activityFilter.createdBy = userId;
+    }
+    
+    const recentActivities = await Activity.find(activityFilter)
+      .populate('contactId', 'firstName lastName')
+      .populate('propertyId', 'name')
+      .sort({ date: -1 })
+      .limit(15)
+      .lean();
+
     return {
       success: true,
       data: {
         tasks: pendingTasks.map(t => ({
           ...t,
           _id: t._id.toString(),
+          dueDate: t.dueDate ? t.dueDate.toISOString() : null,
+          createdAt: t.createdAt ? t.createdAt.toISOString() : null,
+          updatedAt: t.updatedAt ? t.updatedAt.toISOString() : null,
           contactId: t.contactId ? { ...t.contactId, _id: t.contactId._id.toString() } : null
         })),
-        pendingLeads: pendingContacts.map(c => ({ ...c, _id: c._id.toString() })),
-        activeContactsCount
+        pendingLeads: pendingContacts.map(c => ({ 
+          ...c, 
+          _id: c._id.toString(),
+          createdAt: c.createdAt ? c.createdAt.toISOString() : null,
+          updatedAt: c.updatedAt ? c.updatedAt.toISOString() : null
+        })),
+        activeContactsCount,
+        activities: recentActivities.map(a => ({
+          ...a,
+          _id: a._id.toString(),
+          date: a.date ? a.date.toISOString() : null,
+          createdAt: a.createdAt ? a.createdAt.toISOString() : null,
+          updatedAt: a.updatedAt ? a.updatedAt.toISOString() : null,
+          contactId: a.contactId ? { ...a.contactId, _id: a.contactId._id.toString() } : null,
+          propertyId: a.propertyId ? { ...a.propertyId, _id: a.propertyId._id.toString() } : null
+        }))
       }
     };
   } catch (error) {
