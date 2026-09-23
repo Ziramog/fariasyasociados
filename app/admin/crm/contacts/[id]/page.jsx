@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { FaPhone, FaWhatsapp, FaEnvelope, FaPlus, FaCheckSquare, FaHistory, FaMapMarkerAlt, FaHome, FaRegCommentDots, FaUserTie } from 'react-icons/fa';
 import ActivityForm from './ActivityForm';
+import CompleteTaskButton from './CompleteTaskButton';
+import NewTaskModal from './NewTaskModal';
+import NewProfileModal from './NewProfileModal';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,7 +70,7 @@ export default async function ContactDetailPage({ params }) {
               <h2 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${nextTask ? 'text-amber-500' : 'text-gray-500'}`}>
                 <FaCheckSquare /> Próxima Acción
               </h2>
-              <button className="text-xs bg-[#222] hover:bg-[#333] px-3 py-1 rounded text-white border border-[#444] transition">+ Crear Tarea</button>
+              <NewTaskModal contactId={contact._id} />
             </div>
             
             {nextTask ? (
@@ -77,9 +80,7 @@ export default async function ContactDetailPage({ params }) {
                   <p className="text-gray-400 text-sm mb-2">{nextTask.description || 'Sin notas adicionales.'}</p>
                   <p className="text-xs text-amber-400 font-medium">Vence: {nextTask.dueDate ? new Date(nextTask.dueDate).toLocaleDateString() : 'Sin fecha'}</p>
                 </div>
-                <button className="bg-amber-500 hover:bg-amber-600 text-black font-bold px-4 py-3 rounded-lg shadow-lg shadow-amber-500/20 whitespace-nowrap transition-transform active:scale-95">
-                  Completar
-                </button>
+                <CompleteTaskButton taskId={nextTask._id} contactId={contact._id} />
               </div>
             ) : (
               <p className="text-gray-500 text-sm italic py-2">No hay seguimientos programados. ¡Estás al día!</p>
@@ -112,7 +113,7 @@ export default async function ContactDetailPage({ params }) {
             ) : (
               <div className="text-center py-6 border-2 border-dashed border-[#333] rounded-lg">
                 <p className="text-gray-500 text-sm mb-3">Aún no has definido qué busca este cliente.</p>
-                <button className="text-[var(--color-brand)] font-bold text-sm hover:underline">+ Configurar Perfil</button>
+                <NewProfileModal contactId={contact._id} />
               </div>
             )}
           </div>

@@ -143,3 +143,62 @@ export async function addActivity(formData) {
     return { error: error.message };
   }
 }
+
+export async function createTask(formData) {
+  try {
+    await connectDB();
+    const sessionUser = await getSessionUser();
+    if (!sessionUser || !sessionUser.userId) return { error: 'No autorizado' };
+
+    const contactId = formData.get('contactId');
+    const newTask = new Task({
+      contactId,
+      title: formData.get('title'),
+      description: formData.get('description'),
+      dueDate: formData.get('dueDate') || null,
+      priority: formData.get('priority') || 'normal',
+      assignedTo: sessionUser.userId,
+      createdBy: sessionUser.userId,
+    });
+    
+    await newTask.save();
+    revalidatePath(`/admin/crm/contacts/${contactId}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Error creating task:', error);
+    return { error: error.message };
+  }
+}
+
+export async function completeTask(taskId, contactId) {
+  try {
+    await connectDB();
+    await Task.findByIdAndUpdate(taskId, { status: 'completed' });
+    revalidatePath(`/admin/crm/contacts/${contactId}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Error completing task:', error);
+    return { error: error.message };
+  }
+}
+
+export async function createBuyerProfile(formData) {
+  try {
+    await connectDB();
+    const contactId = formData.get('contactId');
+    const newProfile = new BuyerProfile({
+      contactId,
+      operation: formData.get('operation'),
+      priceMax: formData.get('priceMax') || null,
+      currency: formData.get('currency') || 'USD',
+      locations: formData.get('locations') ? formData.get('locations').split(',').map(l => l.trim()) : [],
+    });
+    
+    await newProfile.save();
+    revalidatePath(`/admin/crm/contacts/${contactId}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Error creating profile:', error);
+    return { error: error.message };
+  }
+}
