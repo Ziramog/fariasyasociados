@@ -190,6 +190,12 @@ export default async function ContactDetailPage({ params }) {
               <FaPlus /> Nueva Gestión
             </h2>
             <ActivityForm contactId={contact._id} />
+            
+            <div className="mt-4 pt-4 border-t border-[#333]">
+               <Link href={`/admin/quotations/new?contactId=${contact._id}`} className="block w-full text-center bg-[#222] border border-[#444] hover:bg-[#333] hover:border-[var(--color-brand)] text-gray-300 hover:text-white py-3 rounded-lg font-bold transition text-sm">
+                 Generar Propuesta Formal (PDF/Web)
+               </Link>
+            </div>
           </div>
 
         </div>
