@@ -31,7 +31,7 @@ const UserSchema = new Schema(
     },
     ai_credits: {
       type: Number,
-      default: 3,
+      default: 25,
     },
   },
   {
