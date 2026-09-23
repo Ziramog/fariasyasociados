@@ -110,7 +110,7 @@ export default async function ContactDetailPage({ params }) {
                     <p className="text-gray-300">{p.locations?.join(', ') || 'No definidas'}</p>
                   </div>
                   <div className="col-span-2 md:col-span-4 mt-2">
-                    <PropertyMatches profileId={p._id} />
+                    <PropertyMatches profileId={p._id} contactPhone={contact.phone} />
                   </div>
                 </div>
               ))

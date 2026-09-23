@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react';
 import { getMatchesForProfile } from '@/app/actions/crmMatching';
 import Link from 'next/link';
-import { FaBolt, FaMapMarkerAlt, FaBed, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaBolt, FaMapMarkerAlt, FaBed, FaExternalLinkAlt, FaWhatsapp } from 'react-icons/fa';
 
-export default function PropertyMatches({ profileId }) {
+export default function PropertyMatches({ profileId, contactPhone }) {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,6 +26,25 @@ export default function PropertyMatches({ profileId }) {
   if (matches.length === 0) {
     return <p className="text-gray-500 text-xs mt-2 italic">No hay propiedades compatibles (Match &gt; 0%) en inventario actualmente.</p>;
   }
+
+  const handleShare = (property) => {
+    // Generate the public URL for the property. 
+    // Assuming the app is running on the standard origin. We use window.location.origin to be safe.
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://fariasyasociados.com.ar';
+    const propertyUrl = `${baseUrl}/properties/${property._id}`;
+    
+    const message = `¡Hola! Creo que esta propiedad podría interesarte según lo que estás buscando:%0A%0A*${property.name}*%0A${property.city ? `Ubicación: ${property.city}%0A` : ''}Precio: USD ${property.price}%0A%0APuedes ver las fotos y más detalles aquí:%0A${propertyUrl}`;
+    
+    let waUrl = '';
+    if (contactPhone) {
+      const cleanPhone = contactPhone.replace(/[^0-9]/g, '');
+      waUrl = `https://wa.me/${cleanPhone}?text=${message}`;
+    } else {
+      waUrl = `https://api.whatsapp.com/send?text=${message}`;
+    }
+    
+    window.open(waUrl, '_blank');
+  };
 
   return (
     <div className="mt-4 space-y-3">
@@ -57,10 +76,22 @@ export default function PropertyMatches({ profileId }) {
               </div>
             </div>
             
-            <p className="text-[var(--color-brand)] font-bold text-xs mt-1">USD {m.property.price}</p>
-            <div className="flex gap-2 text-[10px] text-gray-400 mt-1">
-              {m.property.city && <span className="flex items-center gap-1"><FaMapMarkerAlt /> {m.property.city}</span>}
-              {m.property.beds > 0 && <span className="flex items-center gap-1"><FaBed /> {m.property.beds} Dorm.</span>}
+            <div className="flex justify-between items-end mt-1">
+              <div>
+                <p className="text-[var(--color-brand)] font-bold text-xs">USD {m.property.price}</p>
+                <div className="flex gap-2 text-[10px] text-gray-400 mt-1">
+                  {m.property.city && <span className="flex items-center gap-1"><FaMapMarkerAlt /> {m.property.city}</span>}
+                  {m.property.beds > 0 && <span className="flex items-center gap-1"><FaBed /> {m.property.beds} Dorm.</span>}
+                </div>
+              </div>
+              
+              <button 
+                onClick={() => handleShare(m.property)}
+                className="bg-green-600/20 hover:bg-green-600/40 text-green-400 border border-green-600/50 p-1.5 rounded transition"
+                title="Enviar propuesta por WhatsApp"
+              >
+                <FaWhatsapp size={12} />
+              </button>
             </div>
           </div>
         </div>
