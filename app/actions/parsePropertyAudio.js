@@ -19,9 +19,12 @@ export async function parsePropertyAudio(formData) {
       return { error: 'No autorizado.' };
     }
 
+    const useVision = formData.get('useVision') === 'true';
+    const creditsNeeded = useVision ? 2 : 1;
+
     const user = await User.findById(sessionUser.userId);
-    if (!user || user.ai_credits <= 0) {
-      return { error: 'No tienes créditos suficientes para procesar la propiedad.' };
+    if (!user || user.ai_credits < creditsNeeded) {
+      return { error: `No tienes créditos suficientes. Esta acción requiere ${creditsNeeded} créditos.` };
     }
 
     const audioFile = formData.get('audio');
@@ -42,16 +45,33 @@ export async function parsePropertyAudio(formData) {
 
     // 2. Extract structured data using GPT-4o
     console.log('Extracting data with GPT-4o...');
+    let userMessageContent = [
+      { type: 'text', text: `Transcripción: "${transcribedText}"` }
+    ];
+
+    if (useVision) {
+      const imageUrlsStr = formData.get('imageUrls');
+      if (imageUrlsStr) {
+        const imageUrls = JSON.parse(imageUrlsStr);
+        imageUrls.forEach(url => {
+          userMessageContent.push({
+            type: 'image_url',
+            image_url: { url: url }
+          });
+        });
+      }
+    }
+
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
         {
           role: 'system',
-          content: 'Eres un asistente experto inmobiliario. Tu tarea es extraer la información de una propiedad a partir de la transcripción de un agente. Debes devolver la información estrictamente en el formato JSON requerido.'
+          content: 'Eres un asistente experto inmobiliario. Tu tarea es extraer la información de una propiedad a partir de la transcripción de un agente. Si recibes imágenes, utilízalas para deducir comodidades adicionales (ej. Piscina, Garage, Balcón), estado del inmueble, materiales, y mejorar la redacción de la descripción. Debes devolver la información estrictamente en el formato JSON requerido.'
         },
         {
           role: 'user',
-          content: `Transcripción: "${transcribedText}"`
+          content: userMessageContent
         }
       ],
       response_format: {
@@ -100,11 +120,11 @@ export async function parsePropertyAudio(formData) {
 
     const parsedData = JSON.parse(completion.choices[0].message.content);
     
-    // Deduct 1 credit
-    user.ai_credits -= 1;
+    // Deduct credits
+    user.ai_credits -= creditsNeeded;
     await user.save();
 
-    return { success: true, data: parsedData, transcription: transcribedText };
+    return { success: true, data: parsedData, transcription: transcribedText, creditsConsumed: creditsNeeded };
 
   } catch (error) {
     console.error('Error in parsePropertyAudio:', error);

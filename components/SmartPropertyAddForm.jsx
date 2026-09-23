@@ -23,6 +23,7 @@ export default function SmartPropertyAddForm({ initialCredits }) {
 
   // File Upload State
   const [selectedImages, setSelectedImages] = useState([]);
+  const [useVision, setUseVision] = useState(false);
 
   // Process State
   const [isProcessing, setIsProcessing] = useState(false);
@@ -112,13 +113,7 @@ export default function SmartPropertyAddForm({ initialCredits }) {
     setError(null);
 
     try {
-      // 1. Process Audio
-      const formData = new FormData();
-      formData.append('audio', audioBlob, 'recording.webm');
-      
-      const audioPromise = parsePropertyAudio(formData);
-
-      // 2. Upload Images to Cloudinary
+      // 1. Upload Images to Cloudinary first
       const imageUploadPromises = selectedImages.map(async (file) => {
         const options = { maxSizeMB: 0.6, maxWidthOrHeight: 1600, useWebWorker: false };
         let fileToUpload = file;
@@ -152,11 +147,17 @@ export default function SmartPropertyAddForm({ initialCredits }) {
         };
       });
 
-      // Run both in parallel
-      const [audioResult, uploadedImages] = await Promise.all([
-        audioPromise,
-        Promise.all(imageUploadPromises)
-      ]);
+      const uploadedImages = await Promise.all(imageUploadPromises);
+
+      // 2. Process Audio (and optionally images)
+      const formData = new FormData();
+      formData.append('audio', audioBlob, 'recording.webm');
+      if (useVision) {
+        formData.append('useVision', 'true');
+        formData.append('imageUrls', JSON.stringify(uploadedImages.map(img => img.url).slice(0, 5))); // Enviar hasta 5 para no gastar de más
+      }
+      
+      const audioResult = await parsePropertyAudio(formData);
 
       if (audioResult.error) {
         throw new Error(audioResult.error);
@@ -165,7 +166,7 @@ export default function SmartPropertyAddForm({ initialCredits }) {
       setTranscription(audioResult.transcription);
       setParsedData(audioResult.data);
       setCloudinaryImages(uploadedImages);
-      setCredits(prev => prev - 1); // Decrement local state
+      setCredits(prev => prev - (audioResult.creditsConsumed || 1)); // Decrement local state
       toast.success('¡Propiedad analizada con éxito!');
 
     } catch (err) {
@@ -299,6 +300,23 @@ export default function SmartPropertyAddForm({ initialCredits }) {
                   "Toca aquí para seleccionar imágenes"
                 )}
               </div>
+            </div>
+            
+            {/* Opcion IA Visual */}
+            <div className="mt-4 bg-[#0a0a0a] p-4 rounded-lg border border-[#222] flex flex-col items-center">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={useVision} 
+                  onChange={(e) => setUseVision(e.target.checked)}
+                  className="w-5 h-5 accent-[var(--color-brand)]"
+                />
+                <span className="text-white font-bold">Analizar fotos con Inteligencia Artificial</span>
+              </label>
+              <p className="text-xs text-gray-400 mt-2 text-center">
+                La IA mirará las fotos para detectar detalles como la pileta, cochera, y el estado de la propiedad para mejorar la descripción.<br/>
+                <span className="text-[var(--color-brand)] font-semibold">(Consume 2 créditos en total)</span>
+              </p>
             </div>
           </div>
 
