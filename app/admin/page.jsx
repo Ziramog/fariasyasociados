@@ -9,6 +9,7 @@ import Link from 'next/link';
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
 import Quotation from '@/models/Quotation';
+import { getSessionUser } from '@/utils/getSessionUser';
 import { isGranInversion } from '@/utils/filterProperties';
 import {
   Home,
@@ -55,8 +56,11 @@ const AdminPage = async () => {
     { type: 'Gran Inversión', Icon: TrendingUp, color: '#FFD700', count: granInversionCount, href: '/admin/properties?granInversion=true' },
   ];
 
+  const session = await getSessionUser();
+  const isSuperAdmin = session?.role === 'superadmin' || session?.user?.email === 'ingjuliangalindo@gmail.com';
+
   const NAV_LINKS = [
-    { label: 'CRM', href: '/admin/crm/contacts', Icon: User, color: '#fe8b01' },
+    { label: 'CRM', href: isSuperAdmin ? '/admin/crm/contacts' : '#', Icon: User, color: isSuperAdmin ? '#fe8b01' : '#555', disabled: !isSuperAdmin, badge: !isSuperAdmin ? 'En desarrollo' : null },
     { label: 'Perfil', href: '/admin/profile', Icon: User, color: '#888' },
     { label: 'Propuestas', href: '/admin/quotations', Icon: FileText, color: '#3B82F6' },
     { label: 'Comunidad', href: '/admin/subscribers', Icon: MessageCircle, color: '#25D366' },
@@ -131,13 +135,25 @@ const AdminPage = async () => {
             return (
               <MotionCard key={link.label} delay={0.4 + index * 0.1} color={link.color}>
                 <div className="relative group h-full">
-                  <Link
-                    href={link.href}
-                    className="block h-full bg-[#161616] border border-[#222] rounded-sm p-5 hover:border-[#333] transition-colors text-center group-hover:bg-[#1a1a1a]"
-                  >
-                    <link.Icon className="w-7 h-7 mx-auto mb-3 opacity-80 group-hover:opacity-100 transition-opacity" style={{ color: link.color }} strokeWidth={1.5} />
-                    <p className="text-[11px] font-medium text-[#888] uppercase tracking-wider">{link.label}</p>
-                  </Link>
+                  {link.disabled ? (
+                    <div className="block h-full bg-[#161616] border border-[#222] rounded-sm p-5 text-center cursor-not-allowed opacity-60">
+                      <link.Icon className="w-7 h-7 mx-auto mb-3 opacity-50" style={{ color: link.color }} strokeWidth={1.5} />
+                      <p className="text-[11px] font-medium text-[#888] uppercase tracking-wider">{link.label}</p>
+                      {link.badge && (
+                        <span className="absolute top-2 left-1/2 -translate-x-1/2 bg-[#fe8b01]/20 text-[#fe8b01] text-[8px] font-bold px-2 py-0.5 rounded-full uppercase whitespace-nowrap">
+                          {link.badge}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="block h-full bg-[#161616] border border-[#222] rounded-sm p-5 hover:border-[#333] transition-colors text-center group-hover:bg-[#1a1a1a]"
+                    >
+                      <link.Icon className="w-7 h-7 mx-auto mb-3 opacity-80 group-hover:opacity-100 transition-opacity" style={{ color: link.color }} strokeWidth={1.5} />
+                      <p className="text-[11px] font-medium text-[#888] uppercase tracking-wider">{link.label}</p>
+                    </Link>
+                  )}
 
                   <div className="absolute top-2 right-2 group/help cursor-help">
                     <div className="p-1 rounded-full hover:bg-[#1C1C1A]/10 transition-colors">

@@ -1,10 +1,26 @@
 import Link from 'next/link';
 import { getContacts } from '@/app/actions/crmContacts';
+import { getSessionUser } from '@/utils/getSessionUser';
 import { FaUserPlus, FaSearch } from 'react-icons/fa';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ContactsPage() {
+  const session = await getSessionUser();
+  const isSuperAdmin = session?.role === 'superadmin' || session?.user?.email === 'ingjuliangalindo@gmail.com';
+  
+  if (!isSuperAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6">
+        <h2 className="text-2xl font-bold text-white mb-2">Módulo en Desarrollo</h2>
+        <p className="text-gray-400">El CRM Inmobiliario se encuentra en fase de pruebas. Pronto estará disponible para todos los asesores.</p>
+        <Link href="/admin" className="mt-6 bg-[#222] border border-[#333] text-white px-4 py-2 rounded-lg hover:bg-[#333] transition">
+          Volver al Panel
+        </Link>
+      </div>
+    );
+  }
+
   const contacts = await getContacts();
 
   return (

@@ -9,9 +9,26 @@ import NewProfileModal from './NewProfileModal';
 import PropertyMatches from './PropertyMatches';
 import StatusSelector from './StatusSelector';
 
+import { getSessionUser } from '@/utils/getSessionUser';
+
 export const dynamic = 'force-dynamic';
 
 export default async function ContactDetailPage({ params }) {
+  const session = await getSessionUser();
+  const isSuperAdmin = session?.role === 'superadmin' || session?.user?.email === 'ingjuliangalindo@gmail.com';
+  
+  if (!isSuperAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6">
+        <h2 className="text-2xl font-bold text-white mb-2">Acceso Restringido</h2>
+        <p className="text-gray-400">Esta sección está en desarrollo.</p>
+        <Link href="/admin" className="mt-6 bg-[#222] border border-[#333] text-white px-4 py-2 rounded-lg hover:bg-[#333] transition">
+          Volver al Panel
+        </Link>
+      </div>
+    );
+  }
+
   const data = await getContactById(params.id);
   if (!data) notFound();
 
