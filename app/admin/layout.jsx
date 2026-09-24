@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 
-import { FaHome, FaUsers, FaPlusCircle, FaFileInvoiceDollar, FaCog } from 'react-icons/fa';
+import { FaChartPie, FaUsers, FaPlusCircle, FaFileInvoiceDollar, FaCog } from 'react-icons/fa';
 
 const AdminLayout = ({ children }) => {
   const pathname = usePathname();
@@ -23,8 +23,8 @@ const AdminLayout = ({ children }) => {
   }
 
   const navItems = [
-    { name: 'Mi Día', href: '/admin/crm', icon: FaHome },
-    { name: 'Directorio', href: '/admin/crm/contacts', icon: FaUsers },
+    { name: 'Panel', href: '/admin/crm', icon: FaChartPie },
+    { name: 'Clientes', href: '/admin/crm/contacts', icon: FaUsers },
     { name: 'Cotizar', href: '/admin/quotations', icon: FaFileInvoiceDollar },
     { name: 'Ajustes', href: '/admin', icon: FaCog },
   ];

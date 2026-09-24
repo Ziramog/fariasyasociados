@@ -52,12 +52,12 @@ export default async function CRMDashboardPage() {
     <div className="max-w-7xl mx-auto py-8 px-4 md:px-6 min-h-screen">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ fontFamily: 'var(--font-heading)' }}>Mi Día</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ fontFamily: 'var(--font-heading)' }}>Panel</h1>
           <p className="text-gray-400">Centro Operativo CRM</p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
           <Link href="/admin/crm/contacts" className="flex-1 md:flex-none text-center bg-[#222] border border-[#444] hover:bg-[#333] text-white px-4 py-2 rounded-lg font-bold transition">
-            Ver Directorio
+            Ver Clientes
           </Link>
           <Link href="/admin/crm/contacts/new" className="flex-1 md:flex-none text-center bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white px-4 py-2 rounded-lg font-bold flex items-center justify-center gap-2 transition">
             <FaUserPlus /> Nuevo Lead
