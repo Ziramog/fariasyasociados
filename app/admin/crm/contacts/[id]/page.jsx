@@ -49,7 +49,7 @@ export default async function ContactDetailPage({ params }) {
         <div className="w-full md:w-auto">
           <Link href="/admin/crm" className="text-xs text-gray-500 hover:text-[var(--color-brand)] uppercase tracking-wider font-bold mb-2 inline-block transition-colors">&larr; Volver al CRM</Link>
           <div className="flex flex-col md:flex-row md:items-center gap-3">
-             <h1 className="text-3xl md:text-4xl font-bold text-white uppercase leading-none" style={{ fontFamily: 'var(--font-heading)' }}>
+             <h1 className="text-3xl md:text-4xl font-extrabold text-white uppercase leading-none tracking-tight">
                {contact.firstName} {contact.lastName}
              </h1>
              <StatusSelector contactId={contact._id} currentStatus={contact.status} />

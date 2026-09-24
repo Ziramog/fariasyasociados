@@ -28,7 +28,7 @@ export default async function ContactsPage() {
     <div className="max-w-6xl mx-auto py-8 px-4 pb-24">
       {/* HEADER ROW (PRESOL Style) */}
       <div className="flex items-center gap-2 mb-4">
-        <h1 className="text-2xl md:text-3xl font-bold text-white mr-auto" style={{ fontFamily: 'var(--font-heading)' }}>CRM Clientes</h1>
+        <h1 className="text-2xl md:text-3xl font-extrabold text-white mr-auto tracking-tight uppercase">CRM Clientes</h1>
         
         <Link 
           href="/admin/crm/contacts/new"

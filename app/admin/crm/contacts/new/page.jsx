@@ -37,7 +37,7 @@ export default function NewContactPage() {
     <div className="max-w-2xl mx-auto py-8 px-4">
       <Link href="/admin/crm/contacts" className="text-gray-400 hover:text-white mb-6 inline-block">&larr; Volver a Clientes</Link>
       
-      <h1 className="text-3xl font-bold text-white mb-8" style={{ fontFamily: 'var(--font-heading)' }}>Nuevo Cliente</h1>
+      <h1 className="text-3xl font-extrabold text-white mb-8 tracking-tight uppercase">Nuevo Cliente</h1>
 
       <form onSubmit={handleSubmit} className="bg-[#1a1a1a] border border-[#333] p-6 rounded-xl shadow-xl space-y-6">
         
