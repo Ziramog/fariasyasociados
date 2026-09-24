@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getContacts } from '@/app/actions/crmContacts';
 import { getSessionUser } from '@/utils/getSessionUser';
-import { FaUserPlus, FaSearch } from 'react-icons/fa';
+import { FaUserPlus, FaSearch, FaPhone, FaWhatsapp, FaEnvelope, FaChevronRight, FaRegUserCircle } from 'react-icons/fa';
 
 export const dynamic = 'force-dynamic';
 
@@ -116,46 +116,74 @@ export default async function ContactsPage() {
           </table>
         </div>
 
-        {/* MOBILE CARDS */}
-        <div className="md:hidden flex flex-col divide-y divide-[#333]">
+        {/* MOBILE CARDS (PRESOL-Style) */}
+        <div className="md:hidden flex flex-col p-4 bg-[#0a0a0a] gap-4">
           {contacts.map((contact) => (
-            <Link 
+            <div 
               key={contact._id} 
-              href={`/admin/crm/contacts/${contact._id}`}
-              className="p-4 hover:bg-[#1a1a1a] transition-colors block"
+              className="bg-[#111] border border-[#333] rounded-2xl p-4 shadow-lg flex flex-col relative"
             >
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <h3 className="font-bold text-white text-lg">{contact.firstName} {contact.lastName}</h3>
-                  <div className="flex gap-1 flex-wrap mt-1">
-                    {contact.roles && contact.roles.map(role => (
-                      <span key={role} className="bg-[#222] border border-[#444] text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-wider text-[var(--color-brand)] font-bold">
-                        {role}
-                      </span>
-                    ))}
+              {/* Top Section */}
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex gap-3 items-start">
+                  <div className="w-10 h-10 rounded-full bg-[#1a1a1a] border border-[#333] flex items-center justify-center text-[var(--color-brand)] shrink-0">
+                    <FaRegUserCircle size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-lg leading-tight">{contact.firstName} {contact.lastName}</h3>
+                    <p className="text-xs text-gray-500 mt-1">{contact.assignedTo ? contact.assignedTo.name : 'Sin asignar'}</p>
+                    
+                    <div className="flex gap-1 flex-wrap mt-2">
+                      {contact.roles && contact.roles.map(role => (
+                        <span key={role} className="text-[9px] uppercase tracking-wider text-gray-400 font-bold">
+                          {role}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
+
                 {contact.status && (
-                  <span className="text-[10px] bg-gray-800 text-gray-300 px-2 py-1 rounded-full font-bold uppercase">
+                  <span className="text-[9px] bg-[#1a1a1a] border border-[#333] text-gray-300 px-2 py-1 rounded-sm font-bold uppercase whitespace-nowrap">
                     {contact.status}
                   </span>
                 )}
               </div>
               
-              <div className="text-sm text-gray-400 mt-3 space-y-1">
-                {(contact.phone || contact.whatsapp) && (
-                  <p>📞 {contact.phone || contact.whatsapp}</p>
-                )}
-                {contact.email && (
-                  <p>✉️ {contact.email}</p>
-                )}
+              {/* Bottom Quick Actions Grid */}
+              <div className="grid grid-cols-4 gap-3 mt-2">
+                <a 
+                  href={contact.phone ? `tel:${contact.phone}` : '#'} 
+                  onClick={(e) => !contact.phone && e.preventDefault()}
+                  className={`flex items-center justify-center py-3 rounded-xl border ${contact.phone ? 'border-[#333] bg-[#1a1a1a] text-blue-400 hover:bg-[#222]' : 'border-[#222] bg-transparent text-gray-700 pointer-events-none'}`}
+                >
+                  <FaPhone size={16} />
+                </a>
+                
+                <a 
+                  href={contact.phone ? `https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}` : '#'} 
+                  onClick={(e) => !contact.phone && e.preventDefault()}
+                  className={`flex items-center justify-center py-3 rounded-xl border ${contact.phone ? 'border-[#333] bg-[#1a1a1a] text-green-500 hover:bg-[#222]' : 'border-[#222] bg-transparent text-gray-700 pointer-events-none'}`}
+                >
+                  <FaWhatsapp size={18} />
+                </a>
+
+                <a 
+                  href={contact.email ? `mailto:${contact.email}` : '#'} 
+                  onClick={(e) => !contact.email && e.preventDefault()}
+                  className={`flex items-center justify-center py-3 rounded-xl border ${contact.email ? 'border-[#333] bg-[#1a1a1a] text-purple-400 hover:bg-[#222]' : 'border-[#222] bg-transparent text-gray-700 pointer-events-none'}`}
+                >
+                  <FaEnvelope size={16} />
+                </a>
+
+                <Link 
+                  href={`/admin/crm/contacts/${contact._id}`}
+                  className="flex items-center justify-center py-3 rounded-xl border border-[#333] bg-[#1a1a1a] text-gray-300 hover:bg-[#222] hover:text-white"
+                >
+                  <FaChevronRight size={16} />
+                </Link>
               </div>
-              
-              <div className="mt-3 flex justify-between items-center text-xs text-gray-500">
-                <span>👤 {contact.assignedTo ? contact.assignedTo.name : 'Sin asignar'}</span>
-                <span className="text-[var(--color-brand)] font-bold">Ver Ficha &rarr;</span>
-              </div>
-            </Link>
+            </div>
           ))}
           {contacts.length === 0 && (
             <div className="py-8 text-center text-gray-500">
