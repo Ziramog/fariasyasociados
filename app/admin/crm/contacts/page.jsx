@@ -143,25 +143,25 @@ export default async function ContactsPage() {
           {contacts.map((contact) => (
             <div 
               key={contact._id} 
-              className="bg-[#111] border border-[#222] rounded-2xl flex flex-col relative overflow-hidden"
+              className="bg-[#161616] border border-[#2c2c2c] rounded-2xl flex flex-col relative overflow-hidden shadow-2xl"
             >
               {/* Top Section */}
-              <div className="p-5">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex gap-4 items-start">
+              <div className="p-5 pb-4">
+                <div className="flex justify-between items-start mb-5 gap-3">
+                  <div className="flex gap-3.5 items-start min-w-0 flex-1">
                     {/* Avatar */}
-                    <div className="w-12 h-12 rounded-[14px] bg-[#1a1a1a] border border-[#333] flex items-center justify-center text-[var(--color-brand)] shrink-0">
+                    <div className="w-12 h-12 rounded-[14px] bg-[#222] border border-[#333] flex items-center justify-center text-[var(--color-brand)] shrink-0 shadow-inner">
                       <FaRegUserCircle size={24} />
                     </div>
                     {/* Info */}
-                    <div>
-                      <h3 className="font-bold text-white text-[17px] leading-tight mb-1">{contact.firstName} {contact.lastName}</h3>
-                      <div className="flex items-center text-xs text-gray-400 gap-1.5">
-                        <span className="truncate max-w-[100px]">{contact.roles && contact.roles.length > 0 ? contact.roles[0].toUpperCase() : 'SIN CATEGORÍA'}</span>
+                    <div className="min-w-0 pt-0.5">
+                      <h3 className="font-bold text-white text-[17px] leading-tight mb-1 truncate">{contact.firstName} {contact.lastName}</h3>
+                      <div className="flex items-center text-[11px] text-gray-400 gap-1.5 w-full">
+                        <span className="shrink-0 uppercase tracking-wider font-medium">{contact.roles && contact.roles.length > 0 ? contact.roles[0] : 'SIN CATEGORÍA'}</span>
                         {contact.phone && (
                           <>
-                            <span>·</span>
-                            <span>{contact.phone}</span>
+                            <span className="shrink-0 opacity-50">·</span>
+                            <span className="truncate">{contact.phone}</span>
                           </>
                         )}
                       </div>
@@ -169,12 +169,12 @@ export default async function ContactsPage() {
                   </div>
 
                   {/* Top Right Pills */}
-                  <div className="flex items-center gap-2">
-                    <button className="w-8 h-8 rounded-full border border-[#333] flex items-center justify-center text-gray-500 hover:text-white transition">
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button className="w-8 h-8 rounded-full border border-[#333] bg-[#1a1a1a] flex items-center justify-center text-gray-400 hover:text-white transition">
                       <FaHeart size={12} />
                     </button>
                     {contact.status && (
-                      <span className="text-[10px] bg-[#1a1a1a] border border-[#333] text-gray-300 px-2 py-1 rounded font-bold uppercase whitespace-nowrap">
+                      <span className="text-[9px] bg-[#222] border border-[#333] text-gray-200 px-2.5 py-1.5 rounded font-bold uppercase whitespace-nowrap tracking-wider shadow-sm">
                         {contact.status}
                       </span>
                     )}
@@ -182,11 +182,11 @@ export default async function ContactsPage() {
                 </div>
 
                 {/* Sub-info row (like PRESOL "SIN CATEGORIA / EN GESTION") */}
-                <div className="flex justify-between items-center mt-6">
-                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+                <div className="flex justify-between items-center mt-3">
+                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider truncate pr-2">
                     {contact.roles && contact.roles.length > 0 ? contact.roles.join(', ') : 'SIN CATEGORÍA'}
                   </span>
-                  <span className="text-[10px] text-white bg-[#1a1a1a] px-3 py-1.5 rounded-md font-bold uppercase tracking-wider">
+                  <span className="text-[10px] text-white bg-[#222] border border-[#333] px-3 py-1.5 rounded font-bold uppercase tracking-wider shrink-0 shadow-sm">
                     {contact.status || 'EN GESTIÓN'}
                   </span>
                 </div>
