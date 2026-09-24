@@ -32,7 +32,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
   const isGlassMode = isHomepage ? (isScrolled || isMobileMenuOpen) : true;
   const showIso = isScrolled || isAdminPage;
 
-  const isMobileLargeHeader = !isScrolled && !isMobileMenuOpen && !isPropertiesPage;
+  const isMobileLargeHeader = false; // Forced small by user request
 
   if (pathname.startsWith('/p/')) return null;
 
