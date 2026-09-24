@@ -55,6 +55,13 @@ export async function getDashboardData() {
       .limit(15)
       .lean();
 
+    // Embudo Comercial — Conteo por estado del pipeline
+    const pipelineStatuses = ['Pendiente', 'En gestión', 'Interesado', 'Oportunidad', 'Cotización', 'Cliente', 'Descartado'];
+    const pipelineCounts = {};
+    for (const status of pipelineStatuses) {
+      pipelineCounts[status] = await Contact.countDocuments({ ...contactFilter, status });
+    }
+
     return {
       success: true,
       data: {
@@ -81,7 +88,8 @@ export async function getDashboardData() {
           updatedAt: a.updatedAt ? a.updatedAt.toISOString() : null,
           contactId: a.contactId ? { ...a.contactId, _id: a.contactId._id.toString() } : null,
           propertyId: a.propertyId ? { ...a.propertyId, _id: a.propertyId._id.toString() } : null
-        }))
+        })),
+        pipelineCounts
       }
     };
   } catch (error) {

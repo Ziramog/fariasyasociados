@@ -1,7 +1,7 @@
 import { getDashboardData } from '@/app/actions/crmDashboard';
 import { getSessionUser } from '@/utils/getSessionUser';
 import Link from 'next/link';
-import { FaCheckSquare, FaUserPlus, FaArrowRight, FaBolt, FaHistory, FaPhone, FaWhatsapp, FaEnvelope, FaMapMarkerAlt, FaRegCommentDots } from 'react-icons/fa';
+import { FaCheckSquare, FaUserPlus, FaArrowRight, FaBolt, FaHistory, FaPhone, FaWhatsapp, FaEnvelope, FaMapMarkerAlt, FaRegCommentDots, FaFunnelDollar } from 'react-icons/fa';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,7 @@ export default async function CRMDashboardPage() {
     return <div className="text-red-500 p-6">Error: {res.error}</div>;
   }
 
-  const { tasks, pendingLeads, activeContactsCount, activities } = res.data;
+  const { tasks, pendingLeads, activeContactsCount, activities, pipelineCounts } = res.data;
   
   // Agrupar tareas
   const today = new Date();
@@ -36,6 +36,17 @@ export default async function CRMDashboardPage() {
   const overdueTasks = tasks.filter(t => t.dueDate && new Date(t.dueDate) < today);
   const todayTasks = tasks.filter(t => t.dueDate && new Date(t.dueDate) >= today && new Date(t.dueDate) <= new Date(today.getTime() + 86400000));
   const otherTasks = tasks.filter(t => !t.dueDate || new Date(t.dueDate) > new Date(today.getTime() + 86400000));
+
+  // Pipeline config for the funnel
+  const pipelineStages = [
+    { key: 'Pendiente', color: 'bg-gray-500', textColor: 'text-gray-300', borderColor: 'border-gray-600' },
+    { key: 'En gestión', color: 'bg-blue-500', textColor: 'text-blue-300', borderColor: 'border-blue-600' },
+    { key: 'Interesado', color: 'bg-cyan-500', textColor: 'text-cyan-300', borderColor: 'border-cyan-600' },
+    { key: 'Oportunidad', color: 'bg-amber-500', textColor: 'text-amber-300', borderColor: 'border-amber-600' },
+    { key: 'Cotización', color: 'bg-orange-500', textColor: 'text-orange-300', borderColor: 'border-orange-600' },
+    { key: 'Cliente', color: 'bg-green-500', textColor: 'text-green-300', borderColor: 'border-green-600' },
+  ];
+  const totalPipeline = pipelineStages.reduce((sum, s) => sum + (pipelineCounts?.[s.key] || 0), 0);
 
   return (
     <div className="max-w-7xl mx-auto py-8 px-4 md:px-6 min-h-screen">
@@ -51,6 +62,59 @@ export default async function CRMDashboardPage() {
           <Link href="/admin/crm/contacts/new" className="flex-1 md:flex-none text-center bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white px-4 py-2 rounded-lg font-bold flex items-center justify-center gap-2 transition">
             <FaUserPlus /> Nuevo Lead
           </Link>
+        </div>
+      </div>
+
+      {/* EMBUDO COMERCIAL */}
+      <div className="bg-[#111] border border-[#333] rounded-xl p-5 md:p-6 shadow-xl mb-8">
+        <div className="flex justify-between items-center mb-5">
+          <h2 className="text-sm font-bold uppercase tracking-wider flex items-center gap-2 text-gray-400">
+            <FaFunnelDollar /> Embudo Comercial
+          </h2>
+          {pipelineCounts?.['Descartado'] > 0 && (
+            <span className="text-[10px] text-red-400 font-bold bg-red-950/30 px-2 py-0.5 rounded-sm">
+              {pipelineCounts['Descartado']} descartados
+            </span>
+          )}
+        </div>
+        
+        {/* Desktop: horizontal funnel */}
+        <div className="hidden md:flex items-end gap-1 h-32">
+          {pipelineStages.map((stage, i) => {
+            const count = pipelineCounts?.[stage.key] || 0;
+            const pct = totalPipeline > 0 ? Math.max((count / totalPipeline) * 100, 8) : (100 / pipelineStages.length);
+            return (
+              <Link href={`/admin/crm/contacts?status=${encodeURIComponent(stage.key)}`} key={stage.key} className="flex flex-col items-center flex-1 group cursor-pointer">
+                <span className={`text-lg font-bold text-white mb-1 group-hover:scale-110 transition`}>{count}</span>
+                <div 
+                  className={`w-full ${stage.color} rounded-t-lg transition-all group-hover:opacity-80`}
+                  style={{ height: `${pct}%`, minHeight: '12px' }}
+                />
+                <span className={`text-[9px] font-bold uppercase tracking-wider mt-2 ${stage.textColor} text-center leading-tight`}>{stage.key}</span>
+              </Link>
+            );
+          })}
+        </div>
+        
+        {/* Mobile: vertical pipeline */}
+        <div className="md:hidden space-y-2">
+          {pipelineStages.map((stage) => {
+            const count = pipelineCounts?.[stage.key] || 0;
+            const pct = totalPipeline > 0 ? Math.max((count / totalPipeline) * 100, 5) : 0;
+            return (
+              <Link href={`/admin/crm/contacts?status=${encodeURIComponent(stage.key)}`} key={stage.key} className="flex items-center gap-3 group">
+                <span className={`text-[10px] font-bold uppercase tracking-wider w-24 ${stage.textColor} text-right shrink-0`}>{stage.key}</span>
+                <div className="flex-1 h-7 bg-[#1a1a1a] rounded-lg overflow-hidden border border-[#333]">
+                  <div 
+                    className={`h-full ${stage.color} rounded-lg flex items-center justify-end pr-2 transition-all group-hover:brightness-110`}
+                    style={{ width: `${pct}%`, minWidth: count > 0 ? '28px' : '0px' }}
+                  >
+                    {count > 0 && <span className="text-[10px] font-bold text-white">{count}</span>}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
 
