@@ -152,29 +152,45 @@ export default async function ContactsPage() {
               
               {/* Bottom Quick Actions Grid */}
               <div className="grid grid-cols-4 gap-3 mt-2">
-                <a 
-                  href={contact.phone ? `tel:${contact.phone}` : '#'} 
-                  onClick={(e) => !contact.phone && e.preventDefault()}
-                  className={`flex items-center justify-center py-3 rounded-xl border ${contact.phone ? 'border-[#333] bg-[#1a1a1a] text-blue-400 hover:bg-[#222]' : 'border-[#222] bg-transparent text-gray-700 pointer-events-none'}`}
-                >
-                  <FaPhone size={16} />
-                </a>
+                {contact.phone ? (
+                  <a 
+                    href={`tel:${contact.phone}`}
+                    className="flex items-center justify-center py-3 rounded-xl border border-[#333] bg-[#1a1a1a] text-blue-400 hover:bg-[#222]"
+                  >
+                    <FaPhone size={16} />
+                  </a>
+                ) : (
+                  <div className="flex items-center justify-center py-3 rounded-xl border border-[#222] bg-transparent text-gray-700 pointer-events-none">
+                    <FaPhone size={16} />
+                  </div>
+                )}
                 
-                <a 
-                  href={contact.phone ? `https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}` : '#'} 
-                  onClick={(e) => !contact.phone && e.preventDefault()}
-                  className={`flex items-center justify-center py-3 rounded-xl border ${contact.phone ? 'border-[#333] bg-[#1a1a1a] text-green-500 hover:bg-[#222]' : 'border-[#222] bg-transparent text-gray-700 pointer-events-none'}`}
-                >
-                  <FaWhatsapp size={18} />
-                </a>
+                {contact.phone ? (
+                  <a 
+                    href={`https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center py-3 rounded-xl border border-[#333] bg-[#1a1a1a] text-green-500 hover:bg-[#222]"
+                  >
+                    <FaWhatsapp size={18} />
+                  </a>
+                ) : (
+                  <div className="flex items-center justify-center py-3 rounded-xl border border-[#222] bg-transparent text-gray-700 pointer-events-none">
+                    <FaWhatsapp size={18} />
+                  </div>
+                )}
 
-                <a 
-                  href={contact.email ? `mailto:${contact.email}` : '#'} 
-                  onClick={(e) => !contact.email && e.preventDefault()}
-                  className={`flex items-center justify-center py-3 rounded-xl border ${contact.email ? 'border-[#333] bg-[#1a1a1a] text-purple-400 hover:bg-[#222]' : 'border-[#222] bg-transparent text-gray-700 pointer-events-none'}`}
-                >
-                  <FaEnvelope size={16} />
-                </a>
+                {contact.email ? (
+                  <a 
+                    href={`mailto:${contact.email}`}
+                    className="flex items-center justify-center py-3 rounded-xl border border-[#333] bg-[#1a1a1a] text-purple-400 hover:bg-[#222]"
+                  >
+                    <FaEnvelope size={16} />
+                  </a>
+                ) : (
+                  <div className="flex items-center justify-center py-3 rounded-xl border border-[#222] bg-transparent text-gray-700 pointer-events-none">
+                    <FaEnvelope size={16} />
+                  </div>
+                )}
 
                 <Link 
                   href={`/admin/crm/contacts/${contact._id}`}
