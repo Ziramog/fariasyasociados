@@ -60,7 +60,8 @@ export default async function ContactsPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* DESKTOP TABLE */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#1a1a1a] text-gray-400 text-sm">
@@ -113,6 +114,54 @@ export default async function ContactsPage() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* MOBILE CARDS */}
+        <div className="md:hidden flex flex-col divide-y divide-[#333]">
+          {contacts.map((contact) => (
+            <Link 
+              key={contact._id} 
+              href={`/admin/crm/contacts/${contact._id}`}
+              className="p-4 hover:bg-[#1a1a1a] transition-colors block"
+            >
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <h3 className="font-bold text-white text-lg">{contact.firstName} {contact.lastName}</h3>
+                  <div className="flex gap-1 flex-wrap mt-1">
+                    {contact.roles && contact.roles.map(role => (
+                      <span key={role} className="bg-[#222] border border-[#444] text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-wider text-[var(--color-brand)] font-bold">
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {contact.status && (
+                  <span className="text-[10px] bg-gray-800 text-gray-300 px-2 py-1 rounded-full font-bold uppercase">
+                    {contact.status}
+                  </span>
+                )}
+              </div>
+              
+              <div className="text-sm text-gray-400 mt-3 space-y-1">
+                {(contact.phone || contact.whatsapp) && (
+                  <p>📞 {contact.phone || contact.whatsapp}</p>
+                )}
+                {contact.email && (
+                  <p>✉️ {contact.email}</p>
+                )}
+              </div>
+              
+              <div className="mt-3 flex justify-between items-center text-xs text-gray-500">
+                <span>👤 {contact.assignedTo ? contact.assignedTo.name : 'Sin asignar'}</span>
+                <span className="text-[var(--color-brand)] font-bold">Ver Ficha &rarr;</span>
+              </div>
+            </Link>
+          ))}
+          {contacts.length === 0 && (
+            <div className="py-8 text-center text-gray-500">
+              No hay clientes registrados aún.
+            </div>
+          )}
         </div>
       </div>
     </div>
