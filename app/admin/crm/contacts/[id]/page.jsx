@@ -224,7 +224,7 @@ export default async function ContactDetailPage({ params }) {
 
       {/* MOBILE FLOATING ACTIONS (Thumbing UX) - Sólo si hay teléfono */}
       {contact.phone && (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/90 to-transparent z-30 pointer-events-none">
+        <div className="md:hidden fixed bottom-16 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/90 to-transparent z-30 pointer-events-none">
           <div className="flex gap-2 w-3/4 pointer-events-auto">
              <a href={`https://wa.me/${contact.phone?.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-xl">
                 <FaWhatsapp size={20} /> Hablar

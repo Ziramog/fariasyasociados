@@ -44,7 +44,7 @@ export default function NewActivityModal({ contactId }) {
       </button>
 
       {/* Mobile Floating CTA */}
-      <div className="md:hidden fixed bottom-24 right-4 z-40">
+      <div className="md:hidden fixed bottom-36 right-4 z-40">
         <button 
           onClick={() => setIsOpen(true)}
           className="bg-[var(--color-brand)] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-transform"
