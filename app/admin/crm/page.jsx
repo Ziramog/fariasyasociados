@@ -65,56 +65,70 @@ export default async function CRMDashboardPage() {
         </div>
       </div>
 
-      {/* EMBUDO COMERCIAL */}
-      <div className="bg-[#111] border border-[#333] rounded-xl p-5 md:p-6 shadow-xl mb-8">
-        <div className="flex justify-between items-center mb-5">
-          <h2 className="text-sm font-bold uppercase tracking-wider flex items-center gap-2 text-gray-400">
-            <FaFunnelDollar /> Embudo Comercial
+      {/* EMBUDO COMERCIAL (Trapezoid Style) */}
+      <div className="bg-[#111] border border-[#333] rounded-xl p-6 md:p-8 shadow-xl mb-8">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-brand)" strokeWidth="2" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            Embudo comercial
           </h2>
-          {pipelineCounts?.['Descartado'] > 0 && (
-            <span className="text-[10px] text-red-400 font-bold bg-red-950/30 px-2 py-0.5 rounded-sm">
-              {pipelineCounts['Descartado']} descartados
-            </span>
-          )}
+          <select className="bg-transparent border border-[#444] text-gray-300 text-sm px-3 py-1.5 rounded-lg focus:outline-none focus:border-[var(--color-brand)]">
+            <option value="all">Historico</option>
+            <option value="month">Este mes</option>
+          </select>
         </div>
         
-        {/* Desktop: horizontal funnel */}
-        <div className="hidden md:flex items-end gap-1 h-32">
-          {pipelineStages.map((stage, i) => {
-            const count = pipelineCounts?.[stage.key] || 0;
-            const pct = totalPipeline > 0 ? Math.max((count / totalPipeline) * 100, 8) : (100 / pipelineStages.length);
-            return (
-              <Link href={`/admin/crm/contacts?status=${encodeURIComponent(stage.key)}`} key={stage.key} className="flex flex-col items-center flex-1 group cursor-pointer">
-                <span className={`text-lg font-bold text-white mb-1 group-hover:scale-110 transition`}>{count}</span>
-                <div 
-                  className={`w-full ${stage.color} rounded-t-lg transition-all group-hover:opacity-80`}
-                  style={{ height: `${pct}%`, minHeight: '12px' }}
-                />
-                <span className={`text-[9px] font-bold uppercase tracking-wider mt-2 ${stage.textColor} text-center leading-tight`}>{stage.key}</span>
-              </Link>
-            );
-          })}
-        </div>
-        
-        {/* Mobile: vertical pipeline */}
-        <div className="md:hidden space-y-2">
-          {pipelineStages.map((stage) => {
-            const count = pipelineCounts?.[stage.key] || 0;
-            const pct = totalPipeline > 0 ? Math.max((count / totalPipeline) * 100, 5) : 0;
-            return (
-              <Link href={`/admin/crm/contacts?status=${encodeURIComponent(stage.key)}`} key={stage.key} className="flex items-center gap-3 group">
-                <span className={`text-[10px] font-bold uppercase tracking-wider w-24 ${stage.textColor} text-right shrink-0`}>{stage.key}</span>
-                <div className="flex-1 h-7 bg-[#1a1a1a] rounded-lg overflow-hidden border border-[#333]">
-                  <div 
-                    className={`h-full ${stage.color} rounded-lg flex items-center justify-end pr-2 transition-all group-hover:brightness-110`}
-                    style={{ width: `${pct}%`, minWidth: count > 0 ? '28px' : '0px' }}
-                  >
-                    {count > 0 && <span className="text-[10px] font-bold text-white">{count}</span>}
+        <div className="flex flex-col items-center">
+          {/* Funnel Chart */}
+          <div className="w-full max-w-[320px] flex flex-col items-center mb-10">
+            {pipelineStages.map((stage, i) => {
+              const count = pipelineCounts?.[stage.key] || 0;
+              
+              // Calculate clip-path for trapezoid
+              // Total slope width on each side is 25%
+              const numStages = pipelineStages.length;
+              const slopeFactor = 30; // 30% reduction on each side from top to bottom
+              const topX = (i / numStages) * slopeFactor;
+              const bottomX = ((i + 1) / numStages) * slopeFactor;
+              
+              const clipPath = `polygon(${topX}% 0%, ${100 - topX}% 0%, ${100 - bottomX}% 100%, ${bottomX}% 100%)`;
+              
+              return (
+                <Link 
+                  href={`/admin/crm/contacts?status=${encodeURIComponent(stage.key)}`} 
+                  key={stage.key} 
+                  className={`w-full h-12 flex items-center justify-center mb-1 hover:opacity-90 transition-opacity ${stage.color}`}
+                  style={{ clipPath }}
+                  title={`${stage.key}: ${count}`}
+                >
+                  <span className="text-white font-bold text-[15px]">{count}</span>
+                </Link>
+              );
+            })}
+          </div>
+          
+          {/* Legend */}
+          <div className="w-full max-w-[320px] space-y-3">
+            {pipelineStages.map((stage) => {
+              const count = pipelineCounts?.[stage.key] || 0;
+              const pct = totalPipeline > 0 ? Math.round((count / totalPipeline) * 100) : 0;
+              
+              return (
+                <div key={stage.key} className="flex items-center justify-between group">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-3 h-3 rounded-full ${stage.color}`} />
+                    <span className="text-[15px] text-gray-300">{stage.key}</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="text-[15px] font-bold text-white">{count}</span>
+                    <span className="text-[13px] text-gray-500 w-10 text-right">{pct}%</span>
                   </div>
                 </div>
-              </Link>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 
