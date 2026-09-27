@@ -382,9 +382,8 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
       <div className='mb-6'>
         <label className={labelClass}>Precio de Venta o Alquiler</label>
         <div className='flex gap-2 items-start'>
-          <select name='price_currency' className={`${inputClass} !w-[110px] flex-shrink-0`} defaultValue={(() => { const p = property.price || ''; if (p.startsWith('$')) return '$'; if (p.startsWith('ARS')) return 'ARS'; return 'USD'; })()}>
+          <select name='price_currency' className={`${inputClass} !w-[110px] flex-shrink-0`} defaultValue={(() => { const p = property.price || ''; if (p.startsWith('ARS') || p.startsWith('$ ')) return 'ARS'; return 'USD'; })()}>
             <option value='USD'>U$D</option>
-            <option value='$'>$</option>
             <option value='ARS'>ARS</option>
           </select>
           <div className='flex-1'>

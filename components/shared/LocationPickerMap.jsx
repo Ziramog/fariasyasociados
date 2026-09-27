@@ -15,25 +15,28 @@ export default function LocationPickerMap({ initialLat, initialLng, onLocationCh
   const mapProvider = process.env.NEXT_PUBLIC_MAP_PROVIDER || 'mapbox';
   const googleMapId = '5840ac3c29d4b1c78be4a027';
 
+  const safeLat = (val) => (typeof val === 'number' && !isNaN(val)) ? val : DEFAULT_CENTER.lat;
+  const safeLng = (val) => (typeof val === 'number' && !isNaN(val)) ? val : DEFAULT_CENTER.lng;
+
   const [marker, setMarker] = useState({
-    lat: initialLat || DEFAULT_CENTER.lat,
-    lng: initialLng || DEFAULT_CENTER.lng,
+    lat: safeLat(initialLat),
+    lng: safeLng(initialLng),
   });
 
   const [viewState, setViewState] = useState({
-    latitude: initialLat || DEFAULT_CENTER.lat,
-    longitude: initialLng || DEFAULT_CENTER.lng,
+    latitude: safeLat(initialLat),
+    longitude: safeLng(initialLng),
     zoom: 13,
   });
 
   // Sync if external props change (e.g. user manually typing in the input fields)
   useEffect(() => {
     if (initialLat !== undefined && initialLng !== undefined) {
-      setMarker({ lat: initialLat, lng: initialLng });
+      setMarker({ lat: safeLat(initialLat), lng: safeLng(initialLng) });
       setViewState(prev => ({
         ...prev,
-        latitude: initialLat,
-        longitude: initialLng,
+        latitude: safeLat(initialLat),
+        longitude: safeLng(initialLng),
       }));
     }
   }, [initialLat, initialLng]);

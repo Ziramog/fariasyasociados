@@ -49,22 +49,30 @@ export function getAreaDisplay(property) {
  * Return a formatted price string.
  */
 export function getPriceDisplay(property) {
-  if (property.price) {
+  if (property.price && property.price !== 'Consultar') {
     if (typeof property.price === 'string' && property.price.toLowerCase().includes('consultar')) return 'Consultar';
-    
-    let strPrice = String(property.price).trim();
-    let currency = 'U$D';
-    if (strPrice.startsWith('$')) currency = '$';
-    else if (strPrice.startsWith('ARS')) currency = 'ARS';
-    else if (strPrice.startsWith('USD') || strPrice.startsWith('U$D')) currency = 'U$D';
+
+    let currencyStr = 'U$D';
+    if (typeof property.price === 'string') {
+      const match = property.price.trim().match(/^([A-Z$]+)\s*(.*)$/i);
+      if (match && match[1]) {
+        currencyStr = match[1].toUpperCase() === 'USD' ? 'U$D' : match[1];
+      }
+    }
 
     let num = typeof property.price === 'number'
       ? property.price
-      : parseFloat(strPrice.replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, ''));
+      : parseFloat(String(property.price).replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, ''));
       
-    if (!isNaN(num)) return `${currency} ${num.toLocaleString('es-AR')}`;
+    if (!isNaN(num)) {
+      if (num >= 1000 && currencyStr === 'U$D') {
+        const k = num / 1000;
+        return `${currencyStr} ${k % 1 === 0 ? k : k.toFixed(k < 10 ? 2 : 1)}k`;
+      }
+      return `${currencyStr} ${num.toLocaleString('es-AR')}`;
+    }
     
-    return strPrice;
+    if (typeof property.price === 'string') return property.price;
   }
   if (property.rates?.monthly) return `U$D ${property.rates.monthly.toLocaleString()}/mes`;
   if (property.rates?.weekly) return `U$D ${property.rates.weekly.toLocaleString()}/sem`;
@@ -106,7 +114,7 @@ export function getStatusBadge(property) {
     }
   }
 
-  return STATUS_BADGE_MAP[property.status] || null;
+  return STATUS_BADGE_MAP[property.status] || { label: property.status, color: 'bg-[var(--color-brand)]' };
 }
 
 /**

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import deleteProperty from '@/app/actions/deleteProperty';
@@ -19,6 +19,11 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
   const [filterGranInversion, setFilterGranInversion] = useState(defaultGranInversion ? 'yes' : '');
   const [filterPublished, setFilterPublished] = useState(defaultPublished);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // Sync state with props when data is refreshed from server
+  useEffect(() => {
+    setItems(properties);
+  }, [properties]);
 
   const filtered = useMemo(() => {
     let result = items;
@@ -58,7 +63,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
     });
     const data = await res.json();
     if (data.success) {
-      setItems(prev => prev.map(p => p._id === id ? { ...p, is_featured: !p.is_featured } : p));
+      setItems(prev => prev.map(p => p._id === id ? { ...p, is_featured: data.is_featured } : p));
       toast.success(data.is_featured ? 'Destacada' : 'No destacada');
       router.refresh();
     }
@@ -236,7 +241,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                 </td>
                 <td className="px-2 md:px-4 py-3 text-center">
                   <button onClick={() => handleToggleFeatured(prop._id)}
-                    className={`text-lg transition-colors ${prop.is_featured ? 'text-[var(--color-brand)]' : 'text-[#444] hover:text-[var(--color-brand)]'}`}
+                    className={`text-lg transition-colors ${prop.is_featured ? 'text-[var(--color-brand)]' : 'text-[#444] md:hover:text-[var(--color-brand)]'}`}
                     title={prop.is_featured ? 'Quitar destacada' : 'Marcar destacada'}
                   >★</button>
                 </td>
@@ -333,7 +338,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
             <div className="flex items-center justify-between pt-2 border-t border-[#222]">
               <div className="flex items-center gap-4">
                 <button onClick={() => handleToggleFeatured(prop._id)}
-                  className={`text-lg transition-colors ${prop.is_featured ? 'text-[var(--color-brand)]' : 'text-[#444] hover:text-[var(--color-brand)]'}`}
+                  className={`text-lg transition-colors ${prop.is_featured ? 'text-[var(--color-brand)]' : 'text-[#444] md:hover:text-[var(--color-brand)]'}`}
                   title={prop.is_featured ? 'Quitar destacada' : 'Marcar destacada'}
                 >★</button>
                 <button onClick={() => handleTogglePublished(prop._id)}

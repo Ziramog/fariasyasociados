@@ -131,7 +131,7 @@ const PropertyAddForm = ({ customLabels = [] }) => {
 
   const [operation, setOperation] = useState('venta');
   const [type, setType] = useState('');
-  const isLandOrCommercial = ['Terreno', 'Campo', 'Gran Inversión', 'Inmueble Comercial'].includes(type);
+  const isLandOrCommercial = ['Terreno', 'Campo', 'Gran Inversión'].includes(type);
   const [isGenerating, setIsGenerating] = useState(false);
   const formRef = useRef(null);
   const [description, setDescription] = useState('');
@@ -319,7 +319,6 @@ const PropertyAddForm = ({ customLabels = [] }) => {
         <div className='flex gap-2 items-start'>
           <select name='price_currency' className={`${inputClass} !w-[110px] flex-shrink-0`}>
             <option value='USD'>U$D</option>
-            <option value='$'>$</option>
             <option value='ARS'>ARS</option>
           </select>
           <div className='flex-1'>

@@ -3,7 +3,7 @@ import { Schema, model, models } from 'mongoose';
 const PaymentSchema = new Schema(
   {
     amount: { type: Number, required: true },
-    currency: { type: String, default: 'U$D', enum: ['U$D', '$', 'ARS'] },
+    currency: { type: String, default: 'USD', enum: ['USD', 'U$D', '$', 'ARS'] },
     status: {
       type: String,
       enum: ['paid', 'pending', 'overdue', 'cancelled'],

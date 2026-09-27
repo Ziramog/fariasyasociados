@@ -140,7 +140,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
               Sobre Nosotros
             </Link>
 
-            {session && (
+            {session && (session.user?.role === 'admin' || session.user?.role === 'superadmin') && (
               <Link href="/admin" className="text-white hover:text-[var(--color-brand)] transition-colors text-[15px] font-normal tracking-[0.02em] uppercase">
                 Panel de Control
               </Link>
@@ -295,7 +295,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
             </Link>
 
             {/* PANEL DE CONTROL */}
-            {session && (
+            {session && (session.user?.role === 'admin' || session.user?.role === 'superadmin') && (
               <Link href="/admin" className={`block text-white text-[22px] py-[15px] border-b border-[#3B3B3B]/[.08] hover:text-[var(--color-brand)] transition-colors ${isMobileMenuOpen ? 'mobile-item' : ''}`} style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, animationDelay: '0.55s' }} onClick={() => setIsMobileMenuOpen(false)}>
                 Panel de control
               </Link>
