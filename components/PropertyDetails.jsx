@@ -42,9 +42,19 @@ const PropertyDetails = ({ property }) => {
     property.operation === 'alquiler' ? 'Alquiler' :
     property.operation === 'compra' ? 'Compra' : '';
 
+  const totalAreaVal = property.total_area ?? property.square_feet;
+  const landAreaDisplay = totalAreaVal ? (
+    property.type === 'Campo' && totalAreaVal > 10000 
+      ? `${(totalAreaVal / 10000).toFixed((totalAreaVal / 10000) % 1 === 0 ? 0 : 1)} has`
+      : totalAreaVal >= 10000 
+        ? `${(totalAreaVal / 10000).toFixed((totalAreaVal / 10000) % 1 === 0 ? 0 : 1)} has`
+        : `${totalAreaVal.toLocaleString('es-AR')} m²`
+  ) : null;
+
   const featureItems = [
     { label: 'Precio', value: getPriceDisplay(property) },
-    { label: 'Superficie', value: getAreaDisplay(property) },
+    { label: 'Sup. Terreno', value: landAreaDisplay },
+    { label: 'Sup. Cubierta', value: property.covered_area ? `${property.covered_area.toLocaleString('es-AR')} m²` : null },
     { label: 'Dormitorios', value: property.beds || null },
     { label: 'Baños', value: property.baths || null },
     { label: 'Cochera', value: property.garage != null ? property.garage : null },
@@ -130,6 +140,27 @@ const PropertyDetails = ({ property }) => {
 
         {/* Right: Sidebar — 30% */}
         <div className="w-full md:w-[30%] flex flex-col gap-[20px]">
+          {/* Servicios Destacados */}
+          {property.amenities && property.amenities.length > 0 && (
+            <div className="bg-[#0A0A0A] rounded-none overflow-hidden">
+              <div className="px-4 md:px-[50px] pt-[40px] pb-[40px]">
+                <div>
+                  <SectionTitle>Servicios Destacados</SectionTitle>
+                </div>
+                <ScrollReveal>
+                  <ul>
+                    {property.amenities.map((amenity) => (
+                      <li key={amenity} className="flex justify-between items-center px-5 py-[10px] mb-[5px] text-[16px] gap-[10px] rounded-none odd:bg-[#141412]">
+                        <span className="text-[14px] font-normal text-white">{amenity}</span>
+                        <CheckIcon className="w-[18px] h-[18px] text-[var(--color-brand)]" />
+                      </li>
+                    ))}
+                  </ul>
+                </ScrollReveal>
+              </div>
+            </div>
+          )}
+
           {/* Additional Info */}
           {(property.square_feet || property.operation || coveredArea || property.garage != null || property.titles_status) && (
             <div className="bg-[#0A0A0A] rounded-none overflow-hidden">
@@ -167,12 +198,6 @@ const PropertyDetails = ({ property }) => {
                     <li className="flex justify-between items-center px-5 py-[10px] mb-[5px] text-[16px] gap-[10px] rounded-none odd:bg-[#141412]">
                       <span className="text-[14px] text-gray-400">Estado de Títulos</span>
                       <span className="text-[14px] font-normal text-white text-right">{property.titles_status}</span>
-                    </li>
-                  )}
-                  {property.amenities && property.amenities.length > 0 && (
-                    <li className="flex justify-between items-center px-5 py-[10px] mb-[5px] text-[16px] gap-[10px] rounded-none odd:bg-[#141412]">
-                      <span className="text-[14px] text-gray-400">Comodidades</span>
-                      <span className="text-[14px] font-normal text-white text-right">{property.amenities.join(', ')}</span>
                     </li>
                   )}
                   </ul>

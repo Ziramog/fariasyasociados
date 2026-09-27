@@ -395,26 +395,65 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
         </div>
       </div>
 
-      {/* Comodidades */}
+      {/* Servicios */}
       <div className='mb-6'>
-        <label className={labelClass}>Comodidades</label>
-        <div className='grid grid-cols-2 md:grid-cols-3 gap-3 bg-[#181818] border border-[#222] p-4 rounded-lg'>
-          {[
-            ['Wifi', 'Wifi'],
-            ['Free Parking', 'Estacionamiento'],
-            ['24/7 Security', 'Seguridad 24hs'],
-            ['Balcony/Patio', 'Balcón/Patio'],
-            ['Swimming Pool', 'Pileta'],
-            ['Hot Tub', 'Hidromasaje'],
-            ['Gym/Fitness Center', 'Gimnasio'],
-            ['Elevator Access', 'Ascensor'],
-            ['Wheelchair Accessible', 'Acceso Discapacitados'],
-          ].map(([val, label]) => (
-            <div key={val} className="flex items-center gap-2">
-              <input type='checkbox' id={`amenity_${val}`} name='amenities' value={val} className='w-4 h-4 accent-[var(--color-brand)] bg-[#111] border-[#333]' defaultChecked={property.amenities?.includes(val)} />
-              <label htmlFor={`amenity_${val}`} className="text-white/70 text-sm cursor-pointer">{label}</label>
-            </div>
-          ))}
+        <label className={labelClass}>Servicios</label>
+        <div className='bg-[#181818] border border-[#222] p-5 rounded-lg'>
+          <h3 className="text-sm font-semibold text-gray-400 mb-3">Básicos</h3>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {[
+              ['Agua Corriente', 'Agua Corriente'],
+              ['Gas Natural', 'Gas Natural'],
+              ['Internet / Wifi', 'Internet / Wifi'],
+              ['Luz', 'Luz / Energía'],
+              ['Cloaca', 'Cloaca'],
+              ['Pavimento', 'Pavimento'],
+            ].map(([val, label]) => (
+              <label key={val} className="cursor-pointer">
+                <input type='checkbox' name='amenities' value={val} className='peer sr-only' defaultChecked={property.amenities?.includes(val)} />
+                <div className='px-3 py-1.5 rounded-md border border-[#444] text-sm bg-[#222] text-white/80 hover:bg-[#333] peer-checked:bg-[var(--color-brand)] peer-checked:text-white peer-checked:border-[var(--color-brand)] transition-colors'>
+                  {label}
+                </div>
+              </label>
+            ))}
+          </div>
+
+          <h3 className="text-sm font-semibold text-gray-400 mb-3">Seguridad</h3>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {[
+              ['Seguridad 24hs', 'Seguridad 24hs'],
+              ['Alarma', 'Alarma'],
+              ['Cámaras', 'Cámaras (CCTV)'],
+            ].map(([val, label]) => (
+              <label key={val} className="cursor-pointer">
+                <input type='checkbox' name='amenities' value={val} className='peer sr-only' defaultChecked={property.amenities?.includes(val)} />
+                <div className='px-3 py-1.5 rounded-md border border-[#444] text-sm bg-[#222] text-white/80 hover:bg-[#333] peer-checked:bg-[var(--color-brand)] peer-checked:text-white peer-checked:border-[var(--color-brand)] transition-colors'>
+                  {label}
+                </div>
+              </label>
+            ))}
+          </div>
+
+          <h3 className="text-sm font-semibold text-gray-400 mb-3">Instalaciones</h3>
+          <div className="flex flex-wrap gap-2">
+            {[
+              ['Pileta', 'Pileta'],
+              ['Gimnasio', 'Gimnasio'],
+              ['Estacionamiento', 'Estacionamiento'],
+              ['Ascensor', 'Ascensor'],
+              ['Balcón/Patio', 'Balcón / Patio'],
+              ['Oficina / Privado', 'Oficina / Privado'],
+              ['Hidromasaje', 'Hidromasaje'],
+              ['Acceso Discapacitados', 'Acceso Discapacitados'],
+            ].map(([val, label]) => (
+              <label key={val} className="cursor-pointer">
+                <input type='checkbox' name='amenities' value={val} className='peer sr-only' defaultChecked={property.amenities?.includes(val)} />
+                <div className='px-3 py-1.5 rounded-md border border-[#444] text-sm bg-[#222] text-white/80 hover:bg-[#333] peer-checked:bg-[var(--color-brand)] peer-checked:text-white peer-checked:border-[var(--color-brand)] transition-colors'>
+                  {label}
+                </div>
+              </label>
+            ))}
+          </div>
         </div>
       </div>
 
