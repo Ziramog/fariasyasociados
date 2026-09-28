@@ -60,23 +60,23 @@ export function getPriceDisplay(property) {
       }
     }
 
-    let num = typeof property.price === 'number'
-      ? property.price
-      : parseFloat(String(property.price).replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, ''));
+    let num;
+    if (typeof property.price === 'number') {
+      num = property.price;
+    } else {
+      const cleaned = String(property.price).trim().replace(/[.,]00$/, '').replace(/[^0-9]/g, '');
+      num = cleaned ? parseFloat(cleaned) : NaN;
+    }
       
     if (!isNaN(num)) {
-      if (num >= 1000 && currencyStr === 'U$D') {
-        const k = num / 1000;
-        return `${currencyStr} ${k % 1 === 0 ? k : k.toFixed(k < 10 ? 2 : 1)}k`;
-      }
       return `${currencyStr} ${num.toLocaleString('es-AR')}`;
     }
     
     if (typeof property.price === 'string') return property.price;
   }
-  if (property.rates?.monthly) return `U$D ${property.rates.monthly.toLocaleString()}/mes`;
-  if (property.rates?.weekly) return `U$D ${property.rates.weekly.toLocaleString()}/sem`;
-  if (property.rates?.nightly) return `U$D ${property.rates.nightly.toLocaleString()}/noche`;
+  if (property.rates?.monthly) return `U$D ${property.rates.monthly.toLocaleString('es-AR')}/mes`;
+  if (property.rates?.weekly) return `U$D ${property.rates.weekly.toLocaleString('es-AR')}/sem`;
+  if (property.rates?.nightly) return `U$D ${property.rates.nightly.toLocaleString('es-AR')}/noche`;
   return 'Consultar';
 }
 

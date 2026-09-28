@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
-import { getPropertyImage, getAreaDisplay, getStatusBadge } from '@/utils/propertyDisplay';
+import { getPropertyImage, getAreaDisplay, getStatusBadge, getPriceDisplay } from '@/utils/propertyDisplay';
 
 export default function MapPropertySidebar({ property, onClose }) {
   const router = useRouter();
@@ -68,7 +68,7 @@ export default function MapPropertySidebar({ property, onClose }) {
 
   // Feature grid data
   const features = [
-    { value: property.price || 'Consultar', label: 'Precio' },
+    { value: getPriceDisplay(property), label: 'Precio' },
     { value: area || null, label: 'Superficie' },
     { value: property.type ? property.type.charAt(0).toUpperCase() + property.type.slice(1) : null, label: 'Tipo' },
     { value: property.beds > 0 ? property.beds : null, label: 'Dormitorios' },

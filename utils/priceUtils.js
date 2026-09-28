@@ -3,15 +3,15 @@ export function parsePrice(priceStr) {
   
   const rawString = String(priceStr).toUpperCase().trim();
   
-  // Extract numbers (support Argentine dots and commas)
-  const numericString = rawString.replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, '');
-  const numericPrice = numericString ? parseFloat(numericString) : null;
+  // Extract numbers (support Argentine dots and commas without breaking thousands comma)
+  const cleaned = rawString.replace(/[.,]00$/, '').replace(/[^0-9]/g, '');
+  const numericPrice = cleaned ? parseFloat(cleaned) : null;
   
   // Determine currency
   let currency = 'USD';
   let symbol = 'U$D';
   
-  if (rawString.startsWith('ARS') || rawString.startsWith('$ ') || rawString === '$' + numericString) {
+  if (rawString.startsWith('ARS') || rawString.startsWith('$ ') || rawString.startsWith('$')) {
     currency = 'ARS';
     symbol = '$';
   } else if (rawString.startsWith('USD') || rawString.startsWith('U$D')) {

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getMatchesForProfile } from '@/app/actions/crmMatching';
 import Link from 'next/link';
 import { FaBolt, FaMapMarkerAlt, FaBed, FaExternalLinkAlt, FaWhatsapp } from 'react-icons/fa';
+import { getPriceDisplay } from '@/utils/propertyDisplay';
 
 export default function PropertyMatches({ profileId, contactPhone }) {
   const [matches, setMatches] = useState([]);
@@ -33,7 +34,7 @@ export default function PropertyMatches({ profileId, contactPhone }) {
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://fariasyasociados.com.ar';
     const propertyUrl = `${baseUrl}/properties/${property._id}`;
     
-    const message = `¡Hola! Creo que esta propiedad podría interesarte según lo que estás buscando:%0A%0A*${property.name}*%0A${property.city ? `Ubicación: ${property.city}%0A` : ''}Precio: USD ${property.price}%0A%0APuedes ver las fotos y más detalles aquí:%0A${propertyUrl}`;
+    const message = `¡Hola! Creo que esta propiedad podría interesarte según lo que estás buscando:%0A%0A*${property.name}*%0A${property.city ? `Ubicación: ${property.city}%0A` : ''}Precio: ${getPriceDisplay(property)}%0A%0APuedes ver las fotos y más detalles aquí:%0A${propertyUrl}`;
     
     let waUrl = '';
     if (contactPhone) {
@@ -78,7 +79,7 @@ export default function PropertyMatches({ profileId, contactPhone }) {
             
             <div className="flex justify-between items-end mt-1">
               <div>
-                <p className="text-[var(--color-brand)] font-bold text-xs">USD {m.property.price}</p>
+                <p className="text-[var(--color-brand)] font-bold text-xs">{getPriceDisplay(m.property)}</p>
                 <div className="flex gap-2 text-[10px] text-gray-400 mt-1">
                   {m.property.city && <span className="flex items-center gap-1"><FaMapMarkerAlt /> {m.property.city}</span>}
                   {m.property.beds > 0 && <span className="flex items-center gap-1"><FaBed /> {m.property.beds} Dorm.</span>}

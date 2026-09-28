@@ -68,14 +68,15 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
             {/* Orange gradient overlay — on hover, bottom 20% */}
             <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(180deg, transparent 80%, var(--color-brand))' }} />
 
-            {/* Status badge — top left */}
-          <div className="absolute top-3 left-3 z-10">
-            {badge ? (
+            {/* Status badge & price — top left */}
+          <div className="absolute top-3 left-3 z-10 flex flex-col items-start gap-1.5">
+            {badge && (
               <span className="bg-[var(--color-brand)] backdrop-blur-sm text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
                 {badge.label}
               </span>
-            ) : (
-              <span className="bg-navy/80 backdrop-blur-sm text-white text-sm font-bold px-3 py-1.5 rounded-lg shadow-md">
+            )}
+            {price && (
+              <span className="bg-navy/80 backdrop-blur-sm text-white text-sm font-bold px-3 py-1.5 rounded-lg shadow-md whitespace-nowrap">
                 {price}
               </span>
             )}
