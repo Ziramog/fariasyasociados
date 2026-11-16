@@ -4,6 +4,7 @@ import { getMatchesForProfile } from '@/app/actions/crmMatching';
 import Link from 'next/link';
 import { FaBolt, FaMapMarkerAlt, FaBed, FaExternalLinkAlt, FaWhatsapp } from 'react-icons/fa';
 import { getPriceDisplay } from '@/utils/propertyDisplay';
+import { getPublicSiteUrl } from '@/config/site';
 
 export default function PropertyMatches({ profileId, contactPhone }) {
   const [matches, setMatches] = useState([]);
@@ -29,10 +30,7 @@ export default function PropertyMatches({ profileId, contactPhone }) {
   }
 
   const handleShare = (property) => {
-    // Generate the public URL for the property. 
-    // Assuming the app is running on the standard origin. We use window.location.origin to be safe.
-    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://fariasyasociados.com.ar';
-    const propertyUrl = `${baseUrl}/properties/${property._id}`;
+    const propertyUrl = getPublicSiteUrl(`/properties/${property._id}`);
     
     const message = `¡Hola! Creo que esta propiedad podría interesarte según lo que estás buscando:%0A%0A*${property.name}*%0A${property.city ? `Ubicación: ${property.city}%0A` : ''}Precio: ${getPriceDisplay(property)}%0A%0APuedes ver las fotos y más detalles aquí:%0A${propertyUrl}`;
     

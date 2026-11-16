@@ -1,8 +1,9 @@
 'use client';
 import { FaWhatsapp } from 'react-icons/fa';
+import { getPublicSiteUrl } from '@/config/site';
 
 const ShareButtons = ({ property }) => {
-  const shareUrl = `${process.env.NEXT_PUBLIC_DOMAIN || 'https://farias-asociados.vercel.app'}/properties/${property._id}`;
+  const shareUrl = getPublicSiteUrl(`/properties/${property._id}`);
   const shareTitle = property?.name || 'Propiedad';
 
   const btnClass = 'inline-flex items-center justify-center opacity-35 hover:opacity-100 transition-all duration-200';

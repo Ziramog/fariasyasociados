@@ -1,7 +1,9 @@
+export const CANONICAL_PUBLIC_DOMAIN = 'https://fariasyasociados.com.ar';
+
 export const SITE_CONFIG = {
   name: 'Farias & Asociados',
   legalName: 'Farias & Asociados',
-  domain: process.env.NEXT_PUBLIC_DOMAIN || 'https://farias-asociados.vercel.app',
+  domain: process.env.NEXT_PUBLIC_DOMAIN || CANONICAL_PUBLIC_DOMAIN,
   pendingDomain: 'https://farias-asociados.vercel.app',
   description:
     'Farias & Asociados — Portal inmobiliario para compra, venta y alquiler de propiedades.',
@@ -23,10 +25,27 @@ export const SITE_CONFIG = {
   ],
 };
 
-export function getSiteUrl(path = '') {
-  const base = (process.env.NEXT_PUBLIC_DOMAIN || SITE_CONFIG.domain).replace(/\/$/, '');
+function joinSiteUrl(baseUrl, path = '') {
+  const base = baseUrl.replace(/\/$/, '');
   const cleanPath = path ? `/${String(path).replace(/^\/+/, '')}` : '';
   return `${base}${cleanPath}`;
+}
+
+export function getSiteUrl(path = '') {
+  return joinSiteUrl(process.env.NEXT_PUBLIC_DOMAIN || SITE_CONFIG.domain, path);
+}
+
+/**
+ * Resolve the public production URL for share/WhatsApp links,
+ * avoiding temporary vercel.app preview/staging hostnames.
+ */
+export function getPublicSiteUrl(path = '') {
+  const envDomain = process.env.NEXT_PUBLIC_DOMAIN;
+  const base =
+    envDomain && !envDomain.includes('vercel.app')
+      ? envDomain
+      : CANONICAL_PUBLIC_DOMAIN;
+  return joinSiteUrl(base, path);
 }
 
 export function getHostnameFromUrl(url) {

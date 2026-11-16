@@ -1,3 +1,5 @@
+import { getPublicSiteUrl } from '@/config/site';
+
 const WA_NUMBER = '5493564625246';
 
 const MESSAGES = {
@@ -23,10 +25,7 @@ export function generateWhatsAppLink({ property, context = 'general', customMess
   if (customMessage) {
     message = customMessage;
   } else if (property) {
-    const url =
-      typeof window !== 'undefined'
-        ? `${window.location.origin}/properties/${property._id}`
-        : `${process.env.NEXT_PUBLIC_DOMAIN || 'https://farias-asociados.vercel.app'}/properties/${property._id}`;
+    const url = getPublicSiteUrl(`/properties/${property._id}`);
     message = `Hola! Vi la propiedad "${property.name}" en Farias & Asociados y me gustaría recibir más información.
 
 ${url}`;
