@@ -20,7 +20,6 @@ const montserrat = Montserrat({
 
 const cinzel = Cinzel({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   variable: '--font-heading',
   display: 'swap',
 });

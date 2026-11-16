@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
 import { MapPin } from 'lucide-react';
-import { generateWhatsAppLink, PHONE_NUMBER, PHONE_DISPLAY } from '@/utils/whatsapp';
+import { generateWhatsAppLink, WHATSAPP_NUMBER, PHONE_NUMBER, PHONE_DISPLAY } from '@/utils/whatsapp';
 import { trackWhatsappClick, trackMapClick, trackContactFormSubmitted, trackSocialClick } from '@/utils/analytics';
 
 const Footer = ({ 
@@ -88,8 +88,8 @@ const Footer = ({
                   <a href="tel:3564417598" className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
                     Fijo: 3564-417598
                   </a>
-                  <a href="https://wa.me/549356462524" target="_blank" rel="noopener noreferrer" className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => trackWhatsappClick({ cta_location: 'footer' })}>
-                    WhatsApp: 3564-62524
+                  <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => trackWhatsappClick({ cta_location: 'footer' })}>
+                    WhatsApp: 3564-625246
                   </a>
                 </div>
               </div>
@@ -282,8 +282,8 @@ const Footer = ({
                 <a href="tel:3564417598" className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
                   Fijo: 3564-417598
                 </a>
-                <a href="https://wa.me/549356462524" target="_blank" rel="noopener noreferrer" className="text-[13px] text-white font-light hover:text-white/70 transition-colors">
-                  WhatsApp: 3564-62524
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-[13px] text-white font-light hover:text-white/70 transition-colors" onClick={() => trackWhatsappClick({ cta_location: 'footer_mobile' })}>
+                  WhatsApp: 3564-625246
                 </a>
               </div>
             </div>

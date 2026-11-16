@@ -1,15 +1,10 @@
 'use client'
 
 import WhatsAppIcon from './icons/WhatsAppIcon'
-
-const WHATSAPP_NUMBER = '+5493547563911'
+import { generateWhatsAppLink } from '@/utils/whatsapp'
 
 const WhatsAppButton = ({ property }) => {
-  const message = encodeURIComponent(
-    `Hola! Vi la propiedad "${property.name}" en Farias & Asociados y me gustaría recibir más información.`
-  )
-
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}?text=${message}`
+  const whatsappUrl = generateWhatsAppLink({ property })
 
   return (
     <a
