@@ -206,73 +206,76 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
       </div>
 
       {/* Desktop Table */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full text-left min-w-[900px]">
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-[#222] text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-[#888]">
-              <th className="px-3 md:px-6 py-3 font-medium">Propiedad</th>
-              <th className="px-2 md:px-4 py-3 font-medium">Tipo</th>
-              <th className="px-2 md:px-4 py-3 font-medium">Operación</th>
-              <th className="px-2 md:px-4 py-3 font-medium">Precio</th>
-              <th className="px-2 md:px-4 py-3 font-medium">Fotos</th>
-              <th className="px-2 md:px-4 py-3 font-medium text-center">Dest.</th>
-              <th className="px-2 md:px-4 py-3 font-medium text-center">Pub.</th>
-              <th className="px-2 md:px-4 py-3 font-medium text-center">Sello</th>
-              <th className="px-3 md:px-6 py-3 font-medium text-right">Acciones</th>
+            <tr className="border-b border-[#222] text-[10px] xl:text-[11px] font-bold uppercase tracking-wider text-[#888]">
+              <th className="px-3 xl:px-5 py-3 font-medium">Propiedad</th>
+              <th className="px-2 xl:px-3 py-3 font-medium">Tipo</th>
+              <th className="px-2 xl:px-3 py-3 font-medium">Operación</th>
+              <th className="px-2 xl:px-3 py-3 font-medium">Precio</th>
+              <th className="hidden xl:table-cell px-2 xl:px-3 py-3 font-medium text-center">Fotos</th>
+              <th className="px-1.5 xl:px-3 py-3 font-medium text-center">Dest.</th>
+              <th className="px-1.5 xl:px-3 py-3 font-medium text-center">Pub.</th>
+              <th className="px-2 xl:px-3 py-3 font-medium text-center">Sello</th>
+              <th className="px-3 xl:px-5 py-3 font-medium text-right">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#222]">
             {filtered.map(prop => (
               <tr key={prop._id} className="hover:bg-[#1a1a1a] transition-colors">
-                <td className="px-3 md:px-6 py-3">
-                  <div className="flex items-center gap-3">
+                <td className="px-3 xl:px-5 py-3">
+                  <div className="flex items-center gap-2.5 xl:gap-3">
                     {prop.images?.[0]?.url ? (
                       <img 
                         src={prop.images[0].url} 
                         alt="" 
-                        className="w-14 h-14 md:w-16 md:h-16 rounded-sm object-cover flex-shrink-0 bg-[#222]" 
+                        className="w-12 h-12 xl:w-14 xl:h-14 rounded-sm object-cover flex-shrink-0 bg-[#222]" 
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23555" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
-                          e.target.className = "w-14 h-14 md:w-16 md:h-16 rounded-sm bg-[#222] flex items-center justify-center flex-shrink-0 p-4 object-contain";
+                          e.target.className = "w-12 h-12 xl:w-14 xl:h-14 rounded-sm bg-[#222] flex items-center justify-center flex-shrink-0 p-3 object-contain";
                         }}
                       />
                     ) : (
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-sm bg-[#222] flex items-center justify-center flex-shrink-0">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" className="w-6 h-6"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                      <div className="w-12 h-12 xl:w-14 xl:h-14 rounded-sm bg-[#222] flex items-center justify-center flex-shrink-0">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" className="w-5 h-5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                       </div>
                     )}
-                    <div className="min-w-0 max-w-[120px] md:max-w-none">
-                      <Link href={`/properties/${prop._id}`} className="text-[13px] md:text-[14px] font-semibold text-white hover:text-[var(--color-brand)] transition-colors block leading-tight truncate">
+                    <div className="min-w-0 max-w-[170px] xl:max-w-[260px] 2xl:max-w-[340px]">
+                      <Link href={`/properties/${prop._id}`} className="text-[13px] xl:text-[14px] font-semibold text-white hover:text-[var(--color-brand)] transition-colors block leading-tight truncate">
                         {prop.name}
                       </Link>
-                      <p className="text-[12px] text-[#888] mt-0.5 truncate">{prop.location?.city || '—'}</p>
+                      <p className="text-[12px] text-[#888] mt-0.5 truncate">
+                        {prop.location?.city || '—'}
+                        <span className="xl:hidden"> · {(prop.images || []).length} fotos</span>
+                      </p>
                     </div>
                   </div>
                 </td>
-                <td className="px-2 md:px-4 py-3">
-                  <span className="text-[13px] text-[#bbb]">{typeLabels[prop.type] || prop.type}</span>
+                <td className="px-2 xl:px-3 py-3 whitespace-nowrap">
+                  <span className="text-[12px] xl:text-[13px] text-[#bbb]">{typeLabels[prop.type] || prop.type}</span>
                 </td>
-                <td className="px-2 md:px-4 py-3">
-                  <span className={`text-[12px] font-semibold uppercase px-2 py-1 rounded-sm ${
+                <td className="px-2 xl:px-3 py-3 whitespace-nowrap">
+                  <span className={`text-[11px] xl:text-[12px] font-semibold uppercase px-2 py-1 rounded-sm ${
                     prop.operation === 'venta' ? 'bg-green-900/40 text-green-400' : 'bg-blue-900/40 text-blue-400'
                   }`}>
                     {prop.operation === 'venta' ? 'Venta' : prop.operation === 'alquiler' ? 'Alquiler' : prop.operation}
                   </span>
                 </td>
-                <td className="px-2 md:px-4 py-3">
-                  <span className="text-[13px] font-semibold text-white">{prop.price || 'Consultar'}</span>
+                <td className="px-2 xl:px-3 py-3 whitespace-nowrap">
+                  <span className="text-[12px] xl:text-[13px] font-semibold text-white">{prop.price || 'Consultar'}</span>
                 </td>
-                <td className="px-2 md:px-4 py-3">
+                <td className="hidden xl:table-cell px-2 xl:px-3 py-3 text-center whitespace-nowrap">
                   <span className="text-[13px] text-[#bbb]">{(prop.images || []).length}</span>
                 </td>
-                <td className="px-2 md:px-4 py-3 text-center">
+                <td className="px-1.5 xl:px-3 py-3 text-center">
                   <button onClick={() => handleToggleFeatured(prop._id)}
                     className={`text-lg transition-colors ${prop.is_featured ? 'text-[var(--color-brand)]' : 'text-[#444] md:hover:text-[var(--color-brand)]'}`}
                     title={prop.is_featured ? 'Quitar destacada' : 'Marcar destacada'}
                   >★</button>
                 </td>
-                <td className="px-2 md:px-4 py-3 text-center">
+                <td className="px-1.5 xl:px-3 py-3 text-center">
                   <button onClick={() => handleTogglePublished(prop._id)}
                     className={`transition-colors ${(prop.is_published !== false) ? 'text-green-500 hover:text-green-400' : 'text-red-500 hover:text-red-400'}`}
                     title={(prop.is_published !== false) ? 'Ocultar propiedad' : 'Publicar propiedad'}
@@ -284,8 +287,8 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                     )}
                   </button>
                 </td>
-                <td className="px-2 md:px-4 py-3 text-center">
-                  <div className="inline-flex items-center gap-1">
+                <td className="px-2 xl:px-3 py-3 text-center">
+                  <div className="inline-flex flex-col 2xl:flex-row items-stretch 2xl:items-center gap-1 w-[82px] 2xl:w-auto">
                     {getAvailableStampOptions(prop).map((opt) => {
                       const activeStamp = getStampDisplay(prop)?.status === opt.value;
                       const activeClasses = opt.value === 'RESERVADO'
@@ -299,7 +302,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                           key={opt.value}
                           type="button"
                           onClick={() => handleToggleStamp(prop, opt.value)}
-                          className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-sm border transition-colors ${
+                          className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-sm border transition-colors whitespace-nowrap ${
                             activeStamp
                               ? activeClasses
                               : `bg-transparent text-[#888] border-[#333] ${hoverClasses}`
@@ -312,21 +315,21 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                     })}
                   </div>
                 </td>
-                <td className="px-3 md:px-6 py-3">
-                  <div className="flex items-center md:grid md:grid-cols-2 justify-end gap-1.5 md:gap-2 md:w-[160px] ml-auto">
+                <td className="px-3 xl:px-5 py-3">
+                  <div className="grid grid-cols-2 justify-end gap-1.5 w-[136px] xl:w-[152px] ml-auto">
                     <XintelExporter property={prop} />
                     <SocialStoryGenerator property={prop} />
                     <Link href={`/admin/properties/${prop._id}/edit`}
-                      className="inline-flex items-center justify-center md:gap-1.5 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[13px] font-semibold w-8 h-8 md:w-full md:px-4 md:py-1.5 rounded-sm transition-colors"
+                      className="inline-flex items-center justify-center gap-1 bg-[var(--color-brand)] hover:bg-[var(--color-brand-dark)] text-white text-[12px] font-semibold w-full px-2 py-1.5 rounded-sm transition-colors"
                       title="Editar">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                      <span className="hidden md:inline">Editar</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                      <span>Editar</span>
                     </Link>
                     <button onClick={() => handleDelete(prop._id, prop.name)}
-                      className="inline-flex items-center justify-center md:gap-1.5 text-[12px] font-medium text-[#888] hover:text-red-400 w-8 h-8 md:w-full md:px-3 md:py-1.5 border border-[#333] hover:border-red-400/50 rounded-sm transition-colors"
+                      className="inline-flex items-center justify-center gap-1 text-[11px] xl:text-[12px] font-medium text-[#888] hover:text-red-400 w-full px-2 py-1.5 border border-[#333] hover:border-red-400/50 rounded-sm transition-colors"
                       title="Eliminar">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21h-8.276a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/></svg>
-                      <span className="hidden md:inline">Eliminar</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21h-8.276a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/></svg>
+                      <span>Eliminar</span>
                     </button>
                   </div>
                 </td>
@@ -343,8 +346,8 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
         </table>
       </div>
 
-      {/* Mobile Cards */}
-      <div className="md:hidden flex flex-col divide-y divide-[#222]">
+      {/* Mobile & Tablet Cards */}
+      <div className="lg:hidden flex flex-col divide-y divide-[#222]">
         {filtered.map(prop => (
           <div key={prop._id} className="p-4 flex flex-col gap-3 hover:bg-[#1a1a1a] transition-colors">
             {/* Header: Image & Title */}
