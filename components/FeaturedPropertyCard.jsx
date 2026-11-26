@@ -67,10 +67,19 @@ const FeaturedPropertyCard = ({ property }) => {
           <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 20%, transparent 100%)' }} />
 
           {/* Status badge — top left */}
-          {badge && (
-            <span className="absolute top-3 left-3 z-10 bg-[var(--color-brand)] text-white text-[11px] font-bold px-2.5 py-1 rounded uppercase tracking-wider shadow-md">
-              {badge.label}
-            </span>
+          {(badge || property.operation === 'alquiler') && (
+            <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
+              {badge && (
+                <span className="bg-[var(--color-brand)] text-white text-[11px] font-bold px-2.5 py-1 rounded uppercase tracking-wider shadow-md">
+                  {badge.label}
+                </span>
+              )}
+              {property.operation === 'alquiler' && (
+                <span className="bg-[#0F172A]/85 backdrop-blur-sm text-white text-[11px] font-bold px-2.5 py-1 rounded uppercase tracking-wider shadow-md">
+                  Alquiler
+                </span>
+              )}
+            </div>
           )}
 
           {/* Diagonal transparent stamp (VENDIDO / ALQUILADO / RESERVADO) */}

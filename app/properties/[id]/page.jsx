@@ -190,6 +190,21 @@ const PropertyPage = async ({ params }) => {
       ],
     };
 
+    const galleryImages = (() => {
+      const imgs = property.images || [];
+      const order = property.gallery_order || [];
+      if (!order.length) return imgs;
+      return [...imgs].sort((a, b) => {
+        const urlA = typeof a === 'string' ? a : a?.url;
+        const urlB = typeof b === 'string' ? b : b?.url;
+        const idxA = order.indexOf(urlA);
+        const idxB = order.indexOf(urlB);
+        const posA = idxA === -1 ? 999 : idxA;
+        const posB = idxB === -1 ? 999 : idxB;
+        return posA - posB;
+      });
+    })();
+
     return (
       <div className="min-h-screen" style={{ background: '#141412' }}>
         <JsonLd data={realEstateJsonLd} />
@@ -200,7 +215,7 @@ const PropertyPage = async ({ params }) => {
         <section className="pb-8">
           <div className="mx-auto">
             <PropertyDetails property={property} />
-            {property.images && property.images.length > 0 && (
+            {galleryImages && galleryImages.length > 0 && (
               <div className="mt-8" id="full-gallery">
                 <div className="bg-[#0A0A0A] rounded-none overflow-hidden">
                   <div className="mx-auto py-[30px] md:py-[80px] px-4 md:px-[50px] md:pb-[35px]">
@@ -212,7 +227,7 @@ const PropertyPage = async ({ params }) => {
                       </SectionTitle>
                     </div>
                     <ScrollReveal delay={100}>
-                      <FullGallery images={property.images} propertyName={property.name} />
+                      <FullGallery images={galleryImages} propertyName={property.name} />
                     </ScrollReveal>
                   </div>
                 </div>

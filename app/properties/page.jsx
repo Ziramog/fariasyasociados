@@ -14,38 +14,49 @@ import PropertiesContent from './PropertiesContent';
 const PropertiesPage = async ({ searchParams }) => {
   const { type, term, operation, minPrice, maxPrice, bedrooms, baths, propertyType, status, sort, area, favoritos, granInversion } = searchParams;
 
+  const normalizedOp = operation && operation !== 'Todos' ? operation.toLowerCase() : '';
+  const typePlural = type && type !== 'Todos'
+    ? (type === 'Inmueble Comercial' ? 'Inmuebles Comerciales' : `${type}s`)
+    : null;
+
   const title = favoritos === 'true'
     ? 'Mis Favoritos'
     : granInversion === 'true'
     ? 'Grandes Inversiones'
-    : type && type !== 'Todos'
-    ? type === 'Inmueble Comercial' ? 'Inmuebles Comerciales' : `${type}s`
+    : normalizedOp === 'alquiler'
+    ? (typePlural ? `${typePlural} en Alquiler` : term && term !== 'Ciudad' ? `Alquileres en ${term}` : 'Alquileres')
+    : typePlural
+    ? (normalizedOp === 'venta' ? `${typePlural} en Venta` : typePlural)
     : term && term !== 'Ciudad'
     ? `Propiedades en ${term}`
+    : normalizedOp === 'venta'
+    ? 'Propiedades en Venta'
     : 'Nuestras Propiedades';
 
-  const subtitle = type && type !== 'Todos'
-    ? `Búsqueda en ${type === 'Inmueble Comercial' ? 'INMUEBLES COMERCIALES' : type.toUpperCase() + 'S'}`
+  const subtitle = normalizedOp === 'alquiler'
+    ? (typePlural ? `Búsqueda en ${typePlural.toUpperCase()} EN ALQUILER` : 'Búsqueda en ALQUILERES')
+    : typePlural
+    ? `Búsqueda en ${typePlural.toUpperCase()}`
     : term && term !== 'Ciudad'
     ? `Búsqueda en ${term.toUpperCase()}`
     : 'Búsqueda de Propiedades';
 
-  const isFiltered = !!(type && type !== 'Todos') || !!(term && term !== 'Ciudad');
+  const isFiltered = !!(type && type !== 'Todos') || !!(term && term !== 'Ciudad') || !!normalizedOp;
 
   const currentFilters = {
     term: searchParams.term || '',
     address: searchParams.address || '',
     tipo: type || '',
-    operation: operation || 'venta',
+    operation: normalizedOp,
     area: area || '',
-    price: searchParams.price || '',
+    price: searchParams.price || (minPrice || maxPrice ? `${minPrice || '0'}-${maxPrice || '0'}` : ''),
     minPrice: minPrice || '',
     maxPrice: maxPrice || '',
     bedrooms: bedrooms || '',
     baths: baths || '',
     'property-type': propertyType ? propertyType.split('|') : [],
     status: status ? status.split('|') : [],
-    sort: sort || 'price-desc',
+    sort: sort || 'newest',
     favoritos: favoritos || '',
   };
 

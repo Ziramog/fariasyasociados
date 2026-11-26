@@ -1,3 +1,5 @@
+import { parsePrice } from './priceUtils.js';
+
 /**
  * Display helpers for property data.
  * Fixes the square_feet / covered_area confusion and standardises formatting.
@@ -47,36 +49,31 @@ export function getAreaDisplay(property) {
 
 /**
  * Return a formatted price string.
+ * Always shows full extended numbers (no compact "k" abbreviation) and appends /mes for rentals.
  */
 export function getPriceDisplay(property) {
-  if (property.price && property.price !== 'Consultar') {
-    if (typeof property.price === 'string' && property.price.toLowerCase().includes('consultar')) return 'Consultar';
+  const isRental = String(property?.operation || '').toLowerCase() === 'alquiler';
+  const suffix = isRental ? '/mes' : '';
 
-    let currencyStr = 'U$D';
-    if (typeof property.price === 'string') {
-      const match = property.price.trim().match(/^([A-Z$]+)\s*(.*)$/i);
-      if (match && match[1]) {
-        currencyStr = match[1].toUpperCase() === 'USD' ? 'U$D' : match[1];
-      }
+  if (property?.price && property.price !== 'Consultar') {
+    if (typeof property.price === 'string' && property.price.toLowerCase().includes('consultar')) {
+      return 'Consultar';
     }
 
-    let num;
-    if (typeof property.price === 'number') {
-      num = property.price;
-    } else {
-      const cleaned = String(property.price).trim().replace(/[.,]00$/, '').replace(/[^0-9]/g, '');
-      num = cleaned ? parseFloat(cleaned) : NaN;
+    if (typeof property.price === 'number' && !isNaN(property.price)) {
+      return `U$D ${property.price.toLocaleString('es-AR')}${suffix}`;
     }
-      
-    if (!isNaN(num)) {
-      return `${currencyStr} ${num.toLocaleString('es-AR')}`;
+
+    const { symbol, numericPrice } = parsePrice(property.price);
+    if (numericPrice != null && !isNaN(numericPrice)) {
+      return `${symbol} ${numericPrice.toLocaleString('es-AR')}${suffix}`;
     }
-    
+
     if (typeof property.price === 'string') return property.price;
   }
-  if (property.rates?.monthly) return `U$D ${property.rates.monthly.toLocaleString('es-AR')}/mes`;
-  if (property.rates?.weekly) return `U$D ${property.rates.weekly.toLocaleString('es-AR')}/sem`;
-  if (property.rates?.nightly) return `U$D ${property.rates.nightly.toLocaleString('es-AR')}/noche`;
+  if (property?.rates?.monthly) return `U$D ${property.rates.monthly.toLocaleString('es-AR')}/mes`;
+  if (property?.rates?.weekly) return `U$D ${property.rates.weekly.toLocaleString('es-AR')}/sem`;
+  if (property?.rates?.nightly) return `U$D ${property.rates.nightly.toLocaleString('es-AR')}/noche`;
   return 'Consultar';
 }
 

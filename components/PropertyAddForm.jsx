@@ -1,7 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
-import imageCompression from 'browser-image-compression';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import addProperty from '@/app/actions/addProperty';
@@ -9,7 +8,9 @@ import { generateDescription } from '@/app/actions/generateDescription';
 import LocationPickerMap from '@/components/shared/LocationPickerMap';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
 import CustomLabelsManager from '@/components/admin/CustomLabelsManager';
+import PropertyImageSorter from '@/components/admin/PropertyImageSorter';
 import { getAvailableStampOptions, normalizeStampStatus, RESERVED_SYSTEM_STATUSES } from '@/utils/propertyDisplay';
+import { uploadPropertyImageToCloudinary, resolveGalleryOrderUrls } from '@/utils/cloudinaryClientUpload';
 
 const SubmitButton = ({ isUploading, isSuccess, error, onCloseError }) => {
   const disabled = isUploading || isSuccess;
@@ -38,6 +39,8 @@ const PropertyAddForm = ({ customLabels = [] }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('active');
+  const [imageItems, setImageItems] = useState([]);
+  const [galleryOrderIds, setGalleryOrderIds] = useState([]);
 
   const getDefaultExpiration = () => {
     const date = new Date();
@@ -55,56 +58,33 @@ const PropertyAddForm = ({ customLabels = [] }) => {
 
     try {
       const formData = new FormData(e.currentTarget);
-      const imageFiles = formData.getAll('images');
-      
-      if (imageFiles.length > 0 && imageFiles[0].size > 0) {
-        formData.delete('images');
-        const options = { maxSizeMB: 0.6, maxWidthOrHeight: 1600, useWebWorker: false };
-        for (const file of imageFiles) {
-          if (file.name === '' || file.size === 0) continue;
-          let fileToUpload = file;
-          try {
-            fileToUpload = await imageCompression(file, options);
-          } catch (compressError) {
-            console.error('Error compressing image:', compressError);
-          }
-          
-          // Upload directly to the client-specific Cloudinary cloud/preset
-          const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-          const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
-          const uploadFolder = process.env.NEXT_PUBLIC_CLOUDINARY_FOLDER;
+      formData.delete('images');
+      formData.delete('galleryOrder');
 
-          if (!cloudName || !uploadPreset) {
-            throw new Error('Cloudinary no está configurado para Farias. Revisar NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME y NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET.');
-          }
+      if (imageItems.length === 0) {
+        const msg = 'Es necesario seleccionar al menos una foto de la propiedad.';
+        setError(msg);
+        toast.error(msg);
+        setIsUploading(false);
+        return;
+      }
 
-          const uploadData = new FormData();
-          // Generate a unique filename to prevent Cloudinary from ignoring the upload if overwrite=false & unique_filename=false
-          const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e5)}-${file.name}`;
-          uploadData.append('file', fileToUpload, uniqueName);
-          uploadData.append('upload_preset', uploadPreset);
-          if (uploadFolder) uploadData.append('folder', uploadFolder);
-          
-          const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: 'POST',
-            body: uploadData
-          });
-          
-          if (!uploadRes.ok) {
-            throw new Error('Fallo al subir imagen a Cloudinary');
-          }
-          
-          const cloudinaryResult = await uploadRes.json();
-          formData.append('uploadedImages', JSON.stringify({
-            url: cloudinaryResult.secure_url,
-            public_id: cloudinaryResult.public_id
-          }));
-        }
+      const idToUrlMap = {};
+
+      for (const item of imageItems) {
+        const file = item.file;
+        if (!file || file.name === '' || file.size === 0) continue;
+        const uploaded = await uploadPropertyImageToCloudinary(file);
+        idToUrlMap[item.id] = uploaded.url;
+        formData.append('uploadedImages', JSON.stringify(uploaded));
       }
 
       if (formData.getAll('uploadedImages').length === 0) {
-        throw new Error(`DEBUG LOCAL: No se subió ninguna imagen a Cloudinary. imageFiles.length=${imageFiles.length}, imageFiles[0].size=${imageFiles[0]?.size}`);
+        throw new Error('No se pudo subir ninguna imagen a Cloudinary.');
       }
+
+      const galleryUrls = resolveGalleryOrderUrls(galleryOrderIds, imageItems, idToUrlMap);
+      galleryUrls.forEach((url) => formData.append('galleryOrder', url));
 
       const result = await addProperty({}, formData);
 
@@ -131,6 +111,7 @@ const PropertyAddForm = ({ customLabels = [] }) => {
   };
 
   const [operation, setOperation] = useState('venta');
+  const [currency, setCurrency] = useState('USD');
   const [type, setType] = useState('');
   const [name, setName] = useState('');
   const stampOptions = getAvailableStampOptions({ type, operation, name });
@@ -139,6 +120,13 @@ const PropertyAddForm = ({ customLabels = [] }) => {
   const formRef = useRef(null);
   const [description, setDescription] = useState('');
   const [coordinates, setCoordinates] = useState({ lat: '', lng: '' });
+
+  const handleOperationChange = (e) => {
+    const nextOp = e.target.value;
+    setOperation(nextOp);
+    setCurrency(nextOp === 'alquiler' ? 'ARS' : 'USD');
+    setStatus((prev) => normalizeStampStatus(prev, nextOp));
+  };
 
   const handleLocationChange = (lat, lng) => {
     setCoordinates({ lat: parseFloat(lat.toFixed(6)), lng: parseFloat(lng.toFixed(6)) });
@@ -209,11 +197,7 @@ const PropertyAddForm = ({ customLabels = [] }) => {
           name='operation'
           className={inputClass}
           value={operation}
-          onChange={(e) => {
-            const nextOp = e.target.value;
-            setOperation(nextOp);
-            setStatus((prev) => normalizeStampStatus(prev, nextOp));
-          }}
+          onChange={handleOperationChange}
         >
           <option value='venta'>Venta</option>
           <option value='alquiler'>Alquiler</option>
@@ -331,16 +315,20 @@ const PropertyAddForm = ({ customLabels = [] }) => {
 
       {/* Precio */}
       <div className='mb-6'>
-        <label className={labelClass}>Precio de Venta o Alquiler</label>
+        <label className={labelClass}>
+          {operation === 'alquiler' ? 'Precio de Alquiler Mensual' : 'Precio de Venta'}
+        </label>
         <div className='flex gap-2 items-start'>
-          <select name='price_currency' className={`${inputClass} !w-[110px] flex-shrink-0`}>
+          <select name='price_currency' value={currency} onChange={(e) => setCurrency(e.target.value)} className={`${inputClass} !w-[110px] flex-shrink-0`}>
             <option value='USD'>U$D</option>
-            <option value='ARS'>ARS</option>
+            <option value='ARS'>ARS ($)</option>
           </select>
           <div className='flex-1'>
-            <input type='text' name='price' className={inputClass} placeholder='Ej: 502000' />
+            <input type='text' name='price' className={inputClass} placeholder={operation === 'alquiler' ? 'Ej: 450000' : 'Ej: 150000'} />
             <p className={helperClass}>
-              Ej: 502000 — Escribí solo números. Usá coma para miles. Escribí "Consultar" si no querés publicar el precio.
+              {operation === 'alquiler'
+                ? 'Ej: 450000 — Escribí el valor mensual (con o sin puntos de miles). Escribí "Consultar" si no querés publicar el precio.'
+                : 'Ej: 150000 — Escribí el valor (con o sin puntos de miles). Escribí "Consultar" si no querés publicar el precio.'}
             </p>
           </div>
         </div>
@@ -410,13 +398,14 @@ const PropertyAddForm = ({ customLabels = [] }) => {
 
       {/* Imagenes */}
       <div className='mb-8'>
-        <label htmlFor='images' className={labelClass}>
-          Imágenes de la Propiedad
-        </label>
-        <div className="border-2 border-dashed border-[#333] hover:border-[var(--color-brand)] transition-colors bg-[#111] rounded-lg p-6 text-center">
-          <input type='file' id='images' name='images' className='w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-bold file:bg-[#222] file:text-white hover:file:bg-[#333] cursor-pointer' accept='image/*' multiple required />
-          <p className={helperClass + ' mt-2'}>Puedes seleccionar múltiples imágenes. Límite sugerido: 4 fotos destacadas.</p>
-        </div>
+        <label className={labelClass}>Imágenes de la Propiedad</label>
+        <PropertyImageSorter
+          items={imageItems}
+          setItems={setImageItems}
+          galleryOrderIds={galleryOrderIds}
+          setGalleryOrderIds={setGalleryOrderIds}
+          helperClass={helperClass}
+        />
       </div>
 
       <SubmitButton 

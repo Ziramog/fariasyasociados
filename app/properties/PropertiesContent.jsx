@@ -10,6 +10,8 @@ import CategoryMap from '@/components/CategoryMap';
 import MapErrorBoundary from '@/components/shared/MapErrorBoundary';
 import { getSessionUser } from '@/utils/getSessionUser';
 import ScrollToResults from '@/components/ScrollToResults';
+import { interpretSearchTerm } from '@/utils/searchSemantics';
+import { parsePrice as parsePriceDetails } from '@/utils/priceUtils';
 
 export default async function PropertiesContent({ searchParams, subtitle }) {
   const dbReady = Boolean(process.env.MONGODB_URI);
@@ -21,14 +23,25 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
     }
   }
 
-  const { pageSize = 9, page = 1, type, term, minPrice, maxPrice, bedrooms, baths, operation, area, propertyType, status, sort, favoritos, granInversion } = searchParams;
+  let { pageSize = 9, page = 1, type, term, minPrice, maxPrice, bedrooms, baths, operation, area, propertyType, status, sort, favoritos, granInversion } = searchParams;
+
+  // Semantic interpretation fallback (in case user hits URL directly)
+  if (term && term !== 'Ciudad') {
+    const interpreted = interpretSearchTerm(term);
+    if (interpreted.type && (!type || type === 'Todos')) type = interpreted.type;
+    if (interpreted.operation && (!operation || operation === 'Todos')) operation = interpreted.operation;
+    term = interpreted.term || '';
+  }
 
   const filter = { is_published: { $ne: false } };
 
   if (granInversion !== 'true') {
     if (type && type !== 'Todos') filter.type = type;
   }
-  if (term && term !== 'Ciudad') {
+  if (operation && operation !== 'Todos') {
+    filter.operation = operation.toLowerCase();
+  }
+  if (term && term !== 'Ciudad' && term.trim() !== '') {
     const termRegex = new RegExp(term, 'i');
     filter.$or = [
       { name: termRegex },
@@ -83,9 +96,7 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
     }
   }
 
-  let sortObj = {};
-  if (sort === 'newest') sortObj = { createdAt: -1 };
-  else sortObj = { createdAt: -1 };
+  const sortObj = { createdAt: -1, _id: -1 };
 
   let properties = [];
   if (dbReady) {
@@ -97,12 +108,7 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
     }
   }
 
-  const parsePrice = (priceStr) => {
-    if (!priceStr) return null;
-    const cleaned = priceStr.replace(/[^0-9]/g, '');
-    if (!cleaned) return null;
-    return parseInt(cleaned, 10);
-  };
+  const getNumericPrice = (priceStr) => parsePriceDetails(priceStr).numericPrice;
 
   const priceMin = minPrice ? Number(minPrice) : null;
   const priceMax = maxPrice ? Number(maxPrice) : null;
@@ -115,7 +121,7 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
 
   if (priceMin || priceMax) {
     filteredProperties = filteredProperties.filter((p) => {
-      const numericPrice = parsePrice(p.price);
+      const numericPrice = getNumericPrice(p.price);
       if (numericPrice === null) return true;
       if (priceMin && numericPrice < priceMin) return false;
       if (priceMax && numericPrice > priceMax) return false;
@@ -128,13 +134,19 @@ export default async function PropertiesContent({ searchParams, subtitle }) {
     filteredProperties = filteredProperties.filter(isGranInversion);
   }
 
-  if (sort === 'price-asc') {
-    filteredProperties.sort((a, b) => (parsePrice(a.price) || 0) - (parsePrice(b.price) || 0));
-  } else if (sort === 'price-desc') {
-    filteredProperties.sort((a, b) => (parsePrice(b.price) || 0) - (parsePrice(a.price) || 0));
+  if (sort === 'price-asc' || sort === 'price-desc') {
+    const dir = sort === 'price-asc' ? 1 : -1;
+    filteredProperties.sort((a, b) => {
+      const priceA = getNumericPrice(a.price);
+      const priceB = getNumericPrice(b.price);
+      if (priceA === null && priceB === null) return 0;
+      if (priceA === null) return 1;
+      if (priceB === null) return -1;
+      return (priceA - priceB) * dir;
+    });
   }
 
-  const isFiltered = !!(type && type !== 'Todos') || !!(term && term !== 'Ciudad');
+  const isFiltered = !!(type && type !== 'Todos') || !!(term && term !== 'Ciudad') || !!(operation && operation !== 'Todos');
 
   const parsedPage = parseInt(page, 10) || 1;
   const parsedPageSize = parseInt(pageSize, 10) || 9;

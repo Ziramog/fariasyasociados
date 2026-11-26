@@ -119,6 +119,7 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
                 }}>
                   <ul className="bg-black rounded-[6px] min-w-[200px] text-center shadow-[0_8px_14px_-3px_rgba(255,255,255,0.1)] mt-2">
                     {[
+                      { label: 'Alquileres', query: 'operation=alquiler' },
                       { label: 'Campos', query: 'type=Campo' },
                       { label: 'Casas', query: 'type=Casa' },
                       { label: 'Departamentos', query: 'type=Departamento' },
@@ -273,8 +274,9 @@ const Navbar = ({ contactEmail = 'info@fariasyasociados.com.ar', contactPhone = 
                   <path d="M9 18l6-6-6-6"/>
                 </svg>
               </button>
-              <div className={`overflow-hidden transition-all duration-300 ${mobileSubOpen ? 'max-h-[300px] opacity-100 mb-3' : 'max-h-0 opacity-0'}`}>
+              <div className={`overflow-hidden transition-all duration-300 ${mobileSubOpen ? 'max-h-[360px] opacity-100 mb-3' : 'max-h-0 opacity-0'}`}>
                 {[
+                  { href: '/properties?operation=alquiler', label: 'Alquileres' },
                   { href: '/properties?type=Campo', label: 'Campos' },
                   { href: '/properties?type=Casa', label: 'Casas' },
                   { href: '/properties?type=Departamento', label: 'Departamentos' },

@@ -112,6 +112,11 @@ export default function MapAllProperties({ initialProperties = [] }) {
       result = result.filter(p => p.type === activeFilters.tipo);
     }
 
+    if (activeFilters.operation) {
+      const targetOp = activeFilters.operation.toLowerCase();
+      result = result.filter(p => String(p.operation || '').toLowerCase() === targetOp);
+    }
+
     if (activeFilters.price) {
       const [min, max] = activeFilters.price.split('-').map(Number);
       result = result.filter(p => {

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FaSearch } from 'react-icons/fa';
 import logSearch from '@/app/actions/logSearch';
 import getTopSearches from '@/app/actions/getTopSearches';
+import { interpretSearchTerm } from '@/utils/searchSemantics';
 
 const fullDesktopLabel = 'Ciudad, Localidad, Tipo de Inmueble y Palabra Clave';
 const fullMobileLabel = 'Ciudad, Localidad, Tipo de Inmueble y Palabra Clave';
@@ -161,13 +162,20 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
   const handleSubmit = (e) => {
     e.preventDefault();
     const params = new URLSearchParams();
+    const interpreted = interpretSearchTerm(filters.term || '');
+    const finalTerm = interpreted.term;
+    const finalType = interpreted.type || (filters.type && filters.type !== 'Todos' ? filters.type : null);
+    const finalOp = interpreted.operation || (filters.operation && filters.operation !== 'Todos' ? filters.operation : null);
+
+    if (finalTerm) {
+      params.set('term', finalTerm);
+    }
     if (filters.term && filters.term.trim()) {
-      params.set('term', filters.term.trim());
       logSearch(filters.term.trim());
     }
-    if (filters.type && filters.type !== 'Todos') {
+    if (finalType) {
       const typeMap = { 'Casas': 'Casa', 'Departamentos': 'Departamento', 'Terrenos': 'Terreno', 'Campos': 'Campo', 'Inmuebles Comerciales': 'Inmueble Comercial', 'Grandes Inversiones': 'Gran Inversión' };
-      params.set('type', typeMap[filters.type] || filters.type);
+      params.set('type', typeMap[finalType] || finalType);
     }
     if (filters.bedrooms) params.set('bedrooms', filters.bedrooms);
     if (filters.baths) params.set('baths', filters.baths);
@@ -176,7 +184,9 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
       const range = priceMap[filters.price];
       if (range) { params.set('minPrice', range.min); params.set('maxPrice', range.max); }
     }
-    if (filters.operation && filters.operation !== 'Todos') params.set('operation', filters.operation === 'Venta' ? 'venta' : filters.operation === 'Alquiler' ? 'alquiler' : filters.operation);
+    if (finalOp) {
+      params.set('operation', finalOp === 'Venta' ? 'venta' : finalOp === 'Alquiler' ? 'alquiler' : String(finalOp).toLowerCase());
+    }
     router.push(`/properties${params.toString() ? `?${params.toString()}` : ''}`);
   };
 
@@ -353,17 +363,29 @@ const Hero = ({ title = 'Vendemos Inmuebles, Construimos Confianza', subtitle = 
                   type='button'
                   onClick={() => {
                     const params = new URLSearchParams();
-                    if (mobileValue.trim()) { params.set('term', mobileValue.trim()); logSearch(mobileValue.trim()); }
-                    if (filters.type && filters.type !== 'Todos') {
+                    const interpreted = interpretSearchTerm(mobileValue || '');
+                    const finalTerm = interpreted.term;
+                    const finalType = interpreted.type || (filters.type && filters.type !== 'Todos' ? filters.type : null);
+                    const finalOp = interpreted.operation || (filters.operation && filters.operation !== 'Todos' ? filters.operation : null);
+
+                    if (finalTerm) {
+                      params.set('term', finalTerm);
+                    }
+                    if (mobileValue.trim()) {
+                      logSearch(mobileValue.trim());
+                    }
+                    if (finalType) {
                       const typeMap = { 'Casas': 'Casa', 'Departamentos': 'Departamento', 'Terrenos': 'Terreno', 'Campos': 'Campo', 'Inmuebles Comerciales': 'Inmueble Comercial', 'Grandes Inversiones': 'Gran Inversión' };
-                      params.set('type', typeMap[filters.type] || filters.type);
+                      params.set('type', typeMap[finalType] || finalType);
                     }
                     if (filters.price && filters.price !== 'Cualquiera') {
                       const priceMap = { 'Hasta 150k': { min: 0, max: 150000 }, '150k-300k': { min: 150000, max: 300000 }, '+300k': { min: 300000, max: 999999999 } };
                       const range = priceMap[filters.price];
                       if (range) { params.set('minPrice', range.min); params.set('maxPrice', range.max); }
                     }
-                    if (filters.operation && filters.operation !== 'Todos') params.set('operation', filters.operation === 'Venta' ? 'venta' : filters.operation === 'Alquiler' ? 'alquiler' : filters.operation);
+                    if (finalOp) {
+                      params.set('operation', finalOp === 'Venta' ? 'venta' : finalOp === 'Alquiler' ? 'alquiler' : String(finalOp).toLowerCase());
+                    }
                     router.push(`/properties${params.toString() ? `?${params.toString()}` : ''}`);
                   }}
                   className='w-full bg-primary hover:bg-[#e05a23] text-white font-bold text-[14px] uppercase tracking-wider rounded-xl h-[50px] flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/30 mt-3'

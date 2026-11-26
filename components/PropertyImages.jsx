@@ -4,13 +4,12 @@ import { Gallery, Item } from 'react-photoswipe-gallery';
 
 const PropertyImages = ({ images }) => {
   return (
-    <Gallery>
+    <Gallery options={{ showHideAnimationType: 'fade' }}>
       <section className='bg-[#f5f0e8] p-4'>
         <div className='container mx-auto'>
           {images.length === 1 ? (
             <Item
               original={images[0]?.url}
-              thumbnail={images[0]?.url}
               width='1000'
               height='600'
             >
@@ -42,7 +41,6 @@ const PropertyImages = ({ images }) => {
                 >
                   <Item
                     original={image?.url}
-                    thumbnail={image?.url}
                     width='1000'
                     height='600'
                   >

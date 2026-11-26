@@ -6,6 +6,7 @@ import { getSessionUser } from '@/utils/getSessionUser';
 import cloudinary from '@/config/cloudinary';
 import { revalidatePath } from 'next/cache';
 import { normalizeStampStatus } from '@/utils/propertyDisplay';
+import { normalizePriceValue } from '@/utils/priceUtils';
 
 const cleanNumber = (val) => {
   if (val === '' || val === null || val === undefined) return undefined;
@@ -57,17 +58,6 @@ async function updateProperty(prevState, formData) {
       (img) => !removedImages.includes(getImageUrl(img))
     );
 
-    const orderedImagesList = formData.getAll('orderedImages').filter(Boolean);
-    if (orderedImagesList.length > 0) {
-      currentImages.sort((a, b) => {
-        const indexA = orderedImagesList.indexOf(getImageUrl(a));
-        const indexB = orderedImagesList.indexOf(getImageUrl(b));
-        const posA = indexA === -1 ? 999 : indexA;
-        const posB = indexB === -1 ? 999 : indexB;
-        return posA - posB;
-      });
-    }
-
     const uploadedImagesJson = formData.getAll('uploadedImages');
     
     if (uploadedImagesJson && uploadedImagesJson.length > 0) {
@@ -79,6 +69,19 @@ async function updateProperty(prevState, formData) {
         return { error: 'Error al procesar las imágenes subidas.' };
       }
     }
+
+    const orderedImagesList = formData.getAll('orderedImages').filter(Boolean);
+    if (orderedImagesList.length > 0) {
+      currentImages.sort((a, b) => {
+        const indexA = orderedImagesList.indexOf(getImageUrl(a));
+        const indexB = orderedImagesList.indexOf(getImageUrl(b));
+        const posA = indexA === -1 ? 999 : indexA;
+        const posB = indexB === -1 ? 999 : indexB;
+        return posA - posB;
+      });
+    }
+
+    const galleryOrderList = formData.getAll('galleryOrder').filter(Boolean);
 
     if (currentImages.length === 0) {
       return { error: 'Es necesario mantener al menos una foto de la propiedad.' };
@@ -113,7 +116,7 @@ async function updateProperty(prevState, formData) {
       type: formData.get('type'),
       name: formData.get('name'),
       description: formData.get('description'),
-      price: formData.get('price') === 'Consultar' || !formData.get('price') ? 'Consultar' : `${formData.get('price_currency') || 'USD'} ${formData.get('price')}`,
+      price: normalizePriceValue(formData.get('price'), formData.get('price_currency')),
       location: {
         street: formData.get('location.street'),
         city: formData.get('location.city'),
@@ -134,6 +137,10 @@ async function updateProperty(prevState, formData) {
       operation: formData.get('operation'),
       status: normalizeStampStatus(formData.get('status'), formData.get('operation')),
       images: currentImages,
+      gallery_order:
+        galleryOrderList.length > 0
+          ? galleryOrderList
+          : currentImages.map(getImageUrl).filter(Boolean),
     });
 
     if (prop.status === 'NUEVA' && formData.get('badgeExpiresAt')) {

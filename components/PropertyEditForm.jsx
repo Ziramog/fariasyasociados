@@ -1,8 +1,6 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
-import Image from 'next/image';
-import imageCompression from 'browser-image-compression';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import updateProperty from '@/app/actions/updateProperty';
@@ -10,7 +8,9 @@ import { generateDescription } from '@/app/actions/generateDescription';
 import LocationPickerMap from '@/components/shared/LocationPickerMap';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
 import CustomLabelsManager from '@/components/admin/CustomLabelsManager';
+import PropertyImageSorter from '@/components/admin/PropertyImageSorter';
 import { getAvailableStampOptions, normalizeStampStatus, RESERVED_SYSTEM_STATUSES } from '@/utils/propertyDisplay';
+import { uploadPropertyImageToCloudinary, resolveGalleryOrderUrls } from '@/utils/cloudinaryClientUpload';
 
 const SubmitButton = ({ isUploading, isSuccess, error, onCloseError }) => {
   const disabled = isUploading || isSuccess;
@@ -53,6 +53,53 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
 
   const router = useRouter();
 
+  const initialImageItems = (property.images || []).map((img, idx) => {
+    const url = typeof img === 'string' ? img : img?.url;
+    return {
+      id: `existing_${idx}_${url}`,
+      type: 'existing',
+      url,
+      original: img,
+    };
+  });
+
+  const [imageItems, setImageItems] = useState(initialImageItems);
+  const [galleryOrderIds, setGalleryOrderIds] = useState(() => {
+    const savedOrder = property.gallery_order || [];
+    if (!savedOrder.length) return initialImageItems.map((it) => it.id);
+    const sorted = [...initialImageItems].sort((a, b) => {
+      const idxA = savedOrder.indexOf(a.url);
+      const idxB = savedOrder.indexOf(b.url);
+      const posA = idxA === -1 ? 999 : idxA;
+      const posB = idxB === -1 ? 999 : idxB;
+      return posA - posB;
+    });
+    return sorted.map((it) => it.id);
+  });
+  const [removedImages, setRemovedImages] = useState([]);
+
+  const handleRemoveExisting = (imgUrl) => {
+    setRemovedImages((prev) => (prev.includes(imgUrl) ? prev : [...prev, imgUrl]));
+  };
+
+  const handleUndoRemoveExisting = (imgUrl) => {
+    setRemovedImages((prev) => prev.filter((url) => url !== imgUrl));
+    const originalImg = (property.images || []).find(
+      (img) => (typeof img === 'string' ? img : img?.url) === imgUrl
+    );
+    const restoredId = `existing_restored_${Date.now()}_${imgUrl}`;
+    setImageItems((prev) => [
+      ...prev,
+      {
+        id: restoredId,
+        type: 'existing',
+        url: imgUrl,
+        original: originalImg || imgUrl,
+      },
+    ]);
+    setGalleryOrderIds((prev) => [...prev, restoredId]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsUploading(true);
@@ -61,57 +108,38 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
 
     try {
       const formData = new FormData(e.currentTarget);
-      // Get files from previewImages state instead of form input to support multiple drag/drop/selects
-      const imageFiles = previewImages.map(p => p.file);
-      
       formData.delete('images');
-      
-      if (imageFiles.length > 0) {
-        const options = { maxSizeMB: 0.6, maxWidthOrHeight: 1600, useWebWorker: false };
-        for (const file of imageFiles) {
+      formData.delete('orderedImages');
+      formData.delete('galleryOrder');
+      formData.delete('removedImages');
+
+      if (imageItems.length === 0) {
+        const msg = 'Es necesario mantener al menos una foto de la propiedad.';
+        setError(msg);
+        toast.error(msg);
+        setIsUploading(false);
+        return;
+      }
+
+      const idToUrlMap = {};
+
+      for (const item of imageItems) {
+        if (item.type === 'existing') {
+          idToUrlMap[item.id] = item.url;
+          formData.append('orderedImages', item.url);
+        } else if (item.type === 'new' && item.file) {
+          const file = item.file;
           if (!file || file.name === '' || file.size === 0) continue;
-          let fileToUpload = file;
-          try {
-            fileToUpload = await imageCompression(file, options);
-          } catch (compressError) {
-            console.error('Error compressing image:', compressError);
-          }
-          
-          // Upload directly to the client-specific Cloudinary cloud/preset
-          const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-          const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
-          const uploadFolder = process.env.NEXT_PUBLIC_CLOUDINARY_FOLDER;
-
-          if (!cloudName || !uploadPreset) {
-            throw new Error('Cloudinary no está configurado para Farias. Revisar NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME y NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET.');
-          }
-
-          const uploadData = new FormData();
-          // Generate a unique filename to prevent Cloudinary from ignoring the upload if overwrite=false & unique_filename=false
-          const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1e5)}-${file.name}`;
-          uploadData.append('file', fileToUpload, uniqueName);
-          uploadData.append('upload_preset', uploadPreset);
-          if (uploadFolder) uploadData.append('folder', uploadFolder);
-          
-          const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: 'POST',
-            body: uploadData
-          });
-          
-          if (!uploadRes.ok) {
-            throw new Error('Fallo al subir imagen a Cloudinary');
-          }
-          
-          const cloudinaryResult = await uploadRes.json();
-          formData.append('uploadedImages', JSON.stringify({
-            url: cloudinaryResult.secure_url,
-            public_id: cloudinaryResult.public_id
-          }));
+          const uploaded = await uploadPropertyImageToCloudinary(file);
+          formData.append('uploadedImages', JSON.stringify(uploaded));
+          idToUrlMap[item.id] = uploaded.url;
+          formData.append('orderedImages', uploaded.url);
         }
       }
 
-      previewImages.forEach((img) => formData.append('orderedImages', img.url));
-      removedImages.forEach((img) => formData.append('removedImages', img));
+      const galleryUrls = resolveGalleryOrderUrls(galleryOrderIds, imageItems, idToUrlMap);
+      galleryUrls.forEach((url) => formData.append('galleryOrder', url));
+      removedImages.forEach((imgUrl) => formData.append('removedImages', imgUrl));
 
       const result = await updateProperty({}, formData);
 
@@ -136,9 +164,12 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
     }
   };
 
-  const [removedImages, setRemovedImages] = useState([]);
-  const [previewImages, setPreviewImages] = useState([]);
   const [operation, setOperation] = useState(property.operation || 'venta');
+  const [currency, setCurrency] = useState(() => {
+    const p = String(property.price || '').trim().toUpperCase();
+    if (p.startsWith('ARS') || p.startsWith('$')) return 'ARS';
+    return 'USD';
+  });
   const [type, setType] = useState(property.type || '');
   const [name, setName] = useState(property.name || '');
   const stampOptions = getAvailableStampOptions({ type, operation, name });
@@ -154,54 +185,6 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
 
   const handleLocationChange = (lat, lng) => {
     setCoordinates({ lat: parseFloat(lat.toFixed(6)), lng: parseFloat(lng.toFixed(6)) });
-  };
-
-  const [existingImagesState, setExistingImagesState] = useState(property.images || []);
-  const [draggedIdx, setDraggedIdx] = useState(null);
-
-  const visibleImages = existingImagesState.filter(
-    (img) => !removedImages.includes(typeof img === 'string' ? img : img?.url)
-  );
-
-  const handleDragStart = (e, index) => {
-    setDraggedIdx(index);
-    e.dataTransfer.effectAllowed = 'move';
-  };
-
-  const handleDragOver = (e, index) => {
-    e.preventDefault();
-    if (draggedIdx === null || draggedIdx === index) return;
-    
-    const newItems = [...existingImagesState];
-    const draggedItem = newItems[draggedIdx];
-    newItems.splice(draggedIdx, 1);
-    newItems.splice(index, 0, draggedItem);
-    
-    setDraggedIdx(index);
-    setExistingImagesState(newItems);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedIdx(null);
-  };
-
-  const handleRemoveImage = (imgUrl) => setRemovedImages([...removedImages, imgUrl]);
-  const handleUndoRemove = (imgUrl) => setRemovedImages(removedImages.filter((url) => url !== imgUrl));
-
-  const handleNewImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const previews = files.map((file) => ({
-      url: URL.createObjectURL(file),
-      name: file.name,
-      file,
-    }));
-    setPreviewImages([...previewImages, ...previews]);
-  };
-
-  const handleRemovePreview = (index) => {
-    const updated = [...previewImages];
-    updated.splice(index, 1);
-    setPreviewImages(updated);
   };
 
   const handleGenerateAI = async () => {
@@ -244,8 +227,6 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <input type='hidden' name='propertyId' value={property._id} />
-      {removedImages.map((url) => <input key={url} type='hidden' name='removedImages' value={url} />)}
-      {visibleImages.map((img) => <input key={'order_' + (typeof img === 'string' ? img : img.url)} type='hidden' name='orderedImages' value={typeof img === 'string' ? img : img.url} />)}
 
       <h2 className='text-[28px] md:text-3xl text-center font-normal mb-8 text-white' style={{ fontFamily: 'var(--font-heading)' }}>
         Editar Propiedad
@@ -277,6 +258,9 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
             const nextOp = e.target.value;
             setOperation(nextOp);
             setStatus((prev) => normalizeStampStatus(prev, nextOp));
+            if (!property.price || /^consultar$/i.test(String(property.price).trim())) {
+              setCurrency(nextOp === 'alquiler' ? 'ARS' : 'USD');
+            }
           }}
         >
           <option value='venta'>Venta</option>
@@ -400,16 +384,31 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
 
       {/* Precio */}
       <div className='mb-6'>
-        <label className={labelClass}>Precio de Venta o Alquiler</label>
+        <label className={labelClass}>
+          {operation === 'alquiler' ? 'Precio de Alquiler Mensual' : 'Precio de Venta'}
+        </label>
         <div className='flex gap-2 items-start'>
-          <select name='price_currency' className={`${inputClass} !w-[110px] flex-shrink-0`} defaultValue={(() => { const p = property.price || ''; if (p.startsWith('ARS') || p.startsWith('$ ')) return 'ARS'; return 'USD'; })()}>
+          <select name='price_currency' value={currency} onChange={(e) => setCurrency(e.target.value)} className={`${inputClass} !w-[110px] flex-shrink-0`}>
             <option value='USD'>U$D</option>
-            <option value='ARS'>ARS</option>
+            <option value='ARS'>ARS ($)</option>
           </select>
           <div className='flex-1'>
-            <input type='text' name='price' className={inputClass} placeholder='Ej: 502000' defaultValue={String(property.price || '').replace(/^[A-Z$]+\s*/i, '')} />
+            <input
+              type='text'
+              name='price'
+              className={inputClass}
+              placeholder={operation === 'alquiler' ? 'Ej: 450000' : 'Ej: 150000'}
+              defaultValue={(() => {
+                const raw = String(property.price || '').trim();
+                if (!raw) return '';
+                if (/^consultar$/i.test(raw)) return 'Consultar';
+                return raw.replace(/^(USD|U\$D|ARS|\$)\s*/i, '').trim();
+              })()}
+            />
             <p className={helperClass}>
-              Ej: 502000 — Escribí solo números. Usá coma para miles. Escribí "Consultar" si no querés publicar el precio.
+              {operation === 'alquiler'
+                ? 'Ej: 450000 — Escribí el valor mensual (con o sin puntos de miles). Escribí "Consultar" si no querés publicar el precio.'
+                : 'Ej: 150000 — Escribí el valor (con o sin puntos de miles). Escribí "Consultar" si no querés publicar el precio.'}
             </p>
           </div>
         </div>
@@ -480,72 +479,17 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
 
       {/* Imagenes */}
       <div className='mb-8'>
-        <label className={labelClass}>Imágenes Existentes (Arrastra para reordenar, la primera será la portada)</label>
-
-        {visibleImages.length > 0 && (
-          <div className='grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4'>
-            {visibleImages.map((img, i) => {
-              const imgUrl = typeof img === 'string' ? img : img?.url;
-              let labelText = i === 0 ? 'MAIN' : i <= 6 ? `MINI ${i}` : 'GALERÍA';
-              let labelColorClass = i === 0 ? 'bg-[var(--color-brand)] text-white' : i <= 6 ? 'bg-blue-600 text-white' : 'bg-gray-600 text-white';
-
-              return (
-              <div 
-                key={imgUrl || i} 
-                draggable 
-                onDragStart={(e) => handleDragStart(e, i)}
-                onDragOver={(e) => handleDragOver(e, i)}
-                onDragEnd={handleDragEnd}
-                className={`relative group cursor-move ${draggedIdx === i ? 'opacity-50' : 'opacity-100'}`}
-              >
-                <Image src={imgUrl} alt={`Imagen ${i + 1}`} width={200} height={150} className='w-full h-32 object-cover rounded-t-lg border-t border-l border-r border-[#333] pointer-events-none' />
-                <div className={`text-center text-[10px] font-bold py-1 rounded-b-lg ${labelColorClass}`}>
-                  {labelText}
-                </div>
-                <button type='button' onClick={() => handleRemoveImage(imgUrl)} className='absolute top-1 right-1 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow' title='Eliminar imagen'>
-                  ×
-                </button>
-              </div>
-              );
-            })}
-          </div>
-        )}
-
-        {removedImages.length > 0 && (
-          <div className='flex flex-wrap gap-2 mb-4'>
-            {removedImages.map((url) => (
-              <span key={url} className='bg-red-900/30 border border-red-800 text-red-500 text-xs px-2 py-1 rounded flex items-center gap-2'>
-                <Image src={url} width={24} height={24} className="w-6 h-6 object-cover rounded" alt="Eliminada" />
-                <span>Foto marcada para eliminar</span>
-                <button type='button' onClick={() => handleUndoRemove(url)} className='font-bold hover:text-red-400 border-l border-red-800 pl-2 ml-1'>↩ Deshacer</button>
-              </span>
-            ))}
-          </div>
-        )}
-
-        <label className={labelClass}>Agregar Nuevas Imágenes</label>
-        <div className='border-2 border-dashed border-[#333] hover:border-[var(--color-brand)] transition-colors bg-[#111] rounded-lg p-6 text-center'>
-          <input type='file' id='new_images' name='images' className='hidden' accept='image/*' multiple onChange={handleNewImageChange} />
-          <label htmlFor='new_images' className='cursor-pointer text-[var(--color-brand)] text-sm font-bold flex items-center justify-center gap-2'>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Seleccionar fotos
-          </label>
-          <p className={helperClass + ' mt-2'}>Las imágenes se comprimirán automáticamente al guardar.</p>
-        </div>
-
-        {previewImages.length > 0 && (
-          <div className='grid grid-cols-3 sm:grid-cols-4 gap-3 mt-4'>
-            {previewImages.map((preview, i) => (
-              <div key={i} className='relative'>
-                <img src={preview.url} alt={`Nuevo ${i + 1}`} className='w-full h-32 object-cover rounded-lg border border-[var(--color-brand)]' />
-                <button type='button' onClick={() => handleRemovePreview(i)} className='absolute top-1 right-1 w-6 h-6 bg-gray-900 hover:bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold' title='Quitar'>
-                  ×
-                </button>
-                <div className='absolute bottom-1 left-1 bg-black text-[var(--color-brand)] font-bold text-[10px] px-2 py-0.5 rounded'>NUEVA</div>
-              </div>
-            ))}
-          </div>
-        )}
+        <label className={labelClass}>Imágenes de la Propiedad</label>
+        <PropertyImageSorter
+          items={imageItems}
+          setItems={setImageItems}
+          galleryOrderIds={galleryOrderIds}
+          setGalleryOrderIds={setGalleryOrderIds}
+          removedImages={removedImages}
+          onRemoveExisting={handleRemoveExisting}
+          onUndoRemoveExisting={handleUndoRemoveExisting}
+          helperClass={helperClass}
+        />
       </div>
 
       <SubmitButton 

@@ -5,6 +5,7 @@ import { getSessionUser } from '@/utils/getSessionUser';
 import { revalidatePath } from 'next/cache';
 import cloudinary from '@/config/cloudinary';
 import { normalizeStampStatus } from '@/utils/propertyDisplay';
+import { normalizePriceValue } from '@/utils/priceUtils';
 
 async function addProperty(prevState, formData) {
   try {
@@ -50,7 +51,7 @@ async function addProperty(prevState, formData) {
       type: formData.get('type'),
       name: formData.get('name'),
       description: formData.get('description'),
-      price: formData.get('price') === 'Consultar' || !formData.get('price') ? 'Consultar' : `${formData.get('price_currency') || 'USD'} ${formData.get('price')}`,
+      price: normalizePriceValue(formData.get('price'), formData.get('price_currency')),
       location: {
         street: formData.get('location.street'),
         city: formData.get('location.city'),
@@ -101,7 +102,12 @@ async function addProperty(prevState, formData) {
       return { error: 'Máximo 30 imágenes por propiedad.' };
     }
 
+    const galleryOrderList = formData.getAll('galleryOrder').filter(Boolean);
     propertyData.images = imageUrls;
+    propertyData.gallery_order =
+      galleryOrderList.length > 0
+        ? galleryOrderList
+        : imageUrls.map((img) => img.url).filter(Boolean);
 
     const newProperty = new Property(propertyData);
     await newProperty.save();
