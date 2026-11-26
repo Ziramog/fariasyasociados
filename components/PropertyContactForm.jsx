@@ -7,6 +7,7 @@ import addMessage from '@/app/actions/addMessage';
 import SubmitMessageButton from './SubmitMessageButton';
 import SectionTitle from '@/components/shared/SectionTitle';
 import { trackContactFormSubmitted } from '@/utils/analytics';
+import { getStampDisplay } from '@/utils/propertyDisplay';
 
 const PropertyContactForm = ({ property }) => {
   const { data: session } = useSession();
@@ -48,13 +49,19 @@ const PropertyContactForm = ({ property }) => {
         <div className="pb-6 md:pb-7 flex items-center justify-between">
           <SectionTitle size="normal">Contactanos</SectionTitle>
         </div>
-        {(property?.status === 'VENDIDO' || property?.status === 'RESERVADO') && (
-          <div className="mb-5 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-[13px] text-gray-200">
-            {property.status === 'VENDIDO'
-              ? 'Propiedad vendida — consultá por propiedades similares disponibles.'
-              : 'Propiedad reservada — consultá por disponibilidad u opciones similares.'}
-          </div>
-        )}
+        {(() => {
+          const stamp = getStampDisplay(property);
+          if (!stamp) return null;
+          return (
+            <div className="mb-5 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-[13px] text-gray-200">
+              {stamp.status === 'VENDIDO'
+                ? `Publicación ${stamp.label.toLowerCase()} — consultá por opciones similares disponibles.`
+                : stamp.status === 'ALQUILADO'
+                ? `Publicación ${stamp.label.toLowerCase()} — consultá por alquileres similares disponibles.`
+                : `Publicación ${stamp.label.toLowerCase()} — consultá por disponibilidad u opciones similares.`}
+            </div>
+          );
+        })()}
         <form action={formAction}>
           <input type="hidden" id="property" name="property" defaultValue={property._id} />
           <input type="hidden" id="recipient" name="recipient" defaultValue={property.owner} />

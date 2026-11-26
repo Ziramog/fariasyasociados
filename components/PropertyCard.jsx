@@ -5,7 +5,7 @@ import { FaRegHeart, FaHeart, FaWhatsapp } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import PropertyCardInfo from '@/components/PropertyCardInfo';
 import PropertyStamp from '@/components/shared/PropertyStamp';
-import { getPriceDisplay, getPropertyImage, getStampStatus, getStatusBadge } from '@/utils/propertyDisplay';
+import { getPriceDisplay, getPropertyImage, getStatusBadge } from '@/utils/propertyDisplay';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
 import bookmarkProperty from '@/app/actions/bookmarkProperty';
 import { useSession } from 'next-auth/react';
@@ -21,7 +21,6 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
   const image = getPropertyImage(property);
   const price = getPriceDisplay(property);
   const badge = getStatusBadge(property);
-  const stampStatus = getStampStatus(property);
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [toggling, setToggling] = useState(false);
@@ -84,8 +83,8 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
             )}
           </div>
 
-          {/* Diagonal transparent stamp (VENDIDO / RESERVADO) */}
-          <PropertyStamp status={stampStatus} size="card" />
+          {/* Diagonal transparent stamp (VENDIDO / ALQUILADO / RESERVADO) */}
+          <PropertyStamp property={property} size="card" />
 
           {/* Heart bookmark button */}
           <button

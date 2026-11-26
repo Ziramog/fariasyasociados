@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
-import { getAreaDisplay, getStampStatus, getStatusLabel } from '@/utils/propertyDisplay';
+import { getAreaDisplay, getStampDisplay, getStatusLabel } from '@/utils/propertyDisplay';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -71,7 +71,7 @@ export async function GET(request, { params }) {
     const displayArea = getAreaDisplay(property);
     const operationLabel = getOperationLabel(property.operation);
     const statusLabel = getStatusLabel(property) || '';
-    const stampStatus = getStampStatus(property);
+    const stamp = getStampDisplay(property);
 
     // Build location string
     const locationParts = [street, city, state].filter(Boolean);
@@ -123,8 +123,8 @@ export async function GET(request, { params }) {
             />
           )}
 
-          {/* Delicate transparent diagonal stamp for VENDIDO / RESERVADO */}
-          {stampStatus && (
+          {/* Delicate transparent diagonal stamp for VENDIDO/VENDIDA, ALQUILADO/ALQUILADA, RESERVADO/RESERVADA */}
+          {stamp && (
             <div style={{
               position: 'absolute',
               top: 0,
@@ -135,21 +135,21 @@ export async function GET(request, { params }) {
               alignItems: 'center',
               justifyContent: 'center',
               paddingBottom: 320,
-              backgroundColor: stampStatus === 'VENDIDO' ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.16)',
+              backgroundColor: stamp.variant === 'VENDIDO' ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.16)',
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: 12,
-                borderRadius: stampStatus === 'VENDIDO' ? 28 : 999,
-                border: stampStatus === 'VENDIDO'
+                borderRadius: stamp.variant === 'VENDIDO' ? 28 : 999,
+                border: stamp.variant === 'VENDIDO'
                   ? '3px solid rgba(255,255,255,0.9)'
                   : '3px dashed rgba(253,186,116,0.92)',
-                backgroundColor: stampStatus === 'VENDIDO'
+                backgroundColor: stamp.variant === 'VENDIDO'
                   ? 'rgba(12,12,10,0.28)'
                   : 'rgba(20,14,8,0.32)',
-                transform: stampStatus === 'VENDIDO' ? 'rotate(-14deg)' : 'rotate(-12deg)',
+                transform: stamp.variant === 'VENDIDO' ? 'rotate(-14deg)' : 'rotate(-12deg)',
               }}>
                 <div style={{
                   display: 'flex',
@@ -159,19 +159,19 @@ export async function GET(request, { params }) {
                   paddingRight: 56,
                   paddingTop: 22,
                   paddingBottom: 22,
-                  borderRadius: stampStatus === 'VENDIDO' ? 16 : 999,
-                  border: stampStatus === 'VENDIDO'
+                  borderRadius: stamp.variant === 'VENDIDO' ? 16 : 999,
+                  border: stamp.variant === 'VENDIDO'
                     ? '1.5px solid rgba(255,255,255,0.45)'
                     : '1.5px solid rgba(254,139,1,0.55)',
-                  color: stampStatus === 'VENDIDO'
+                  color: stamp.variant === 'VENDIDO'
                     ? 'rgba(255,255,255,0.95)'
                     : 'rgba(254,215,170,0.96)',
-                  fontSize: stampStatus === 'VENDIDO' ? 84 : 74,
+                  fontSize: stamp.label.length >= 9 ? 72 : 84,
                   fontWeight: 700,
                   fontFamily: 'Inter',
-                  letterSpacing: stampStatus === 'VENDIDO' ? 16 : 12,
+                  letterSpacing: stamp.label.length >= 9 ? 12 : 16,
                 }}>
-                  {stampStatus}
+                  {stamp.label}
                 </div>
               </div>
             </div>

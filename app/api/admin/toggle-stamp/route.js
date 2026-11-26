@@ -24,6 +24,14 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Propiedad no encontrada' }, { status: 404 });
     }
 
+    const isRental = property.operation === 'alquiler';
+    if (isRental && stamp === 'VENDIDO') {
+      return NextResponse.json({ error: 'Una propiedad en alquiler no puede marcarse como vendida' }, { status: 400 });
+    }
+    if (!isRental && stamp === 'ALQUILADO') {
+      return NextResponse.json({ error: 'Solo propiedades en alquiler pueden marcarse como alquiladas' }, { status: 400 });
+    }
+
     property.status = property.status === stamp ? 'active' : stamp;
     property.badgeExpiresAt = null;
     await property.save();

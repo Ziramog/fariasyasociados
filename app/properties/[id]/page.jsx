@@ -129,7 +129,7 @@ const PropertyPage = async ({ params }) => {
         price: propertyPrice,
         priceCurrency: 'USD',
         availability:
-          property.status === 'VENDIDO'
+          property.status === 'VENDIDO' || property.status === 'ALQUILADO'
             ? 'https://schema.org/SoldOut'
             : property.status === 'RESERVADO'
             ? 'https://schema.org/LimitedAvailability'

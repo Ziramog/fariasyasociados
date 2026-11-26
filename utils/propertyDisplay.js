@@ -89,8 +89,16 @@ export function isNewListing(property, days = 7) {
   return new Date(property.createdAt).getTime() > cutoff;
 }
 
-export const STAMP_STATUSES = ['VENDIDO', 'RESERVADO'];
-export const RESERVED_SYSTEM_STATUSES = ['NUEVA', 'VENDIDO', 'RESERVADO'];
+export const STAMP_STATUSES = ['VENDIDO', 'ALQUILADO', 'RESERVADO'];
+export const RESERVED_SYSTEM_STATUSES = [
+  'NUEVA',
+  'VENDIDO',
+  'VENDIDA',
+  'ALQUILADO',
+  'ALQUILADA',
+  'RESERVADO',
+  'RESERVADA',
+];
 
 const STATUS_BADGE_MAP = {
   'PRECIO MEJORADO':  { label: 'Precio Mejorado', color: 'bg-green-500' },
@@ -101,21 +109,125 @@ const STATUS_BADGE_MAP = {
   'EXCELENTE PRECIO': { label: 'Excelente Precio', color: 'bg-amber-500' },
   'AMOBLADA':         { label: 'Amoblada',        color: 'bg-indigo-500' },
   'VENDIDO':          { label: 'Vendida',         color: 'bg-white/20', isStamp: true },
+  'ALQUILADO':        { label: 'Alquilada',       color: 'bg-white/20', isStamp: true },
   'RESERVADO':        { label: 'Reservada',       color: 'bg-amber-500', isStamp: true },
 };
 
+const TYPE_GENDER_MAP = {
+  'Casa': 'f',
+  'Gran Inversión': 'f',
+  'Departamento': 'm',
+  'Terreno': 'm',
+  'Campo': 'm',
+  'Inmueble Comercial': 'm',
+};
+
+const FEMININE_TITLE_NOUNS = /\b(casa|quinta|chacra|cabana|oficina|cochera|nave|posada|residencia|vivienda|fraccion|hectarea|propiedad|esquina|galeria)\b/;
+const MASCULINE_TITLE_NOUNS = /\b(local|salon|galpon|deposito|fondo de comercio|lote|loteo|terreno|campo|departamento|depto|piso|duplex|ph|edificio|complejo|hotel|consultorio|estudio|inmueble)\b/;
+
+function normalizeText(value = '') {
+  return String(value)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
 /**
- * Return the stamp variant ('VENDIDO' | 'RESERVADO') if the property uses a diagonal stamp, else null.
+ * Determine grammatical gender ('f' | 'm') for a property based on its type and title noun.
+ */
+export function getPropertyGrammaticalGender(property) {
+  const type = property?.type || '';
+  const isAmbiguousType = !type || type === 'Inmueble Comercial' || type === 'Gran Inversión';
+
+  if (isAmbiguousType && property?.name) {
+    const normalizedName = normalizeText(property.name);
+    const femMatch = normalizedName.match(FEMININE_TITLE_NOUNS);
+    const mascMatch = normalizedName.match(MASCULINE_TITLE_NOUNS);
+
+    if (femMatch && mascMatch) {
+      return femMatch.index <= mascMatch.index ? 'f' : 'm';
+    }
+    if (femMatch) return 'f';
+    if (mascMatch) return 'm';
+  }
+
+  return TYPE_GENDER_MAP[type] || 'f';
+}
+
+/**
+ * Keep stamp status aligned with operation ('alquiler' uses ALQUILADO; venta/compra uses VENDIDO).
+ */
+export function normalizeStampStatus(status, operation) {
+  if (operation === 'alquiler' && status === 'VENDIDO') return 'ALQUILADO';
+  if (operation !== 'alquiler' && status === 'ALQUILADO') return 'VENDIDO';
+  return status;
+}
+
+const STAMP_LABELS = {
+  VENDIDO: { f: 'VENDIDA', m: 'VENDIDO' },
+  ALQUILADO: { f: 'ALQUILADA', m: 'ALQUILADO' },
+  RESERVADO: { f: 'RESERVADA', m: 'RESERVADO' },
+};
+
+/**
+ * Return stamp display metadata ({ status, variant, label, gender }) or null if no diagonal stamp applies.
+ */
+export function getStampDisplay(property) {
+  if (!property?.status || !STAMP_STATUSES.includes(property.status)) {
+    return null;
+  }
+
+  const effectiveStatus = normalizeStampStatus(property.status, property?.operation);
+  const gender = getPropertyGrammaticalGender(property);
+  const label = STAMP_LABELS[effectiveStatus]?.[gender];
+  if (!label) return null;
+
+  return {
+    status: effectiveStatus,
+    variant: effectiveStatus === 'RESERVADO' ? 'RESERVADO' : 'VENDIDO',
+    label,
+    gender,
+  };
+}
+
+/**
+ * Return the two allowed stamp options for admin controls based on operation and grammatical gender.
+ */
+export function getAvailableStampOptions(property) {
+  const gender = getPropertyGrammaticalGender(property);
+  const isRental = property?.operation === 'alquiler';
+
+  if (isRental) {
+    return [
+      { value: 'ALQUILADO', label: gender === 'f' ? 'Alquilada' : 'Alquilado' },
+      { value: 'RESERVADO', label: gender === 'f' ? 'Reservada' : 'Reservado' },
+    ];
+  }
+
+  return [
+    { value: 'VENDIDO', label: gender === 'f' ? 'Vendida' : 'Vendido' },
+    { value: 'RESERVADO', label: gender === 'f' ? 'Reservada' : 'Reservado' },
+  ];
+}
+
+/**
+ * Return the stamp status ('VENDIDO' | 'ALQUILADO' | 'RESERVADO') if active, else null.
  */
 export function getStampStatus(property) {
-  const status = property?.status;
-  return STAMP_STATUSES.includes(status) ? status : null;
+  return getStampDisplay(property)?.status || null;
 }
 
 /**
  * Return a human-readable label for any property status, or null when inactive/expired.
  */
 export function getStatusLabel(propertyOrStatus) {
+  if (typeof propertyOrStatus === 'object' && propertyOrStatus !== null) {
+    const stamp = getStampDisplay(propertyOrStatus);
+    if (stamp) {
+      return stamp.label.charAt(0) + stamp.label.slice(1).toLowerCase();
+    }
+  }
+
   const status = typeof propertyOrStatus === 'string' ? propertyOrStatus : propertyOrStatus?.status;
   if (!status || status === 'active') return null;
 
@@ -128,7 +240,7 @@ export function getStatusLabel(propertyOrStatus) {
 
 /**
  * Return a status badge config for a property card, or null if no corner pill badge should be rendered.
- * Stamp statuses (VENDIDO / RESERVADO) render a diagonal overlay instead of a corner pill.
+ * Stamp statuses (VENDIDO / ALQUILADO / RESERVADO) render a diagonal overlay instead of a corner pill.
  */
 export function getStatusBadge(property) {
   if (!property?.status || property.status === 'active') {

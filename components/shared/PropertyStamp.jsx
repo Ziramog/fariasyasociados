@@ -1,8 +1,8 @@
 'use client';
+import { getStampDisplay } from '@/utils/propertyDisplay';
 
 const STAMP_VARIANTS = {
   VENDIDO: {
-    text: 'VENDIDO',
     backdropClass: 'bg-black/25',
     stroke: 'rgba(255, 255, 255, 0.9)',
     innerStroke: 'rgba(255, 255, 255, 0.45)',
@@ -13,7 +13,6 @@ const STAMP_VARIANTS = {
     dashed: false,
   },
   RESERVADO: {
-    text: 'RESERVADO',
     backdropClass: 'bg-black/15',
     stroke: 'rgba(253, 186, 116, 0.92)',
     innerStroke: 'rgba(254, 139, 1, 0.55)',
@@ -32,18 +31,27 @@ const SIZE_CLASSES = {
 };
 
 /**
- * Delicate, transparent diagonal SVG stamp overlay for VENDIDO and RESERVADO properties.
+ * Delicate, transparent diagonal SVG stamp overlay for VENDIDO/VENDIDA, ALQUILADO/ALQUILADA, and RESERVADO/RESERVADA.
  * Non-interactive (`pointer-events-none`) so underlying links, hover states, and gallery clicks remain active.
  */
-export default function PropertyStamp({ status, size = 'card', withBackdrop = true, className = '' }) {
-  const variant = STAMP_VARIANTS[status];
+export default function PropertyStamp({ property, status, label, size = 'card', withBackdrop = true, className = '' }) {
+  const stamp = property ? getStampDisplay(property) : (status ? {
+    status,
+    variant: status === 'RESERVADO' ? 'RESERVADO' : 'VENDIDO',
+    label: label || status,
+  } : null);
+
+  if (!stamp) return null;
+
+  const variant = STAMP_VARIANTS[stamp.variant];
   if (!variant) return null;
 
   const sizeClass = SIZE_CLASSES[size] || SIZE_CLASSES.card;
+  const isLongLabel = stamp.label.length >= 9;
 
   return (
     <div
-      aria-label={`Propiedad ${variant.text.toLowerCase()}`}
+      aria-label={`Propiedad ${stamp.label.toLowerCase()}`}
       className={`absolute inset-0 z-[15] pointer-events-none flex items-center justify-center overflow-hidden ${withBackdrop ? variant.backdropClass : ''} ${className}`}
     >
       <svg
@@ -83,7 +91,7 @@ export default function PropertyStamp({ status, size = 'card', withBackdrop = tr
           strokeWidth="1"
         />
 
-        {/* Minimalist corner accents for VENDIDO */}
+        {/* Minimalist corner accents for VENDIDO / ALQUILADO */}
         {!variant.dashed && (
           <g stroke={variant.stroke} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.75">
             <path d="M 22 30 L 22 21 L 31 21" />
@@ -101,11 +109,11 @@ export default function PropertyStamp({ status, size = 'card', withBackdrop = tr
           dominantBaseline="central"
           fill={variant.textColor}
           fontFamily="var(--font-heading), system-ui, -apple-system, sans-serif"
-          fontSize={variant.dashed ? '34' : '38'}
+          fontSize={isLongLabel ? '33' : '38'}
           fontWeight="500"
-          letterSpacing={variant.dashed ? '7' : '9'}
+          letterSpacing={isLongLabel ? '7' : '9'}
         >
-          {variant.text}
+          {stamp.label}
         </text>
       </svg>
     </div>

@@ -6,7 +6,7 @@ import { filterProperties, isGranInversion } from '@/utils/filterProperties';
 import { useFilters } from '@/hooks/useFilters';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
 import PropertyStamp from '@/components/shared/PropertyStamp';
-import { getPriceDisplay, getStampStatus, getStatusBadge } from '@/utils/propertyDisplay';
+import { getPriceDisplay, getStatusBadge } from '@/utils/propertyDisplay';
 import { FaBed, FaBath, FaWhatsapp, FaExpand, FaTimes } from 'react-icons/fa';
 import { TrendingUp, MapPin } from 'lucide-react';
 import Link from 'next/link';
@@ -51,7 +51,6 @@ const PropertyDetail = ({ property, onClose }) => {
   const price = getPriceDisplay(property);
   const image = property.images?.[0]?.url || '/images/property-placeholder.jpg';
   const badge = getStatusBadge(property);
-  const stampStatus = getStampStatus(property);
 
   return (
     <div className="flex flex-col h-full overflow-y-auto scrollbar-hide">
@@ -68,7 +67,7 @@ const PropertyDetail = ({ property, onClose }) => {
             </span>
           </div>
         )}
-        <PropertyStamp status={stampStatus} size="compact" />
+        <PropertyStamp property={property} size="compact" />
         <a
           href={`/properties/${property._id}`}
           className="absolute top-3 right-3 w-10 h-10 bg-[#1C1C1A]/40 backdrop-blur-md border border-[#3B3B3B]/40 rounded-full flex items-center justify-center hover:bg-[#1C1C1A]/60 transition-all shadow-sm"

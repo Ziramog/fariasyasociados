@@ -10,7 +10,7 @@ import { generateDescription } from '@/app/actions/generateDescription';
 import LocationPickerMap from '@/components/shared/LocationPickerMap';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
 import CustomLabelsManager from '@/components/admin/CustomLabelsManager';
-import { RESERVED_SYSTEM_STATUSES } from '@/utils/propertyDisplay';
+import { getAvailableStampOptions, normalizeStampStatus, RESERVED_SYSTEM_STATUSES } from '@/utils/propertyDisplay';
 
 const SubmitButton = ({ isUploading, isSuccess, error, onCloseError }) => {
   const disabled = isUploading || isSuccess;
@@ -38,7 +38,9 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState(null);
-  const [status, setStatus] = useState(property.status || 'active');
+  const [status, setStatus] = useState(
+    normalizeStampStatus(property.status || 'active', property.operation || 'venta')
+  );
 
   const getExistingExpiration = () => {
     if (property.badgeExpiresAt) {
@@ -138,6 +140,8 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
   const [previewImages, setPreviewImages] = useState([]);
   const [operation, setOperation] = useState(property.operation || 'venta');
   const [type, setType] = useState(property.type || '');
+  const [name, setName] = useState(property.name || '');
+  const stampOptions = getAvailableStampOptions({ type, operation, name });
   const isLandOrCommercial = ['Terreno', 'Campo', 'Gran Inversión'].includes(type);
   const [isGenerating, setIsGenerating] = useState(false);
   const formRef = useRef(null);
@@ -264,7 +268,17 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
       {/* Operacion */}
       <div className='mb-4'>
         <label htmlFor='operation' className={labelClass}>Operación</label>
-        <select id='operation' name='operation' className={inputClass} value={operation} onChange={(e) => setOperation(e.target.value)}>
+        <select
+          id='operation'
+          name='operation'
+          className={inputClass}
+          value={operation}
+          onChange={(e) => {
+            const nextOp = e.target.value;
+            setOperation(nextOp);
+            setStatus((prev) => normalizeStampStatus(prev, nextOp));
+          }}
+        >
           <option value='venta'>Venta</option>
           <option value='alquiler'>Alquiler</option>
         </select>
@@ -279,8 +293,9 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
         <select id='status' name='status' className={inputClass} value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value='active'>Sin etiqueta</option>
           <option value='NUEVA'>Nueva</option>
-          <option value='VENDIDO'>Vendida (Sello transparente)</option>
-          <option value='RESERVADO'>Reservada (Sello transparente)</option>
+          {stampOptions.map(opt => (
+            <option key={opt.value} value={opt.value}>{opt.label} (Sello transparente)</option>
+          ))}
           {Array.from(new Set([...labels, property.status || 'active']))
             .filter(l => l && l !== 'active' && !RESERVED_SYSTEM_STATUSES.includes(l))
             .map(label => (
@@ -300,7 +315,7 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
       {/* Nombre */}
       <div className='mb-4'>
         <label htmlFor='name' className={labelClass}>Nombre del Anuncio</label>
-        <input type='text' id='name' name='name' className={inputClass} defaultValue={property.name} required />
+        <input type='text' id='name' name='name' className={inputClass} value={name} onChange={(e) => setName(e.target.value)} required />
         <p className={helperClass}>Un título atractivo y descriptivo, sin mayúsculas sostenidas.</p>
       </div>
 

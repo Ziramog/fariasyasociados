@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Gallery, Item } from 'react-photoswipe-gallery';
 import { LayoutGrid, LandPlot } from 'lucide-react';
 import PropertyStamp from '@/components/shared/PropertyStamp';
-import { getAreaDisplay, getPriceDisplay, getStampStatus, getStatusLabel } from '@/utils/propertyDisplay';
+import { getAreaDisplay, getPriceDisplay, getStampDisplay, getStatusLabel } from '@/utils/propertyDisplay';
 import { parsePrice } from '@/utils/priceUtils';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
 import { trackWhatsappClick, trackMapClick } from '@/utils/analytics';
@@ -24,7 +24,7 @@ const PropertyGallery = ({ images = [], property }) => {
     property?.operation === 'compra' ? 'Compra' : '';
 
   const statusLabel = getStatusLabel(property);
-  const stampStatus = getStampStatus(property);
+  const stamp = getStampDisplay(property);
 
   const subThumbs = images.slice(1, 7);
 
@@ -63,7 +63,7 @@ const PropertyGallery = ({ images = [], property }) => {
               )}
               {/* White overlay on hover */}
               <div className="absolute inset-0 bg-[#1C1C1A]/0 group-hover:bg-[#1C1C1A]/60 transition-all duration-300 ease-in-out pointer-events-none z-[5]" />
-              <PropertyStamp status={stampStatus} size="hero" />
+              <PropertyStamp property={property} size="hero" />
               {images.length > 1 && (
                 <button
                   onClick={scrollToFullGallery}
@@ -228,16 +228,21 @@ const PropertyGallery = ({ images = [], property }) => {
                     backgroundSize: '400% 100%',
                   }}
                 >
-                  {stampStatus ? 'Consultar similares' : 'Contáctanos'}
+                  {stamp ? 'Consultar similares' : 'Contáctanos'}
                 </a>
-                {stampStatus === 'VENDIDO' && (
+                {stamp?.status === 'VENDIDO' && (
                   <p className="mt-2.5 text-[12px] text-[#b8b8b8] max-w-[260px] md:ml-auto leading-snug">
-                    Propiedad vendida — consultá por opciones similares.
+                    Propiedad {stamp.label.toLowerCase()} — consultá por opciones similares.
                   </p>
                 )}
-                {stampStatus === 'RESERVADO' && (
+                {stamp?.status === 'ALQUILADO' && (
+                  <p className="mt-2.5 text-[12px] text-[#b8b8b8] max-w-[260px] md:ml-auto leading-snug">
+                    Propiedad {stamp.label.toLowerCase()} — consultá por alquileres similares.
+                  </p>
+                )}
+                {stamp?.status === 'RESERVADO' && (
                   <p className="mt-2.5 text-[12px] text-amber-200/80 max-w-[260px] md:ml-auto leading-snug">
-                    Propiedad reservada — consultá disponibilidad o similares.
+                    Propiedad {stamp.label.toLowerCase()} — consultá disponibilidad o similares.
                   </p>
                 )}
               </div>

@@ -5,6 +5,7 @@ import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 import cloudinary from '@/config/cloudinary';
 import { revalidatePath } from 'next/cache';
+import { normalizeStampStatus } from '@/utils/propertyDisplay';
 
 const cleanNumber = (val) => {
   if (val === '' || val === null || val === undefined) return undefined;
@@ -131,7 +132,7 @@ async function updateProperty(prevState, formData) {
       amenities,
       owner: userId,
       operation: formData.get('operation'),
-      status: formData.get('status'),
+      status: normalizeStampStatus(formData.get('status'), formData.get('operation')),
       images: currentImages,
     });
 

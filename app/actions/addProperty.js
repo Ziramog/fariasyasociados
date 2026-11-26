@@ -4,6 +4,7 @@ import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 import { revalidatePath } from 'next/cache';
 import cloudinary from '@/config/cloudinary';
+import { normalizeStampStatus } from '@/utils/propertyDisplay';
 
 async function addProperty(prevState, formData) {
   try {
@@ -68,7 +69,7 @@ async function addProperty(prevState, formData) {
       amenities,
       owner: userId,
       operation: formData.get('operation') || 'venta',
-      status: formData.get('status') || 'active',
+      status: normalizeStampStatus(formData.get('status') || 'active', formData.get('operation') || 'venta'),
     };
 
     if (propertyData.status === 'NUEVA' && formData.get('badgeExpiresAt')) {

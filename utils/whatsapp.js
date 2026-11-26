@@ -1,4 +1,5 @@
 import { getPublicSiteUrl } from '@/config/site';
+import { getStampDisplay } from '@/utils/propertyDisplay';
 
 const WA_NUMBER = '5493564625246';
 
@@ -26,12 +27,17 @@ export function generateWhatsAppLink({ property, context = 'general', customMess
     message = customMessage;
   } else if (property) {
     const url = getPublicSiteUrl(`/properties/${property._id}`);
-    if (property.status === 'VENDIDO') {
-      message = `Hola! Vi la propiedad vendida "${property.name}" en Farias & Asociados y me gustaría consultar por opciones similares.
+    const stamp = getStampDisplay(property);
+    if (stamp?.status === 'VENDIDO') {
+      message = `Hola! Vi la propiedad "${property.name}" (actualmente ${stamp.label.toLowerCase()}) en Farias & Asociados y me gustaría consultar por opciones similares.
 
 ${url}`;
-    } else if (property.status === 'RESERVADO') {
-      message = `Hola! Vi la propiedad reservada "${property.name}" en Farias & Asociados y me gustaría consultar disponibilidad u opciones similares.
+    } else if (stamp?.status === 'ALQUILADO') {
+      message = `Hola! Vi la propiedad "${property.name}" (actualmente ${stamp.label.toLowerCase()}) en Farias & Asociados y me gustaría consultar por alquileres similares disponibles.
+
+${url}`;
+    } else if (stamp?.status === 'RESERVADO') {
+      message = `Hola! Vi la propiedad "${property.name}" (actualmente ${stamp.label.toLowerCase()}) en Farias & Asociados y me gustaría consultar disponibilidad u opciones similares.
 
 ${url}`;
     } else {
