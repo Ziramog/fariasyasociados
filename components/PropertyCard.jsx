@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { FaRegHeart, FaHeart, FaWhatsapp } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import PropertyCardInfo from '@/components/PropertyCardInfo';
-import { getPriceDisplay, getPropertyImage, getStatusBadge } from '@/utils/propertyDisplay';
+import PropertyStamp from '@/components/shared/PropertyStamp';
+import { getPriceDisplay, getPropertyImage, getStampStatus, getStatusBadge } from '@/utils/propertyDisplay';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
 import bookmarkProperty from '@/app/actions/bookmarkProperty';
 import { useSession } from 'next-auth/react';
@@ -20,6 +21,7 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
   const image = getPropertyImage(property);
   const price = getPriceDisplay(property);
   const badge = getStatusBadge(property);
+  const stampStatus = getStampStatus(property);
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [toggling, setToggling] = useState(false);
@@ -69,7 +71,7 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
             <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(180deg, transparent 80%, var(--color-brand))' }} />
 
             {/* Status badge & price — top left */}
-          <div className="absolute top-3 left-3 z-10 flex flex-col items-start gap-1.5">
+          <div className="absolute top-3 left-3 z-20 flex flex-col items-start gap-1.5">
             {badge && (
               <span className="bg-[var(--color-brand)] backdrop-blur-sm text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-md uppercase tracking-wider">
                 {badge.label}
@@ -81,6 +83,9 @@ const PropertyCard = ({ property, isSelected = false, onMouseEnter, onMouseLeave
               </span>
             )}
           </div>
+
+          {/* Diagonal transparent stamp (VENDIDO / RESERVADO) */}
+          <PropertyStamp status={stampStatus} size="card" />
 
           {/* Heart bookmark button */}
           <button

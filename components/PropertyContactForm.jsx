@@ -48,6 +48,13 @@ const PropertyContactForm = ({ property }) => {
         <div className="pb-6 md:pb-7 flex items-center justify-between">
           <SectionTitle size="normal">Contactanos</SectionTitle>
         </div>
+        {(property?.status === 'VENDIDO' || property?.status === 'RESERVADO') && (
+          <div className="mb-5 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-[13px] text-gray-200">
+            {property.status === 'VENDIDO'
+              ? 'Propiedad vendida — consultá por propiedades similares disponibles.'
+              : 'Propiedad reservada — consultá por disponibilidad u opciones similares.'}
+          </div>
+        )}
         <form action={formAction}>
           <input type="hidden" id="property" name="property" defaultValue={property._id} />
           <input type="hidden" id="recipient" name="recipient" defaultValue={property.owner} />

@@ -2,7 +2,8 @@
 import Image from 'next/image';
 import { Gallery, Item } from 'react-photoswipe-gallery';
 import { LayoutGrid, LandPlot } from 'lucide-react';
-import { getAreaDisplay, getPriceDisplay } from '@/utils/propertyDisplay';
+import PropertyStamp from '@/components/shared/PropertyStamp';
+import { getAreaDisplay, getPriceDisplay, getStampStatus, getStatusLabel } from '@/utils/propertyDisplay';
 import { parsePrice } from '@/utils/priceUtils';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
 import { trackWhatsappClick, trackMapClick } from '@/utils/analytics';
@@ -22,16 +23,8 @@ const PropertyGallery = ({ images = [], property }) => {
     property?.operation === 'alquiler' ? 'Alquiler' :
     property?.operation === 'compra' ? 'Compra' : '';
 
-  const statusMap = {
-    'PRECIO MEJORADO': 'Precio Mejorado',
-    'ULTIMA UNIDAD': 'Última Unidad',
-    'UNICO EN SU TIPO': 'Única en su Tipo',
-    'MEJOR PRECIO': 'Mejor Precio del Mercado',
-    'NUEVA': 'Nueva',
-    'EXCELENTE PRECIO': 'Excelente Precio',
-    'AMOBLADA': 'Amoblada',
-  };
-  const statusLabel = statusMap[property?.status];
+  const statusLabel = getStatusLabel(property);
+  const stampStatus = getStampStatus(property);
 
   const subThumbs = images.slice(1, 7);
 
@@ -70,6 +63,7 @@ const PropertyGallery = ({ images = [], property }) => {
               )}
               {/* White overlay on hover */}
               <div className="absolute inset-0 bg-[#1C1C1A]/0 group-hover:bg-[#1C1C1A]/60 transition-all duration-300 ease-in-out pointer-events-none z-[5]" />
+              <PropertyStamp status={stampStatus} size="hero" />
               {images.length > 1 && (
                 <button
                   onClick={scrollToFullGallery}
@@ -234,8 +228,18 @@ const PropertyGallery = ({ images = [], property }) => {
                     backgroundSize: '400% 100%',
                   }}
                 >
-                  Contáctanos
+                  {stampStatus ? 'Consultar similares' : 'Contáctanos'}
                 </a>
+                {stampStatus === 'VENDIDO' && (
+                  <p className="mt-2.5 text-[12px] text-[#b8b8b8] max-w-[260px] md:ml-auto leading-snug">
+                    Propiedad vendida — consultá por opciones similares.
+                  </p>
+                )}
+                {stampStatus === 'RESERVADO' && (
+                  <p className="mt-2.5 text-[12px] text-amber-200/80 max-w-[260px] md:ml-auto leading-snug">
+                    Propiedad reservada — consultá disponibilidad o similares.
+                  </p>
+                )}
               </div>
             </div>
           </div>

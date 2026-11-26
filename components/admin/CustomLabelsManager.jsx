@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Settings, X, Trash2 } from 'lucide-react';
 import updateCustomLabels from '@/app/actions/updateCustomLabels';
+import { RESERVED_SYSTEM_STATUSES } from '@/utils/propertyDisplay';
 import { toast } from 'react-toastify';
 
 export default function CustomLabelsManager({ labels, setLabels }) {
@@ -18,6 +19,10 @@ export default function CustomLabelsManager({ labels, setLabels }) {
   const handleAdd = async () => {
     const trimmed = newLabel.trim().toUpperCase();
     if (!trimmed || labels.includes(trimmed)) return;
+    if (RESERVED_SYSTEM_STATUSES.includes(trimmed)) {
+      toast.info(`"${trimmed}" ya está disponible como opción especial del sistema.`);
+      return;
+    }
     
     setIsSaving(true);
     const updated = [...labels, trimmed];

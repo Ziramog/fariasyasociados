@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
-import { getPropertyImage, getAreaDisplay, getStatusBadge, getPriceDisplay } from '@/utils/propertyDisplay';
+import PropertyStamp from '@/components/shared/PropertyStamp';
+import { getPropertyImage, getAreaDisplay, getStampStatus, getStatusBadge, getPriceDisplay } from '@/utils/propertyDisplay';
 
 export default function MapPropertySidebar({ property, onClose }) {
   const router = useRouter();
@@ -64,6 +65,7 @@ export default function MapPropertySidebar({ property, onClose }) {
   const image = getPropertyImage(property);
   const area = getAreaDisplay(property);
   const badge = getStatusBadge(property);
+  const stampStatus = getStampStatus(property);
   const city = property.location?.city || '';
 
   // Feature grid data
@@ -142,6 +144,9 @@ export default function MapPropertySidebar({ property, onClose }) {
                   {badge.label}
                 </span>
               )}
+
+              {/* Diagonal transparent stamp */}
+              <PropertyStamp status={stampStatus} size="compact" />
             </div>
 
             {/* Property footer — no extra tags here, badge is on image */}

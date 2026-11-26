@@ -5,7 +5,8 @@ import ScrollReveal from './shared/ScrollReveal';
 import { filterProperties, isGranInversion } from '@/utils/filterProperties';
 import { useFilters } from '@/hooks/useFilters';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
-import { getPriceDisplay } from '@/utils/propertyDisplay';
+import PropertyStamp from '@/components/shared/PropertyStamp';
+import { getPriceDisplay, getStampStatus, getStatusBadge } from '@/utils/propertyDisplay';
 import { FaBed, FaBath, FaWhatsapp, FaExpand, FaTimes } from 'react-icons/fa';
 import { TrendingUp, MapPin } from 'lucide-react';
 import Link from 'next/link';
@@ -49,6 +50,8 @@ const PropertyDetail = ({ property, onClose }) => {
 
   const price = getPriceDisplay(property);
   const image = property.images?.[0]?.url || '/images/property-placeholder.jpg';
+  const badge = getStatusBadge(property);
+  const stampStatus = getStampStatus(property);
 
   return (
     <div className="flex flex-col h-full overflow-y-auto scrollbar-hide">
@@ -58,20 +61,14 @@ const PropertyDetail = ({ property, onClose }) => {
           alt={property.name}
           className="w-full h-full object-cover"
         />
-        {property.status && property.status !== 'active' && (
-          <div className="absolute top-3 left-3">
+        {badge && (
+          <div className="absolute top-3 left-3 z-20">
             <span className="text-[11px] font-bold px-[10px] py-1 rounded-[6px] uppercase tracking-wider shadow-sm bg-[var(--color-brand)] text-white">
-              {property.status === 'NUEVA' ? 'Nueva' :
-               property.status === 'PRECIO MEJORADO' ? 'Precio Mejorado' :
-               property.status === 'ULTIMA UNIDAD' ? 'Última Unidad' :
-               property.status === 'UNICO EN SU TIPO' ? 'Única en su Tipo' :
-               property.status === 'MEJOR PRECIO' ? 'Mejor Precio del Mercado' :
-               property.status === 'EXCELENTE PRECIO' ? 'Excelente Precio' :
-               property.status === 'AMOBLADA' ? 'Amoblada' :
-               property.status}
+              {badge.label}
             </span>
           </div>
         )}
+        <PropertyStamp status={stampStatus} size="compact" />
         <a
           href={`/properties/${property._id}`}
           className="absolute top-3 right-3 w-10 h-10 bg-[#1C1C1A]/40 backdrop-blur-md border border-[#3B3B3B]/40 rounded-full flex items-center justify-center hover:bg-[#1C1C1A]/60 transition-all shadow-sm"

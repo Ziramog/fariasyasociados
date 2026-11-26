@@ -4,7 +4,8 @@ import Image from 'next/image';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import PropertyCardInfo from '@/components/PropertyCardInfo';
-import { getAreaDisplay, getPriceDisplay, getPropertyImage, getStatusBadge } from '@/utils/propertyDisplay';
+import PropertyStamp from '@/components/shared/PropertyStamp';
+import { getAreaDisplay, getPriceDisplay, getPropertyImage, getStampStatus, getStatusBadge } from '@/utils/propertyDisplay';
 import { generateWhatsAppLink } from '@/utils/whatsapp';
 import bookmarkProperty from '@/app/actions/bookmarkProperty';
 import { useSession } from 'next-auth/react';
@@ -22,6 +23,7 @@ const FeaturedPropertyCard = ({ property }) => {
   const area = getAreaDisplay(property);
   const price = getPriceDisplay(property);
   const badge = getStatusBadge(property);
+  const stampStatus = getStampStatus(property);
   const isLand = ['Terreno', 'Campo', 'Gran Inversión'].includes(property?.type);
 
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -71,6 +73,9 @@ const FeaturedPropertyCard = ({ property }) => {
               {badge.label}
             </span>
           )}
+
+          {/* Diagonal transparent stamp (VENDIDO / RESERVADO) */}
+          <PropertyStamp status={stampStatus} size="card" />
 
           {/* Features overlay — bottom */}
           <div className="absolute bottom-0 left-0 right-0 z-10 flex items-end gap-3 px-4 pb-4">

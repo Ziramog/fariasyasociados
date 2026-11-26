@@ -10,6 +10,7 @@ import { generateDescription } from '@/app/actions/generateDescription';
 import LocationPickerMap from '@/components/shared/LocationPickerMap';
 import FullScreenLoader from '@/components/shared/FullScreenLoader';
 import CustomLabelsManager from '@/components/admin/CustomLabelsManager';
+import { RESERVED_SYSTEM_STATUSES } from '@/utils/propertyDisplay';
 
 const SubmitButton = ({ isUploading, isSuccess, error, onCloseError }) => {
   const disabled = isUploading || isSuccess;
@@ -278,9 +279,13 @@ const PropertyEditForm = ({ property, customLabels = [] }) => {
         <select id='status' name='status' className={inputClass} value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value='active'>Sin etiqueta</option>
           <option value='NUEVA'>Nueva</option>
-          {Array.from(new Set([...labels, property.status || 'active'])).filter(l => l && l !== 'active' && l !== 'NUEVA').map(label => (
-            <option key={label} value={label}>{label}</option>
-          ))}
+          <option value='VENDIDO'>Vendida (Sello transparente)</option>
+          <option value='RESERVADO'>Reservada (Sello transparente)</option>
+          {Array.from(new Set([...labels, property.status || 'active']))
+            .filter(l => l && l !== 'active' && !RESERVED_SYSTEM_STATUSES.includes(l))
+            .map(label => (
+              <option key={label} value={label}>{label}</option>
+            ))}
         </select>
       </div>
 

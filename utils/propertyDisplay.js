@@ -89,21 +89,53 @@ export function isNewListing(property, days = 7) {
   return new Date(property.createdAt).getTime() > cutoff;
 }
 
+export const STAMP_STATUSES = ['VENDIDO', 'RESERVADO'];
+export const RESERVED_SYSTEM_STATUSES = ['NUEVA', 'VENDIDO', 'RESERVADO'];
+
 const STATUS_BADGE_MAP = {
   'PRECIO MEJORADO':  { label: 'Precio Mejorado', color: 'bg-green-500' },
   'ULTIMA UNIDAD':    { label: 'Última Unidad',   color: 'bg-[var(--color-brand)]' },
   'UNICO EN SU TIPO': { label: 'Única en su Tipo', color: 'bg-purple-500' },
-  'MEJOR PRECIO': { label: 'Mejor Precio del Mercado', color: 'bg-emerald-500' },
+  'MEJOR PRECIO':     { label: 'Mejor Precio del Mercado', color: 'bg-emerald-500' },
   'NUEVA':            { label: 'Nueva',           color: 'bg-blue-500' },
   'EXCELENTE PRECIO': { label: 'Excelente Precio', color: 'bg-amber-500' },
   'AMOBLADA':         { label: 'Amoblada',        color: 'bg-indigo-500' },
+  'VENDIDO':          { label: 'Vendida',         color: 'bg-white/20', isStamp: true },
+  'RESERVADO':        { label: 'Reservada',       color: 'bg-amber-500', isStamp: true },
 };
 
 /**
- * Return a status badge config for a property card, or null if no badge.
+ * Return the stamp variant ('VENDIDO' | 'RESERVADO') if the property uses a diagonal stamp, else null.
+ */
+export function getStampStatus(property) {
+  const status = property?.status;
+  return STAMP_STATUSES.includes(status) ? status : null;
+}
+
+/**
+ * Return a human-readable label for any property status, or null when inactive/expired.
+ */
+export function getStatusLabel(propertyOrStatus) {
+  const status = typeof propertyOrStatus === 'string' ? propertyOrStatus : propertyOrStatus?.status;
+  if (!status || status === 'active') return null;
+
+  if (typeof propertyOrStatus === 'object' && propertyOrStatus?.status === 'NUEVA' && propertyOrStatus?.badgeExpiresAt) {
+    if (new Date(propertyOrStatus.badgeExpiresAt) <= new Date()) return null;
+  }
+
+  return STATUS_BADGE_MAP[status]?.label || status;
+}
+
+/**
+ * Return a status badge config for a property card, or null if no corner pill badge should be rendered.
+ * Stamp statuses (VENDIDO / RESERVADO) render a diagonal overlay instead of a corner pill.
  */
 export function getStatusBadge(property) {
-  if (!property.status || property.status === 'active') {
+  if (!property?.status || property.status === 'active') {
+    return null;
+  }
+
+  if (getStampStatus(property)) {
     return null;
   }
 

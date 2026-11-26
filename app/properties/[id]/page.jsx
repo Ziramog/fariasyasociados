@@ -128,7 +128,12 @@ const PropertyPage = async ({ params }) => {
         '@type': 'Offer',
         price: propertyPrice,
         priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
+        availability:
+          property.status === 'VENDIDO'
+            ? 'https://schema.org/SoldOut'
+            : property.status === 'RESERVADO'
+            ? 'https://schema.org/LimitedAvailability'
+            : 'https://schema.org/InStock',
         businessFunction:
           property.operation === 'alquiler'
             ? 'http://purl.org/goodrelations/v1#LeaseOut'

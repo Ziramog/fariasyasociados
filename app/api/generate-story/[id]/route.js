@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
-import { getAreaDisplay } from '@/utils/propertyDisplay';
+import { getAreaDisplay, getStampStatus, getStatusLabel } from '@/utils/propertyDisplay';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -9,16 +9,6 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // ── helpers ────────────────────────────────────────────
-const STATUS_MAP = {
-  'PRECIO MEJORADO': 'Precio Mejorado',
-  'ULTIMA UNIDAD': 'Última Unidad',
-  'UNICO EN SU TIPO': 'Única en su Tipo',
-  'MEJOR PRECIO': 'Mejor Precio del Mercado',
-  'NUEVA': 'Nueva',
-  'EXCELENTE PRECIO': 'Excelente Precio',
-  'AMOBLADA': 'Amoblada',
-};
-
 function getOperationLabel(op) {
   if (op === 'venta') return 'Venta';
   if (op === 'alquiler') return 'Alquiler';
@@ -80,7 +70,8 @@ export async function GET(request, { params }) {
     const state = property.location?.state || '';
     const displayArea = getAreaDisplay(property);
     const operationLabel = getOperationLabel(property.operation);
-    const statusLabel = STATUS_MAP[property.status] || '';
+    const statusLabel = getStatusLabel(property) || '';
+    const stampStatus = getStampStatus(property);
 
     // Build location string
     const locationParts = [street, city, state].filter(Boolean);
@@ -130,6 +121,60 @@ export async function GET(request, { params }) {
                 objectFit: 'cover',
               }}
             />
+          )}
+
+          {/* Delicate transparent diagonal stamp for VENDIDO / RESERVADO */}
+          {stampStatus && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: 1080,
+              height: 1920,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingBottom: 320,
+              backgroundColor: stampStatus === 'VENDIDO' ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.16)',
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 12,
+                borderRadius: stampStatus === 'VENDIDO' ? 28 : 999,
+                border: stampStatus === 'VENDIDO'
+                  ? '3px solid rgba(255,255,255,0.9)'
+                  : '3px dashed rgba(253,186,116,0.92)',
+                backgroundColor: stampStatus === 'VENDIDO'
+                  ? 'rgba(12,12,10,0.28)'
+                  : 'rgba(20,14,8,0.32)',
+                transform: stampStatus === 'VENDIDO' ? 'rotate(-14deg)' : 'rotate(-12deg)',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingLeft: 56,
+                  paddingRight: 56,
+                  paddingTop: 22,
+                  paddingBottom: 22,
+                  borderRadius: stampStatus === 'VENDIDO' ? 16 : 999,
+                  border: stampStatus === 'VENDIDO'
+                    ? '1.5px solid rgba(255,255,255,0.45)'
+                    : '1.5px solid rgba(254,139,1,0.55)',
+                  color: stampStatus === 'VENDIDO'
+                    ? 'rgba(255,255,255,0.95)'
+                    : 'rgba(254,215,170,0.96)',
+                  fontSize: stampStatus === 'VENDIDO' ? 84 : 74,
+                  fontWeight: 700,
+                  fontFamily: 'Inter',
+                  letterSpacing: stampStatus === 'VENDIDO' ? 16 : 12,
+                }}>
+                  {stampStatus}
+                </div>
+              </div>
+            </div>
           )}
 
           {/* Top bar: Logo + Operation badge */}

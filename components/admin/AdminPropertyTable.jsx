@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import deleteProperty from '@/app/actions/deleteProperty';
 import { toast } from 'react-toastify';
 import { isGranInversion } from '@/utils/filterProperties';
+import { RESERVED_SYSTEM_STATUSES } from '@/utils/propertyDisplay';
 import SocialStoryGenerator from '@/components/admin/SocialStoryGenerator';
 import XintelExporter from '@/components/admin/XintelExporter';
 
@@ -80,6 +81,28 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
       setItems(prev => prev.map(p => p._id === id ? { ...p, is_published: data.is_published } : p));
       toast.success(data.is_published ? 'Propiedad visible al público' : 'Propiedad ocultada');
       router.refresh();
+    }
+  };
+
+  const handleToggleStamp = async (id, stamp) => {
+    try {
+      const res = await fetch('/api/admin/toggle-stamp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, stamp }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        toast.error(data.error || 'No se pudo actualizar el sello');
+        return;
+      }
+      setItems(prev => prev.map(p => p._id === id ? { ...p, status: data.status, badgeExpiresAt: null } : p));
+      if (data.status === 'VENDIDO') toast.success('Sello VENDIDO activado');
+      else if (data.status === 'RESERVADO') toast.success('Sello RESERVADO activado');
+      else toast.success('Sello removido');
+      router.refresh();
+    } catch {
+      toast.error('Error de conexión al actualizar el sello');
     }
   };
 
@@ -161,7 +184,9 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
             <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className={selectCls}>
               <option value="">Estado: Todos</option>
               <option value="NUEVA">Nueva</option>
-              {customLabels.map(label => (
+              <option value="VENDIDO">Vendida (Sello)</option>
+              <option value="RESERVADO">Reservada (Sello)</option>
+              {customLabels.filter(l => !RESERVED_SYSTEM_STATUSES.includes(l)).map(label => (
                 <option key={label} value={label}>{label}</option>
               ))}
             </select>
@@ -191,6 +216,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
               <th className="px-2 md:px-4 py-3 font-medium">Fotos</th>
               <th className="px-2 md:px-4 py-3 font-medium text-center">Dest.</th>
               <th className="px-2 md:px-4 py-3 font-medium text-center">Pub.</th>
+              <th className="px-2 md:px-4 py-3 font-medium text-center">Sello</th>
               <th className="px-3 md:px-6 py-3 font-medium text-right">Acciones</th>
             </tr>
           </thead>
@@ -257,6 +283,34 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                     )}
                   </button>
                 </td>
+                <td className="px-2 md:px-4 py-3 text-center">
+                  <div className="inline-flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleStamp(prop._id, 'VENDIDO')}
+                      className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-sm border transition-colors ${
+                        prop.status === 'VENDIDO'
+                          ? 'bg-white text-black border-white'
+                          : 'bg-transparent text-[#888] border-[#333] hover:text-white hover:border-white/50'
+                      }`}
+                      title={prop.status === 'VENDIDO' ? 'Quitar sello Vendido' : 'Marcar como Vendida'}
+                    >
+                      Vendida
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleStamp(prop._id, 'RESERVADO')}
+                      className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-sm border transition-colors ${
+                        prop.status === 'RESERVADO'
+                          ? 'bg-amber-400 text-black border-amber-400'
+                          : 'bg-transparent text-[#888] border-[#333] hover:text-amber-300 hover:border-amber-400/50'
+                      }`}
+                      title={prop.status === 'RESERVADO' ? 'Quitar sello Reservado' : 'Marcar como Reservada'}
+                    >
+                      Reserv.
+                    </button>
+                  </div>
+                </td>
                 <td className="px-3 md:px-6 py-3">
                   <div className="flex items-center md:grid md:grid-cols-2 justify-end gap-1.5 md:gap-2 md:w-[160px] ml-auto">
                     <XintelExporter property={prop} />
@@ -279,7 +333,7 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-6 py-12 text-center text-[#888] text-[14px]">
+                <td colSpan={9} className="px-6 py-12 text-center text-[#888] text-[14px]">
                   No se encontraron propiedades.
                 </td>
               </tr>
@@ -350,6 +404,28 @@ const AdminPropertyTable = ({ properties = [], customLabels = [], defaultType = 
                   ) : (
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
                   )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleToggleStamp(prop._id, 'VENDIDO')}
+                  className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm border transition-colors ${
+                    prop.status === 'VENDIDO'
+                      ? 'bg-white text-black border-white'
+                      : 'text-[#888] border-[#333]'
+                  }`}
+                >
+                  Vendida
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleToggleStamp(prop._id, 'RESERVADO')}
+                  className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm border transition-colors ${
+                    prop.status === 'RESERVADO'
+                      ? 'bg-amber-400 text-black border-amber-400'
+                      : 'text-[#888] border-[#333]'
+                  }`}
+                >
+                  Reserv.
                 </button>
               </div>
               <div className="flex items-center gap-2">

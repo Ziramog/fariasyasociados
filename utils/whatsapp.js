@@ -26,9 +26,19 @@ export function generateWhatsAppLink({ property, context = 'general', customMess
     message = customMessage;
   } else if (property) {
     const url = getPublicSiteUrl(`/properties/${property._id}`);
-    message = `Hola! Vi la propiedad "${property.name}" en Farias & Asociados y me gustaría recibir más información.
+    if (property.status === 'VENDIDO') {
+      message = `Hola! Vi la propiedad vendida "${property.name}" en Farias & Asociados y me gustaría consultar por opciones similares.
 
 ${url}`;
+    } else if (property.status === 'RESERVADO') {
+      message = `Hola! Vi la propiedad reservada "${property.name}" en Farias & Asociados y me gustaría consultar disponibilidad u opciones similares.
+
+${url}`;
+    } else {
+      message = `Hola! Vi la propiedad "${property.name}" en Farias & Asociados y me gustaría recibir más información.
+
+${url}`;
+    }
   } else {
     message = MESSAGES[context] || MESSAGES.general;
   }
